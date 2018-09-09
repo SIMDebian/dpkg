@@ -120,6 +120,10 @@ sub _add_build_flags {
             leak => 0,
             undefined => 0,
         },
+        simd => {
+            # XXX: SIMDebian / https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
+            haswell => 1,
+        },
         hardening => {
             # XXX: This is set to undef so that we can cope with the brokenness
             # of gcc managing this feature builtin.
@@ -261,6 +265,15 @@ sub _add_build_flags {
         $flags->append('CFLAGS', $flag);
         $flags->append('CXXFLAGS', $flag);
         $flags->append('LDFLAGS', $flag);
+    }
+
+    ## Area: simd (SIMDebian)
+    
+    if ($use_feature{simd}{haswell}) {
+        my $flag = '-march=haswell';
+        $flags->append('CFLAGS', $flag);
+        $flags->append('CXXFLAGS', $flag);
+        $flags->append('FFLAGS', $flag);
     }
 
     ## Area: hardening

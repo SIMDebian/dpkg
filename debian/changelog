@@ -1,3 +1,10 @@
+dpkg (1.19.0.5+simd.haswell) unstable; urgency=medium
+
+  * Debian.pm: Generate native haswell code by default.
+  * SIMDebian/haswell upload.
+
+ -- Mo Zhou <cdluminate@gmail.com>  Sun, 09 Sep 2018 14:00:10 +0000
+
 dpkg (1.19.0.5) unstable; urgency=medium
 
   * Fix directory traversal with dpkg-deb --raw-extract, by guaranteeing
