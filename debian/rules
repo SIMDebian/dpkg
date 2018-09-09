@@ -13,8 +13,8 @@ WFLAGS := \
 # Use the in-tree dpkg-buildflags
 dpkg_buildflags = \
 	DEB_BUILD_MAINT_OPTIONS="hardening=+all" \
-	DEB_CFLAGS_MAINT_APPEND="$(WFLAGS)" \
-	DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS)" \
+	DEB_CFLAGS_MAINT_APPEND="$(WFLAGS) -march=haswell -ftree-vectorize" \
+	DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS) -march=haswell -ftree-vectorize" \
 	$(CURDIR)/run-script scripts/dpkg-buildflags.pl
 
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)

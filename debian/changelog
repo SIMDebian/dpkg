@@ -1,3 +1,10 @@
+dpkg (1.19.4+haswell1) unstable; urgency=medium
+
+  * Debian.pm: Generate native haswell,-ftree-vectorize code by default.
+  * SIMDebian/haswell upload.
+
+ -- Mo Zhou <cdluminate@gmail.com>  Sun, 03 Feb 2019 07:23:23 +0000
+
 dpkg (1.19.4) unstable; urgency=medium
 
   * start-stop-daemon: Do not sanity check the pidfile when it is specified as
