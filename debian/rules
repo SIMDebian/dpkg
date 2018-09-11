@@ -8,8 +8,8 @@ WFLAGS := -Wall -Wextra -Wno-unused-parameter -Wno-missing-field-initializers
 # Use the in-tree dpkg-buildflags
 dpkg_buildflags = \
 	DEB_BUILD_MAINT_OPTIONS="hardening=+all" \
-	DEB_CFLAGS_MAINT_APPEND="$(WFLAGS) -march=haswell" \
-	DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS) -march=haswell" \
+	DEB_CFLAGS_MAINT_APPEND="$(WFLAGS) -march=skylake" \
+	DEB_CXXFLAGS_MAINT_APPEND="$(WFLAGS) -march=skylake" \
 	$(CURDIR)/run-script scripts/dpkg-buildflags.pl
 
 DEB_BUILD_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)

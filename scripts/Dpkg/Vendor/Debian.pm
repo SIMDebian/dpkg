@@ -122,7 +122,7 @@ sub _add_build_flags {
         },
         simd => {
             # XXX: SIMDebian / https://gcc.gnu.org/onlinedocs/gcc/x86-Options.html
-            haswell => 1,
+            skylake => 1,
         },
         hardening => {
             # XXX: This is set to undef so that we can cope with the brokenness
@@ -269,8 +269,8 @@ sub _add_build_flags {
 
     ## Area: simd (SIMDebian)
     
-    if ($use_feature{simd}{haswell}) {
-        my $flag = '-march=haswell';
+    if ($use_feature{simd}{skylake}) {
+        my $flag = '-march=skylake';
         $flags->append('CFLAGS', $flag);
         $flags->append('CXXFLAGS', $flag);
         $flags->append('FFLAGS', $flag);

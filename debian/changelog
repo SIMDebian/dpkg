@@ -1,7 +1,7 @@
-dpkg (1.19.0.5+simd.haswell) unstable; urgency=medium
+dpkg (1.19.0.5+simd.skylake) unstable; urgency=medium
 
-  * Debian.pm: Generate native haswell code by default.
-  * SIMDebian/haswell upload.
+  * Debian.pm: Generate native skylake code by default.
+  * SIMDebian/skylake upload.
 
  -- Mo Zhou <cdluminate@gmail.com>  Sun, 09 Sep 2018 14:00:10 +0000
 
