@@ -270,7 +270,7 @@ sub _add_build_flags {
     ## Area: simd (SIMDebian)
     
     if ($use_feature{simd}{skylake}) {
-        my $flag = '-march=skylake';
+        my $flag = '-march=skylake -ftree-vectorize';
         $flags->append('CFLAGS', $flag);
         $flags->append('CXXFLAGS', $flag);
         $flags->append('FFLAGS', $flag);
