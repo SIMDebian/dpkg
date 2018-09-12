@@ -1,6 +1,7 @@
-dpkg (1.19.0.5+simd.skylake) unstable; urgency=medium
+dpkg (1.19.0.5+simd.skylake.2) unstable; urgency=medium
 
   * Debian.pm: Generate native skylake code by default.
+  * Use -ftree-vectorize by default and system-wide.
   * SIMDebian/skylake upload.
 
  -- Mo Zhou <cdluminate@gmail.com>  Sun, 09 Sep 2018 14:00:10 +0000
