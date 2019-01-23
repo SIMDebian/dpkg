@@ -191,14 +191,14 @@ of \fBtriggers\-pending\fP (aanhangige triggers). Dit kan later gerepareerd
 worden door het uitvoeren van \fBdpkg \-\-configure \-\-pending\fP.
 .TP 
 \fB\-r\fP, \fB\-\-remove\fP \fIpakket\fP...|\fB\-a\fP|\fB\-\-pending\fP
-Verwijder een geïnstalleerd pakket. Dit verwijdert alles behalve de
-conffiles (configuratiebestanden), waardoor vermeden kan worden dat het
-pakket opnieuw geconfigureerd moet worden als het opnieuw geïnstalleerd
-wordt (conffiles zijn configuratiebestanden die vermeld worden in het
-controlebestand \fIDEBIAN/conffiles\fP). Indien \fB\-a\fP of \fB\-\-pending\fP opgegeven
-werd in plaats van een pakketnaam, zullen alle pakketten die uitgepakt zijn
-maar in het bestand \fI%ADMINDIR%/status\fP gemarkeerd staan om verwijderd te
-worden, verwijderd worden.
+Remove an installed package.  This removes everything except conffiles and
+other data cleaned up by the \fIpostrm\fP script, which may avoid having to
+reconfigure the package if it is reinstalled later (conffiles are
+configuration files that are listed in the \fIDEBIAN/conffiles\fP control
+file).  If there is no \fIDEBIAN/conffiles\fP control file nor \fIDEBIAN/postrm\fP
+script, this command is equivalent to calling \fB\-\-purge\fP.  If \fB\-a\fP or
+\fB\-\-pending\fP is given instead of a package name, then all packages unpacked,
+but marked to be removed in file \fI%ADMINDIR%/status\fP, are removed.
 
 Het verwijderen van een pakket bestaat uit de volgende stappen:
 .br
@@ -214,11 +214,11 @@ Het verwijderen van een pakket bestaat uit de volgende stappen:
 
 .TP 
 \fB\-P\fP, \fB\-\-purge\fP \fIpakket\fP...|\fB\-a\fP|\fB\-\-pending\fP
-Wis een geïnstalleerd of een reeds verwijderd pakket. Dit verwijdert alles,
-inclusief conffiles (configuratiebestanden). Indien \fB\-a\fP of \fB\-\-pending\fP
-opgegeven werd in plaats van een pakketnaam, dan zullen alle uitgepakte of
-verwijderde pakketten die echter in het bestand \fI%ADMINDIR%/status\fP
-gemarkeerd zijn om gewist te worden, gewist worden.
+Purge an installed or already removed package. This removes everything,
+including conffiles, and anything else cleaned up from \fIpostrm\fP.  If \fB\-a\fP
+or \fB\-\-pending\fP is given instead of a package name, then all packages
+unpacked or removed, but marked to be purged in file \fI%ADMINDIR%/status\fP,
+are purged.
 
 Merk op: sommige configuratiebestanden kunnen niet gekend zijn door \fBdpkg\fP
 omdat ze via de configuratiescripts gecreëerd en afzonderlijk afgehandeld
@@ -334,13 +334,19 @@ de\-installeren die niet in de lijst staan die doorgegeven wordt aan
 \fB\-\-yet\-to\-unpack\fP
 Zoekt pakketten op die geselecteerd werden om geïnstalleerd te worden, maar
 die om één of andere reden nog niet geïnstalleerd werden.
+.IP
+Note: This command makes use of both the available file and the package
+selections.
 .TP 
 \fB\-\-predep\-package\fP
-Toon een enkel pakket dat het doel is van een of meer relevante voorafgaande
+Toon één enkel pakket dat het doel is van een of meer relevante voorafgaande
 vereisten en dat zelf geen niet\-voldane voorafgaande vereisten heeft.
 .IP
 Indien er een dergelijk pakket is, geef het dan weer in de vorm van een item
 voor het bestand Packages dat passend verder bewerkt kan worden.
+.IP
+Note: This command makes use of both the available file and the package
+selections.
 .IP
 Geeft 0 terug als een pakket weergegeven werd, 1 als geen geschikt pakket te
 vinden is en 2 in geval van een fout.
@@ -526,9 +532,10 @@ gebruiken heeft tot gevolg dat het pakket dat van het verwijderde pakket
 afhankelijk was, automatisch gedeconfigureerd wordt.
 .TP 
 \fB\-D\fP\fIoctaal\fP\fB, \-\-debug=\fP\fIoctaal\fP
-Switch debugging on. \fIoctal\fP is formed by bitwise\-oring desired values
-together from the list below (note that these values may change in future
-releases). \fB\-Dh\fP or \fB\-\-debug=help\fP display these debugging values.
+Schakel debuggen in. \fIoctaal\fP wordt gevormd door de gewenste waarden uit de
+onderstaande lijst in een bitwise OR\-bewerking samen te nemen (merk op dat
+deze waarden in toekomstige uitgaven kunnen veranderen). \fB\-Dh\fP of
+\fB\-\-debug=help\fP geeft deze debugwaarden weer.
 
      Getal   Beschrijving
          1   Algemene informatieve voortgangsinformatie
@@ -585,17 +592,19 @@ beschouwd. Essentiële pakketten bevatten meestal hele basale Unix
 commando's. Ze verwijderen kan tot gevolg hebben dat het hele systeem stopt
 met werken. Gebruik dit dus met voorzichtigheid.
 
-\fBdepends\fP: Verander alle vereistenproblemen in waarschuwingen.
+\fBdepends\fP: Zet alle vereistenproblemen in waarschuwingen. Dit heeft invloed
+op de velden \fBPre\-Depends\fP en \fBDepends\fP.
 
 \fBdepends\-version\fP: Bekommer u niet om versies bij het toetsen van
-vereisten.
+vereisten. Dit heeft invloed op de velden \fBPre\-Depends\fP en \fBDepends\fP.
 
 \fBbreaks\fP: Installeer, zelfs als dit een ander pakket defect zou maken
-(sinds dpkg 1.14.6).
+(sinds dpkg 1.14.6). Dit heeft invloed op het veld \fBBreaks\fP.
 
 \fBconflicts\fP: Installeer, zelfs als er een tegenstelling is met een ander
 pakket. Dit is gevaarlijk, want gewoonlijk zal dit het overschrijven van
-bepaalde bestanden tot gevolg hebben.
+bepaalde bestanden tot gevolg hebben. Dit heeft invloed op het veld
+\fBConflicts\fP.
 
 \fBconfmiss\fP: Installeer zonder vragen steeds de ontbrekende conffile
 (configuratiebestand). Dit is gevaarlijk, aangezien het betekent dat een
@@ -681,7 +690,9 @@ mislukt.
 \fB\-\-ignore\-depends\fP=\fIpakket\fP,...
 Negeer het toetsen van afhankelijkheden voor de opgegeven pakketten
 (eigenlijk wordt de controle wel uitgevoerd, maar er worden enkel
-waarschuwingen in verband met tegenstrijdigheden gegeven en verder niets).
+waarschuwingen in verband met tegenstrijdigheden gegeven en verder
+niets). Dit heeft invloed op de velden \fBPre\-Depends\fP, \fBDepends\fP en
+\fBBreaks\fP.
 .TP 
 \fB\-\-no\-act\fP, \fB\-\-dry\-run\fP, \fB\-\-simulate\fP
 Voer alles wat gedaan moet worden, uit, maar schrijf geen veranderingen
@@ -704,20 +715,20 @@ Installeer een pakket niet als reeds een nieuwere versie van dat pakket
 geïnstalleerd is. Dit is een alias voor \fB\-\-refuse\-downgrade\fP.
 .TP 
 \fB\-\-admindir=\fP\fImap\fP
-Wijzig de standaard administratieve map waarin veel bestanden zitten met
-informatie over de status van geïnstalleerde of gede\-installeerde pakketten,
-enz. (Standaard is dat «\fI%ADMINDIR%\fP»)
+Stel de administratieve map in op \fIdirectory\fP. In deze map zitten veel
+bestanden met informatie over de status van geïnstalleerde of
+gede\-installeerde pakketten, enz. Standaard is dat «\fI%ADMINDIR%\fP»
 .TP 
 \fB\-\-instdir=\fP\fImap\fP
-Wijzig de standaard installatiemap, wat een aanduiding is voor de map waarin
-pakketten geïnstalleerd zullen worden. \fBinstdir\fP is ook de map die aan
-\fBchroot\fP(2) doorgegeven wordt vooraleer de installatiescripts van een
-pakket uitgevoerd worden, waardoor de scripts \fBinstdir\fP als de hoofdmap
-beschouwen. (Standaard is dat «\fI/\fP»)
+Stel de installatiemap in, welke de map aangeeft waarin pakketten
+geïnstalleerd zullen worden. \fBinstdir\fP is ook de map die aan \fBchroot\fP(2)
+doorgegeven wordt vooraleer de installatiescripts van een pakket uitgevoerd
+worden, waardoor de scripts \fBinstdir\fP als de hoofdmap beschouwen. Standaard
+is dat «\fI/\fP»
 .TP 
 \fB\-\-root=\fP\fImap\fP
-Het wijzigen van \fBroot\fP verandert \fBinstdir\fP naar «\fImap\fP» en \fBadmindir\fP
-naar «\fIdir\fP\fB%ADMINDIR%\fP».
+Stel de hoofdmap in op \fBdirectory\fP, hetgeen de installatiemap instelt op
+«\fImap\fP» en de administratieve map op «\fImap\fP\fB%ADMINDIR%\fP».
 .TP 
 \fB\-O\fP, \fB\-\-selected\-only\fP
 Verwerk enkel de pakketten die geselecteerd werden om geïnstalleerd te
@@ -869,6 +880,10 @@ Voor conffile\-wijzigingen (wijzigingen aan een configuratiebestand) waarbij
 \fIbeslissing\fP ofwel \fBinstall\fP ofwel \fBkeep\fP is.
 .RE
 .TP 
+\fB\-\-no\-pager\fP
+Schakelt het gebruik van een pagineringsprogramma uit bij het weergeven van
+informatie (sinds dpkg 1.19.2).
+.TP 
 \fB\-\-no\-debsig\fP
 Tracht pakket\-ondertekeningen niet te verifiëren.
 .TP 
@@ -917,22 +932,36 @@ het gebruikersspecifieke configuratiebestand kan gelezen worden.
 Indien de variabele ingesteld is, zal \fBdpkg\fP hem gebruiken als de map
 waarin tijdelijke bestanden en mappen kunnen aangemaakt worden.
 .TP 
-\fBPAGER\fP
-Het programma dat door \fBdpkg\fP zal uitgevoerd worden bij het tonen van de
-conffiles (configuratiebestanden).
-.TP 
 \fBSHELL\fP
 Het programma dat \fBdpkg\fP zal uitvoeren bij het starten van een nieuwe
-interactieve shell.
+interactieve shell of bij het voortbrengen van een commando via een shell.
 .TP 
-\fBCOLUMNS\fP
-Stelt het aantal kolommen in dat \fBdpkg\fP moet gebruiken bij het laten zien
-van opgemaakte tekst. Wordt momenteel enkel gebruikt door \fB\-\-list\fP.
+\fBPAGER\fP
+.TQ
+\fBDPKG_PAGER\fP
+Het programma dat \fBdpkg\fP zal uitvoeren als het een pagineringsprogramma
+gebruikt, bijvoorbeeld voor het tonen van de verschillen tussen de
+configuratiebestanden. Indien \fBSHELL\fP niet ingesteld is, dan zal «\fBsh\fP»
+gebruikt worden. \fBDPKG_PAGER\fP overschrijft de omgevingsvariabele \fBPAGER\fP
+(sinds dpkg 1.19.2).
 .TP 
 \fBDPKG_COLORS\fP
 Stelt de kleurmodus in (sinds dpkg 1.18.5). Waarden die momenteel gebruikt
 mogen worden zijn: \fBauto\fP (standaard), \fBalways\fP en \fBnever\fP.
+.TP 
+\fBDPKG_FRONTEND_LOCKED\fP
+Ingesteld door een frontend voor pakketbeheer om dpkg te informeren dat het
+de frontendgrendel niet mag bemachtigen (since dpkg 1.19.1).
 .SS "Interne omgeving"
+.TP 
+\fBLESS\fP
+Ingeval dit niet reeds ingesteld is, wordt dit door \fBdpkg\fP als “\fB\-FRSXMQ\fP”
+gedefinieerd bij het voortbrengen van een pagineringsprogramma (sinds dpkg
+1.19.2). Om dit standaardgedrag aan te passen kan deze variabele vooraf
+ingesteld worden op een andere waarde, met inbegrip van een lege tekenreeks,
+of kunnen de variabelen \fBPAGER\fP of \fBDPKG_PAGER\fP ingesteld worden om
+specifieke opties uit te schakelen met «\fB\-+\fP», bijvoorbeeld
+\fBDPKG_PAGER="less \-+F"\fP.
 .TP 
 \fBDPKG_ROOT\fP
 Gedefinieerd door \fBdpkg\fP in de omgeving van het pakketonderhouderscript om

@@ -104,27 +104,27 @@ f_name(struct pkginfo *pkg, struct pkgbin *pkgbin,
   e = pkg_name_is_illegal(value);
   if (e != NULL)
     parse_error(ps, _("invalid package name (%.250s)"), e);
-  /* We use the new name, as pkg_db_find_set() may have done a tolower for us. */
-  pkg->set->name = pkg_db_find_set(value)->name;
+  /* We use the new name, as pkg_hash_find_set() may have done a tolower for us. */
+  pkg->set->name = pkg_hash_find_set(value)->name;
 }
 
 void
-f_filecharf(struct pkginfo *pkg, struct pkgbin *pkgbin,
-            struct parsedb_state *ps,
-            const char *value, const struct fieldinfo *fip)
+f_archives(struct pkginfo *pkg, struct pkgbin *pkgbin,
+           struct parsedb_state *ps,
+           const char *value, const struct fieldinfo *fip)
 {
-  struct filedetails *fdp, **fdpp;
+  struct archivedetails *fdp, **fdpp;
   char *cpos, *space;
   int allowextend;
 
   if (!*value)
-    parse_error(ps, _("empty file details field '%s'"), fip->name);
+    parse_error(ps, _("empty archive details field '%s'"), fip->name);
   if (!(ps->flags & pdb_recordavailable))
     parse_error(ps,
-                _("file details field '%s' not allowed in status file"),
+                _("archive details field '%s' not allowed in status file"),
                fip->name);
-  allowextend = !pkg->files;
-  fdpp = &pkg->files;
+  allowextend = !pkg->archives;
+  fdpp = &pkg->archives;
   cpos= nfstrsave(value);
   while (*cpos) {
     space = cpos;
@@ -136,9 +136,9 @@ f_filecharf(struct pkginfo *pkg, struct pkgbin *pkgbin,
     if (!fdp) {
       if (!allowextend)
         parse_error(ps,
-                    _("too many values in file details field '%s' "
+                    _("too many values in archive details field '%s' "
                       "(compared to others)"), fip->name);
-      fdp= nfmalloc(sizeof(struct filedetails));
+      fdp = nfmalloc(sizeof(*fdp));
       fdp->next= NULL;
       fdp->name= fdp->msdosname= fdp->size= fdp->md5sum= NULL;
       *fdpp= fdp;
@@ -151,7 +151,7 @@ f_filecharf(struct pkginfo *pkg, struct pkgbin *pkgbin,
   }
   if (*fdpp)
     parse_error(ps,
-                _("too few values in file details field '%s' "
+                _("too few values in archive details field '%s' "
                   "(compared to others)"), fip->name);
 }
 
@@ -360,7 +360,7 @@ f_conffiles(struct pkginfo *pkg, struct pkgbin *pkgbin,
       conffvalue_lastword(value, endfn, endent,
 			  &hashstart, &hashlen, &endfn,
 			  ps);
-    newlink= nfmalloc(sizeof(struct conffile));
+    newlink = nfmalloc(sizeof(*newlink));
     value = path_skip_slash_dotslash(value);
     namelen= (int)(endfn-value);
     if (namelen <= 0)
@@ -408,7 +408,7 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
 
    /* Loop creating new struct dependency's. */
   for (;;) {
-    dyp= nfmalloc(sizeof(struct dependency));
+    dyp = nfmalloc(sizeof(*dyp));
     /* Set this to NULL for now, as we don't know what our real
      * struct pkginfo address (in the database) is going to be yet. */
     dyp->up = NULL;
@@ -438,9 +438,9 @@ f_dependency(struct pkginfo *pkg, struct pkgbin *pkgbin,
         parse_error(ps,
                     _("'%s' field, invalid package name '%.255s': %s"),
                     fip->name, depname.buf, emsg);
-      dop= nfmalloc(sizeof(struct deppossi));
+      dop = nfmalloc(sizeof(*dop));
       dop->up= dyp;
-      dop->ed = pkg_db_find_set(depname.buf);
+      dop->ed = pkg_hash_find_set(depname.buf);
       dop->next= NULL; *ldopp= dop; ldopp= &dop->next;
 
       /* Don't link this (which is after all only ‘new_pkg’ from

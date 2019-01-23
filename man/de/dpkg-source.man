@@ -50,19 +50,19 @@ nicht\-Options\-Argument angegeben werden, um das Verzeichnis anzugeben, in
 das das Quellpaket extrahiert werden soll. Dieses Verzeichis darf dann nicht
 existieren. Falls kein Ausgabeverzeichnis angegeben ist, wird das Quellpaket
 in das Verzeichnis namens \fIQuelle\fP\-\fIVersion\fP unterhalb des aktuellen
-Arbeitsverzeichnisses extrahiert.
+Arbeitsverzeichnisses entpackt.
 
 \fBdpkg\-source\fP wird die Namen der anderen Datei(en) aus der Steuerdatei
 einlesen, die das Quellpaket ergeben; es wird angenommen, dass diese im
 gleichen Verzeichnis wie die \fB.dsc\fP liegen.
 
-Die Dateien in dem extrahierten Paket werden die Rechte und Eigentümer
-haben, die erwartet würden, falls die Dateien und Verzeichnisse einfach
-angelegt worden wären \- Verzeichnisse und Programmdateien werden 0777 und
-einfache Dateien 0666, beide durch die umask der Person, die extrahiert,
-entsprechend angepasst; falls das übergeordnete Verzeichnis setgid ist,
-werden dies die extrahierten Verzeichnisse auch sein, und alle Dateien und
-Verzeichnisse werden die Gruppeneigentümerschaft erben.
+Die Dateien in dem entpackten Paket werden die Rechte und Eigentümer haben,
+die erwartet würden, falls die Dateien und Verzeichnisse einfach angelegt
+worden wären \- Verzeichnisse und Programmdateien werden 0777 und einfache
+Dateien 0666, beide durch die umask der Person, die extrahiert, entsprechend
+angepasst; falls das übergeordnete Verzeichnis setgid ist, werden dies die
+entpackten Verzeichnisse auch sein, und alle Dateien und Verzeichnisse
+werden die Gruppeneigentümerschaft erben.
 
 Falls das Quellpaket ein nicht\-Standard\-Format verwendet (derzeit bedeutet
 dies alle Formate außer „1.0“)) wird sein Name in \fBdebian/source/format\fP
@@ -248,7 +248,7 @@ in der Ausgabe des Befehls \fB\-\-help\fP gesehen werden.
 .SS "Generische Extrahierungs\-Optionen"
 .TP 
 \fB\-\-no\-copy\fP
-Kopiere die Original\-Tarbälle nicht in die Nähe des extrahierten Quellpakets
+Kopiere die Original\-Tarbälle nicht in die Nähe des entpackten Quellpakets
 (seit 1.14.17).
 .TP 
 \fB\-\-no\-check\fP
@@ -431,38 +431,46 @@ Dateien und Verzeichnisse sowie viele temporäre Dateien (lesen Sie den
 Standardwert der Option \fB\-I\fP bei der Ausgabe von \fB\-\-help\fP).
 .
 .SS "Format: 3.0 (quilt)"
-Seit Dpkg 1.14.17 unterstützt. Ein Quellpaket in diesem Format enthält
-mindestens einen Original\-Tarball (\fB.orig.tar.\fP\fIErw\fP, wobei \fIErw\fP \fBgz\fP,
-\fBbz2\fP, \fBlzma\fP und \fBxz\fP sein kann) und einen Debian\-Tarball
-(\fB.debian.tar.\fP\fIErw\fP). Es kann auch zusätzliche Original\-Tarbälle
-(\fB.orig\-\fP\fIKomponente\fP\fB.tar.\fP\fIErw\fP) enthalten. \fIKomponente\fP kann nur
-alphanumerische Zeichen und Bindestriche (‚\-’) enthalten. Optional kann
-jeder Original\-Tarball von einer separaten Signatur der Originalautoren
-(\fB.orig.tar.\fP\fIErw\fP\fB.asc\fP und \fB.orig\-\fP\fIKomponente\fP\fB.tar.\fP\fIErw\fP\fB.asc\fP)
-begleitet werden. Das Entpacken wird seit Dpkg 1.17.20, das Bauen seit Dpkg
-1.18.5 unterstützt.
+Supported since dpkg 1.14.17.  A source package in this format contains at
+least an original tarball (\fB.orig.tar.\fP\fIext\fP where \fIext\fP can be \fBgz\fP,
+\fBbz2\fP, \fBlzma\fP and \fBxz\fP) and a debian tarball (\fB.debian.tar.\fP\fIext\fP). It
+can also contain additional original tarballs
+(\fB.orig\-\fP\fIcomponent\fP\fB.tar.\fP\fIext\fP).  \fIcomponent\fP can only contain
+alphanumeric (‘a\-zA\-Z0\-9’) characters and hyphens (‘\-’).  Optionally each
+original tarball can be accompanied by a detached upstream signature
+(\fB.orig.tar.\fP\fIext\fP\fB.asc\fP and \fB.orig\-\fP\fIcomponent\fP\fB.tar.\fP\fIext\fP\fB.asc\fP),
+extraction supported since dpkg 1.17.20, building supported since dpkg
+1.18.5.
 
 .PP
 \fBExtrahieren\fP
 .PP
-Der Haupt\-Originaltarball wird zuerst extrahiert, dann werden alle
-zusätzlichen Originaltarbälle in Unterverzeichnisse extrahiert, die nach dem
+Der Haupt\-Originaltarball wird zuerst entpackt, dann werden alle
+zusätzlichen Originaltarbälle in Unterverzeichnisse entpackt, die nach dem
 \fIKomponente\fPn\-Teil ihres Dateinamens benannt werden (jedes bereits
 existierende Verzeichnis wird ersetzt). Der Debian\-Tarball wird auf das
-Quellverzeichnis extrahiert, nachdem jedes bereits existierende
+Quellverzeichnis entpackt, nachdem jedes bereits existierende
 \fBdebian\fP\-Verzeichnis entfernt wurde. Beachten Sie, dass der Debian\-Tarball
 ein \fBdebian\fP\-Unterverzeichnis enthalten muss, er aber auch Binärdateien
 außerhalb dieses Verzeichnisses enthalten darf (sehen Sie hierzu die Option
 \fB\-\-include\-binaries\fP).
 .PP
-Dann werden alle in \fBdebian/patches/debian.series\fP oder
-\fBdebian/patches/series\fP aufgeführten Patches angewandt. Falls die erstere
-Datei verwandt wird und die letztere nicht existiert (oder ein Symlink ist),
-dann wird die letztere mit einem Symlink zu ersterer ersetzt. Dies ist zur
-Vereinfachung der Verwendung von \fBquilt\fP gedacht, um die Gruppe von Patches
-zu verwalten. Beachten Sie allerdings, dass \fBdpkg\-source\fP zwar
-Seriendateien auswertet, in denen explizite Optionen für die Anwendung der
-Patches verwandt werden (diese werden auf jede Zeile nach dem
+Dann werden alle in \fBdebian/patches/\fP\fILieferant\fP\fB.series\fP oder
+\fBdebian/patches/series\fP aufgeführten Patches angewandt, wobei \fILieferant\fP
+der Name des aktuellen Lieferanten in Kleinbuchstaben ist oder \fBdebian\fP,
+falls kein Lieferant definiert ist. Falls die erstere Datei verwandt wird
+und die letztere nicht existiert (oder ein Symlink ist), dann wird die
+letztere mit einem Symlink zu ersterer ersetzt. Dies ist zur Vereinfachung
+der Verwendung von \fBquilt\fP gedacht, um die Gruppe von Patches zu
+verwalten. Lieferantenspezifische Seriendateien sind dazu gedacht, es zu
+ermöglichen, mehrere Entwicklungszweige basierend auf dem Lieferanten auf
+eine deklarative Art zu serialisieren, und diese gegenüber der offenen
+Codierung dieser Handhabung in \fBdebian/rules\fP zu bevorzugen. Dies ist
+insbesondere nützlich, wenn die Quellen mit Bedingungen gepacht werden
+müssten, da die betroffenen Dateien keine eingebaute abhängige
+Okklusionsunterstützung haben. Beachten Sie allerdings, dass \fBdpkg\-source\fP
+zwar Seriendateien auswertet, in denen explizite Optionen für die Anwendung
+der Patches verwandt werden (diese werden auf jede Zeile nach dem
 Patch\-Dateinamen und einem oder mehreren Leerzeichen gespeichert), diese
 Optionen dann aber ignoriert und immer erwartet, dass die Patches mit der
 Option \fB\-p1\fP von \fBpatch\fP angewandt werden können. Es wird daher eine
@@ -750,6 +758,16 @@ an diese Tatsache.
 .
 .SH UMGEBUNG
 .TP 
+\fBDPKG_COLORS\fP
+Setzt den Farbmodus (seit Dpkg 1.18.5). Die derzeit unterstützten Werte
+sind: \fBauto\fP (Vorgabe), \fBalways\fP und \fBnever\fP.
+.TP 
+\fBDPKG_NLS\fP
+Falls dies gesetzt ist, wird es zur Entscheidung, ob Native Language
+Support, auch als Internationalisierung (oder i18n) Unterstützung bekannt,
+aktiviert wird (seit Dpkg 1.19.0). Die akzeptierten Werte sind: \fB0\fP und
+\fB1\fP (Vorgabe).
+.TP 
 \fBSOURCE_DATE_EPOCH\fP
 Falls gesetzt, wird es als Zeitstempel (als Sekunden seit der Epoche) zum
 Festlegen der Mtime in den Dateieinträgen von \fBtar\fP(5) verwandt.
@@ -814,16 +832,21 @@ Formloser Text, der an den Anfang des in den Formaten „2.0“ und „3.0
 (quilt)“ generierten automatischen Patches gestellt
 wird. \fBlocal\-patch\-header\fP wird dem erstellen Quellpaket nicht hinzugefügt,
 \fBpatch\-header\fP dagegen schon.
+.SS debian/patches/\fILieferant\fP.series
 .SS debian/patches/series
 Diese Datei führt alle Patches auf, die (in der angegebenen Reihenfolge) auf
 das Quellpaket der Originalautoren angewandt werden müssen. Leerzeichen am
-Anfang und Ende werden entfernt. Zeilen, die mit ‚\fB#\fP’ anfangen, sind
-Kommentare und werden übersprungen. Leere Zeilen werden ignoriert. Die
-verbleibenen Zeilen beginnen mit dem Dateinamen eines Patches (relativ zum
-Verzeichnis \fBdebian/patches/\fP) bis zum ersten Leerzeichen oder bis zum
-Zeilenende. Bis zum Ende der Zeile oder bis zum ersten ‚\fB#\fP’ gefolgt von
-einem oder mehreren Leerzeichen (dies markiert den Beginn eines Kommentars,
-der bis zum Zeilenende geht) können optionale \fBquilt\fP\-Befehle folgen.
+Anfang und Ende werden entfernt. \fILieferant\fP ist der Name des aktuellen
+Lieferanten in Kleinschreibung oder \fBdebian\fP, falls kein Lieferant
+definiert ist. Falls die lieferantenspezifische Seriendatei nicht existiert,
+wird eine lieferantenfreie Seriendatei verwandt. Zeilen, die mit ‚\fB#\fP’
+anfangen, sind Kommentare und werden übersprungen. Leere Zeilen werden
+ignoriert. Die verbleibenen Zeilen beginnen mit dem Dateinamen eines Patches
+(relativ zum Verzeichnis \fBdebian/patches/\fP) bis zum ersten Leerzeichen oder
+bis zum Zeilenende. Bis zum Ende der Zeile oder bis zum ersten ‚\fB#\fP’
+gefolgt von einem oder mehreren Leerzeichen (dies markiert den Beginn eines
+Kommentars, der bis zum Zeilenende geht) können optionale \fBquilt\fP\-Befehle
+folgen.
 .SH FEHLER
 Die Stelle, an der das Überschreiben von Feldern passiert, verglichen mit
 bestimmten Standard\-Ausgabe\-Feldeinstellungen, ist eher konfus.
@@ -831,7 +854,7 @@ bestimmten Standard\-Ausgabe\-Feldeinstellungen, ist eher konfus.
 .ad l
 \fBdeb\-src\-control\fP(5), \fBdeb\-changelog\fP(5), \fBdsc\fP(5).
 .SH ÜBERSETZUNG
-Die deutsche Übersetzung wurde 2004, 2006-2017 von Helge Kreutzmann
+Die deutsche Übersetzung wurde 2004, 2006-2018 von Helge Kreutzmann
 <debian@helgefjell.de>, 2007 von Florian Rehnisch <eixman@gmx.de> und
 2008 von Sven Joachim <svenjoac@gmx.de>
 angefertigt. Diese Übersetzung ist Freie Dokumentation; lesen Sie die

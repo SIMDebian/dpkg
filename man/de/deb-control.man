@@ -308,10 +308,18 @@ diesem Feld markiert wurden, werden nicht in der Hauptquellsteuerdatei
 \fIdebian/control\fP auftauchen. Die einzige derzeit verwandte Begründung ist
 \fBdebug\-symbols\fP.
 .
+.TP 
+\fBBuild\-Ids:\fP\fI ELF\-Baukennungsliste \fP
+Das Feld gibt eine durch Leerraum getrennte Liste von ELF\-Baukennugen
+an. Dies sind eindeutige Kennzeichner für semantisch identische ELF\-Objekte,
+für jedes von diesen innerhalb des Pakets.
+.
+Das Format oder die Art, jede Baukennung zu berechnen, ist designbedingt
+nicht festgelegt.
+.
 .SH BEISPIEL
 .\" .RS
 .nf
-# Comment
 Package: grep
 Essential: yes
 Priority: required
@@ -322,23 +330,28 @@ Version: 2.4\-1
 Pre\-Depends: libc6 (>= 2.0.105)
 Provides: rgrep
 Conflicts: rgrep
-Description: GNU grep, egrep und fgrep.
- Die GNU\-Familie der Grep\-Werkzeuge könnte die »schnellste im Westen« sein.
- GNU Grep basiert auf einem schellen »lazy\-state deterministic matcher«
- (rund zweimal so schnell wie der standardmäßige Unix\-Egrep) hybridisiert
- mit einer Boyer\-Moore\-Gosper\-Suche für eine feste Zeichenkette, die
- unmöglichen Text von der Betrachtung durch den vollen »Matcher« verhindert
- ohne notwendigerweise jedes Zeichen anzuschauen. Das Ergebnis ist
- typischerweise um ein mehrfaches Schneller als Unix Grep oder Egrep.
- (Reguläre Ausdrücke, die Rückreferenzierungen enthalten, werden allerdings
- langsamer laufen.)
+Description: GNU grep, egrep and fgrep.
+ The GNU family of grep utilities may be the "fastest grep in the west".
+ GNU grep is based on a fast lazy\-state deterministic matcher (about
+ twice as fast as stock Unix egrep) hybridized with a Boyer\-Moore\-Gosper
+ search for a fixed string that eliminates impossible text from being
+ considered by the full regexp matcher without necessarily having to
+ look at every character. The result is typically many times faster
+ than Unix grep or egrep. (Regular expressions containing backreferencing
+ will run more slowly, however).
 .fi
 .\" .RE
 .
+.SH FEHLER
+Das Feld \fBBuild\-Ids\fP verwendet einen eher generischen Namen aus seinem
+ursprünglichen Zusammenhang innerhalb eines ELF\-Objektes, das einem sehr
+speziellen Zweck und ausführbaren Format dient.
+.
 .SH "SIEHE AUCH"
-\fBdeb\fP(5), \fBdeb\-version\fP(7), \fBdebtags\fP(1), \fBdpkg\fP(1), \fBdpkg\-deb\fP(1).
+\fBdeb\-src\-control\fP(5), \fBdeb\fP(5), \fBdeb\-version\fP(7), \fBdebtags\fP(1),
+\fBdpkg\fP(1), \fBdpkg\-deb\fP(1).
 .SH ÜBERSETZUNG
-Die deutsche Übersetzung wurde 2004, 2006-2017 von Helge Kreutzmann
+Die deutsche Übersetzung wurde 2004, 2006-2018 von Helge Kreutzmann
 <debian@helgefjell.de>, 2007 von Florian Rehnisch <eixman@gmx.de> und
 2008 von Sven Joachim <svenjoac@gmx.de>
 angefertigt. Diese Übersetzung ist Freie Dokumentation; lesen Sie die

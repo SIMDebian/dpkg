@@ -79,6 +79,12 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Control/Tests/Entry.pm \
 	Dpkg/Control/Types.pm \
 	Dpkg/Deps.pm \
+	Dpkg/Deps/AND.pm \
+	Dpkg/Deps/KnownFacts.pm \
+	Dpkg/Deps/Multiple.pm \
+	Dpkg/Deps/OR.pm \
+	Dpkg/Deps/Simple.pm \
+	Dpkg/Deps/Union.pm \
 	Dpkg/Dist/Files.pm \
 	Dpkg/ErrorHandling.pm \
 	Dpkg/Exit.pm \
@@ -98,6 +104,8 @@ nobase_dist_perllib_DATA = \
 	Dpkg/Shlibs/SymbolFile.pm \
 	Dpkg/Shlibs/Cppfilt.pm \
 	Dpkg/Source/Archive.pm \
+	Dpkg/Source/BinaryFiles.pm \
+	Dpkg/Source/Format.pm \
 	Dpkg/Source/Functions.pm \
 	Dpkg/Source/Package.pm \
 	Dpkg/Source/Package/V1.pm \
@@ -212,6 +220,7 @@ test_scripts = \
 	t/Dpkg_Shlibs_Cppfilt.t \
 	t/Dpkg_Shlibs.t \
 	t/Dpkg_BuildFlags.t \
+	t/Dpkg_BuildFlags_Ubuntu.t \
 	t/Dpkg_BuildOptions.t \
 	t/Dpkg_BuildProfiles.t \
 	t/Dpkg_Build_Env.t \
@@ -243,6 +252,7 @@ test_scripts = \
 	t/Dpkg_Source_Functions.t \
 	t/Dpkg_Source_Patch.t \
 	t/Dpkg_Source_Quilt.t \
+	t/Dpkg_Source_Format.t \
 	t/Dpkg_Source_Archive.t \
 	t/Dpkg_Source_Package.t \
 	t/Dpkg_Dist_Files.t \
@@ -304,6 +314,7 @@ test_data = \
 	t/Dpkg_Changelog/misplaced-tz \
 	t/Dpkg_Changelog/regressions \
 	t/Dpkg_Changelog/shadow \
+	t/Dpkg_Changelog/stop-modeline \
 	t/Dpkg_Changelog/unreleased \
 	t/Dpkg_Checksums/empty \
 	t/Dpkg_Checksums/data-1 \
@@ -353,6 +364,8 @@ test_data = \
 	t/mk/buildflags.mk \
 	t/mk/buildtools.mk \
 	t/mk/pkg-info.mk \
+	t/mk/vendor-v0.mk \
+	t/mk/vendor-v1.mk \
 	t/mk/vendor.mk \
 	t/origins/debian \
 	t/origins/default \

@@ -59,7 +59,7 @@ enqueue_error_report(const char *arg)
 {
   struct error_report *nr;
 
-  nr= malloc(sizeof(struct error_report));
+  nr = malloc(sizeof(*nr));
   if (!nr) {
     notice(_("failed to allocate memory for new entry in list of failed packages: %s"),
            strerror(errno));
@@ -145,4 +145,12 @@ void forcibleerr(int forceflag, const char *fmt, ...) {
     ohshitv(fmt, args);
   }
   va_end(args);
+}
+
+int
+forcible_nonroot_error(int rc)
+{
+  if (fc_nonroot && errno == EPERM)
+    return 0;
+  return rc;
 }

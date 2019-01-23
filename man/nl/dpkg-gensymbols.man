@@ -496,6 +496,17 @@ maken van shell\-patronen met het oog op padnaamexpansie (zie de man\-pagina
 \fBFile::Glob\fP(3perl) voor details) om met één enkel argument meerdere
 bibliotheken aan te duiden (anders heeft u meerdere malen \fB\-e\fP nodig).
 .TP 
+\fB\-l\fP\fImap\fP
+Voeg \fImap\fP vooraan toe aan de lijst van mappen waarin naar private gedeelde
+bibliotheken gezocht moet worden (sinds dpkg 1.19.1). Deze optie kan
+meermaals gebruikt worden.
+
+Opmerking: gebruik deze optie in de plaats van het instellen van
+\fBLD_LIBRARY_PATH\fP, aangezien die omgevingsvariabele gebruikt wordt om de
+runtime linker aan te sturen. Daarvan misbruik maken om de paden van
+gedeelde bibliotheken in te stellen tijdens het bouwen van het programma,
+kan problematisch zijn, bijvoorbeeld bij het cross\-compileren.
+.TP 
 \fB\-I\fP\fIbestandsnaam\fP
 Gebruik \fIbestandsnaam\fP als referentiebestand om het symbolenbestand te
 genereren dat in het pakket zelf geïntegreerd wordt.
@@ -573,6 +584,17 @@ Overschrijft het controleniveau van het commando, zelfs als het argument
 \fB\-c\fP opgegeven werd aan de commandoregel (merk op dat dit ingaat tegen de
 algemeen geldende afspraak dat commandoregel\-argumenten voorrang hebben op
 omgevingsvariabelen).
+.TP 
+\fBDPKG_COLORS\fP
+Stelt de kleurmodus in (sinds dpkg 1.18.5). Waarden die momenteel gebruikt
+mogen worden zijn: \fBauto\fP (standaard), \fBalways\fP en \fBnever\fP.
+.TP 
+\fBDPKG_NLS\fP
+Indien dit ingesteld is, zal het gebruikt worden om te beslissen over het
+activeren van moedertaalondersteuning, ook gekend als
+internationaliseringsondersteuning (of i18n) (sinds dpkg 1.19.0). Geldige
+waarden zijn: \fB0\fP and \fB1\fP (standaard).
+.
 .SH "ZIE OOK"
 \fBhttps://people.redhat.com/drepper/symbol\-versioning\fP
 .br

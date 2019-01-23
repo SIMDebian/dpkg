@@ -27,7 +27,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -35,9 +34,9 @@
 #include <dpkg/i18n.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 struct deppossi_pkg_iterator {
@@ -76,7 +75,8 @@ deppossi_pkg_iter_next(struct deppossi_pkg_iterator *iter)
       pkgbin = &pkg_cur->available;
       break;
     case wpb_by_istobe:
-      if (pkg_cur->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)
+      if (pkg_cur->clientdata &&
+          pkg_cur->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)
         pkgbin = &pkg_cur->available;
       else
         pkgbin = &pkg_cur->installed;
@@ -224,16 +224,16 @@ findbreakcyclerecursive(struct pkginfo *pkg, struct cyclesofarlink *sofar)
 bool
 findbreakcycle(struct pkginfo *pkg)
 {
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *tpkg;
 
   /* Clear the visited flag of all packages before we traverse them. */
-  iter = pkg_db_iter_new();
-  while ((tpkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while ((tpkg = pkg_hash_iter_next_pkg(iter))) {
     ensure_package_clientdata(tpkg);
     tpkg->clientdata->color = PKG_CYCLE_WHITE;
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   return findbreakcyclerecursive(pkg, NULL);
 }
@@ -314,10 +314,14 @@ depisok(struct dependency *dep, struct varbuf *whynot,
    * Allow 250x3 for package names, versions, &c, + 250 for ourselves. */
   char linebuf[1024];
 
-  assert(dep->type == dep_depends || dep->type == dep_predepends ||
-	 dep->type == dep_breaks || dep->type == dep_conflicts ||
-	 dep->type == dep_recommends || dep->type == dep_suggests ||
-	 dep->type == dep_enhances);
+  if (dep->type != dep_depends &&
+      dep->type != dep_predepends &&
+      dep->type != dep_breaks &&
+      dep->type != dep_conflicts &&
+      dep->type != dep_recommends &&
+      dep->type != dep_suggests &&
+      dep->type != dep_enhances)
+    internerr("unknown dependency type %d", dep->type);
 
   if (canfixbyremove)
     *canfixbyremove = NULL;
@@ -331,7 +335,7 @@ depisok(struct dependency *dep, struct varbuf *whynot,
   case PKG_ISTOBE_DECONFIGURE:
     return true;
   case PKG_ISTOBE_NORMAL:
-    /* Only installed packages can be make dependency problems. */
+    /* Only installed packages can be made dependency problems. */
     switch (dep->up->status) {
     case PKG_STAT_INSTALLED:
     case PKG_STAT_TRIGGERSPENDING:

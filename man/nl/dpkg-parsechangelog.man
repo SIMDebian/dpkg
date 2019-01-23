@@ -73,9 +73,10 @@ of de indeling van de uitvoer.
 Stel de indeling van de uitvoer in. Momenteel ondersteunde waarden zijn
 \fBdpkg\fP en \fBrfc822\fP. \fBdpkg\fP is de klassieke indeling van de uitvoer (van
 voor het bestaan van deze optie) en ook de standaard. Het bestaat uit één
-paragraaf volgens het systeem van Debian control (zie
+paragraaf volgens het indelingssysteem van Debian control (zie
 \fBdeb\-control\fP(5)). Indien meer dan één item opgevraagd wordt, dan worden de
-meeste velden genomen uit het meest recente item, tenzij anders vermeld:
+meeste velden genomen uit het eerste item (gewoonlijk het meest recente
+item), tenzij anders vermeld:
 .RS
 .TP 
 \fBSource:\fP\fI pakketnaam\fP
@@ -126,6 +127,11 @@ De indeling volgens \fBrfc822\fP maakt gebruik van dezelfde velden, maar
 gebruikt in de uitvoer een aparte paragraaf voor elk changelog\-item, zodat
 alle metadata van elk item behouden blijven.
 .TP 
+\fB\-\-reverse\fP
+Voeg alle wijzigingen in omgekeerde volgorde in (sinds dpkg
+1.19.1). Opmerking: voor de indeling \fBdpkg\fP zal het eerste item het oudste
+item zijn.
+.TP 
 \fB\-\-all\fP
 Neem alle wijzigingen op. Merk op dat andere opties geen effect hebben als
 deze optie gebruikt wordt.
@@ -166,8 +172,8 @@ naam van de indeling zijn. Bijvoorbeeld:
 
        @@@ changelog\-format: \fIandere\-indeling\fP @@@
 
-Namen voor changelog\-indelingen moeten niet\-lege alfanumerieke tekenreeksen
-zijn.
+Changelog format names are non\-empty strings of lowercase alphanumerics
+(“a\-z0\-9”).
 
 Indien een dergelijke regel bestaat, zal \fBdpkg\-parsechangelog\fP naar het
 ontleedprogramma zoeken als een \fBDpkg::Changelog::\fP\fIandere\-indeling\fP perl
@@ -202,6 +208,18 @@ slechts sinds dpkg 1.14.16 ondersteund.
 .PP
 Het voor ontleeddoeleinden gebruiken van opties in verkorte notatie met
 niet\-samengebundelde waarden is slechts sinds dpkg 1.18.0 mogelijk.
+.
+.SH OMGEVING
+.TP 
+\fBDPKG_COLORS\fP
+Stelt de kleurmodus in (sinds dpkg 1.18.5). Waarden die momenteel gebruikt
+mogen worden zijn: \fBauto\fP (standaard), \fBalways\fP en \fBnever\fP.
+.TP 
+\fBDPKG_NLS\fP
+Indien dit ingesteld is, zal het gebruikt worden om te beslissen over het
+activeren van moedertaalondersteuning, ook gekend als
+internationaliseringsondersteuning (of i18n) (sinds dpkg 1.19.0). Geldige
+waarden zijn: \fB0\fP and \fB1\fP (standaard).
 .
 .SH BESTANDEN
 .TP 

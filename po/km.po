@@ -1,6 +1,6 @@
-# translation of dpkg_po_km.po to
-# Copyright (C) YEAR Software in the Public Interest, Inc.
-# This file is distributed under the same license as the PACKAGE package.
+# translation of dpkg to Khmer
+# Copyright © 2006 Dpkg Developers
+# This file is distributed under the same license as the dpkg package.
 #
 # Khoem Sokhem <khoemsokhem@khmeros.info>, 2006.
 # Poch Sokun  <sokun_poch@khmeros.info>, 2006.
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2018-01-17 03:29+0100\n"
+"POT-Creation-Date: 2019-01-23 13:09+0100\n"
 "PO-Revision-Date: 2015-04-07 09:50+0200\n"
 "Last-Translator: Khoem Sokhem <khoemsokhem@khmeros.info>\n"
 "Language-Team: Khmer <support@khmeros.info>\n"
@@ -145,7 +145,8 @@ msgstr "យក​ការ​បង្វែរ​ចាស់​ចេញ ៖ 
 msgid "error creating new backup file '%s'"
 msgstr "កំហុស​ក្នុង​ការ​បង្កើត​បំពង់ `%.255s'"
 
-#: lib/dpkg/atomic-file.c lib/dpkg/triglib.c src/infodb-upgrade.c src/remove.c
+#: lib/dpkg/atomic-file.c lib/dpkg/db-ctrl-upgrade.c lib/dpkg/triglib.c
+#: src/remove.c
 #, c-format
 msgid "cannot remove '%.250s'"
 msgstr "មិន​អាច​យក `%.250s' ចេញ"
@@ -372,12 +373,22 @@ msgid "unable to open lock file %s for testing"
 msgstr "មិន​អាច​បើក tmpfile សម្រាប់ vsnprintf"
 
 #: lib/dpkg/dbmodify.c
+#, fuzzy
+#| msgid "unable to open/create status database lockfile"
+msgid "unable to open/create frontend lockfile"
+msgstr "មិន​អាច​បើក/បង្កើត​ឯកសារ​ជាប់សោ​មូលដ្ឋាន​ទិន្នន័យ​ស្ថានភាព"
+
+#: lib/dpkg/dbmodify.c
 msgid "unable to open/create status database lockfile"
 msgstr "មិន​អាច​បើក/បង្កើត​ឯកសារ​ជាប់សោ​មូលដ្ឋាន​ទិន្នន័យ​ស្ថានភាព"
 
 #: lib/dpkg/dbmodify.c
 msgid "you do not have permission to lock the dpkg status database"
 msgstr "អ្នក​គ្មាន​សិទ្ធិ​ដើម្បី​ចាក់សោ​មូលដ្ឋាន​ទិន្នន័យ​ស្ថានភាព​របស់ dpkg បាន​ទេ"
+
+#: lib/dpkg/dbmodify.c
+msgid "dpkg frontend"
+msgstr ""
 
 #: lib/dpkg/dbmodify.c
 #, fuzzy
@@ -431,6 +442,190 @@ msgstr "មិនអាចបិទស្ថានភាពដែលបានធ
 #, c-format
 msgid "unable to install updated status of '%.250s'"
 msgstr "មិនអាចដំឡើងស្ថានភាពដែលបានធ្វើឲ្យទាន់សម័យរបស់`%.250s'"
+
+#: lib/dpkg/db-ctrl-access.c
+#, c-format
+msgid "unable to check existence of '%.250s'"
+msgstr "មិន​អាច​ពិនិត្យ​មើល​ភាព​មាន​ស្រាប់​របស់`%.250s'"
+
+#: lib/dpkg/db-ctrl-access.c lib/dpkg/db-ctrl-upgrade.c
+msgid "cannot read info directory"
+msgstr "មិន​អាច​អាន​ថត​ព័ត៌មាន"
+
+#: lib/dpkg/db-ctrl-format.c src/unpack.c
+#, c-format
+msgid "error trying to open %.250s"
+msgstr "កំហុស​ក្នុង​ការ​ព្យាយាម​បើក %.250s"
+
+#: lib/dpkg/db-ctrl-format.c
+#, fuzzy, c-format
+msgid "corrupt info database format file '%s'"
+msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
+
+#: lib/dpkg/db-ctrl-format.c
+#, c-format
+msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
+msgstr ""
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "conffile `%.250s' does not appear in package"
+msgid "info file %s/%s not associated to any package"
+msgstr "conffile `%.250s' មិន​បង្ហាញ​នៅ​ក្នុង​កញ្ចប់"
+
+#: lib/dpkg/db-ctrl-upgrade.c src/archives.c
+#, c-format
+msgid "error creating hard link '%.255s'"
+msgstr "កំហុស​ក្នុង​ការ​បង្កើត​តំណរឹង `%.255s'"
+
+#: lib/dpkg/db-ctrl-upgrade.c
+#, fuzzy, c-format
+#| msgid "error writing `%s'"
+msgid "error while writing '%s'"
+msgstr "កំហុស​​ក្នុង​ការសរសេរ `%s'"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing final newline"
+msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value"
+msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+msgid "control file '%s' for package '%s' is missing value separator"
+msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "files list file for package `%.250s' contains empty filename"
+msgid "control file '%s' for package '%s' contains empty filename"
+msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
+
+#: lib/dpkg/db-fsys-digest.c
+#, fuzzy, c-format
+#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
+msgid "loading control file '%s' for package '%s'"
+msgstr "មិន​អាច​អាន​ថត​ឯកសារ​កំណត់​រចនាម្ព័ន្ធ `%.250s' (ពី `%.250s')"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to open diversions file"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ​បង្វែរ"
+
+#: lib/dpkg/db-fsys-divert.c
+msgid "failed to fstat diversions file"
+msgstr "បានបរាជ័យលើឯកសារបង្ខែរ fstat"
+
+#: lib/dpkg/db-fsys-divert.c
+#, c-format
+msgid "conflicting diversions involving '%.250s' or '%.250s'"
+msgstr "ប៉ះទង្គិចការបង្វែរដែលពាក់ព័ន្ធនឹង `%.250s' ឬ `%.250s'"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "error closing files list file for package '%.250s'"
+msgid "loading files list file for package '%s'"
+msgstr "កំហុស​ក្នុង​ការ​បិទ​ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+msgid ""
+"files list file for package '%.250s' missing; assuming package has no files "
+"currently installed"
+msgstr ""
+"dpkg ៖ ការ​ព្រមាន​ដ៏ធ្ងន់ធ្ងរ ៖ ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​បាត់ សន្មត់​ថា​កញ្ចប់​"
+"គ្មាន​ឯកសារ​ដែល​បាន​ដំឡើង​ថ្មីៗ ។\n"
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+msgid "files list file for package '%.250s' is missing final newline"
+msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
+
+#: lib/dpkg/db-fsys-files.c
+#, c-format
+msgid "files list file for package '%.250s' contains empty filename"
+msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
+
+#: lib/dpkg/db-fsys-files.c
+msgid "(Reading database ... "
+msgstr "(កំពុង​អាន​មូលដ្ឋាន​ទិន្នន័យ​ ... "
+
+#: lib/dpkg/db-fsys-files.c
+#, fuzzy, c-format
+#| msgid "%d files and directories currently installed.)\n"
+msgid "%d file or directory currently installed.)\n"
+msgid_plural "%d files and directories currently installed.)\n"
+msgstr[0] "%d ឯកសារ និង​ថត​បាន​ដំឡើង​ថ្មីៗ ។)\n"
+msgstr[1] "%d ឯកសារ និង​ថត​បាន​ដំឡើង​ថ្មីៗ ។)\n"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride uid %s"
+msgstr "ឯកសារ statoverride `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride gid %s"
+msgstr "ឯកសារ statoverride `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "invalid statoverride mode %s"
+msgstr "ឯកសារ statoverride `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to open statoverride file"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "failed to fstat statoverride file"
+msgstr "បានបរាជ័យលើឯកសារ fstat statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+#| msgid "statoverride file `%.250s'"
+msgid "reading statoverride file '%.250s'"
+msgstr "ឯកសារ statoverride `%.250s'"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "statoverride file is missing final newline"
+msgstr "ឯកសារ statoverride មាន​បន្ទាត់​ទទេ"
+
+#: lib/dpkg/db-fsys-override.c
+msgid "statoverride file contains empty line"
+msgstr "ឯកសារ statoverride មាន​បន្ទាត់​ទទេ"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "syntax error in statoverride file"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "unknown user '%s' in statoverride file"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy
+msgid "unexpected end of line in statoverride file"
+msgstr "ចុង​បន្ទាត់​ដែល​មិន​រំពឹង​​ទុកក្នុង​ឈ្មោះ​កញ្ចប់​នៅ​បន្ទាត់ %d"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "unknown group '%s' in statoverride file"
+msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ statoverride"
+
+#: lib/dpkg/db-fsys-override.c
+#, fuzzy, c-format
+msgid "multiple statoverrides present for file '%.250s'"
+msgstr "ឯកសារ statoverride `%.250s'"
 
 #: lib/dpkg/deb-version.c
 #, fuzzy
@@ -583,23 +778,27 @@ msgid "invalid package name (%.250s)"
 msgstr "ឈ្មោះ​កញ្ចប់​មិន​ត្រឹមត្រូវ (%.250s)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "empty file details field '%s'"
+#, fuzzy, c-format
+#| msgid "empty file details field '%s'"
+msgid "empty archive details field '%s'"
 msgstr "សម្អាត​វាល​លម្អិត​ឯកសារ `%s'"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "file details field '%s' not allowed in status file"
+#, fuzzy, c-format
+#| msgid "file details field '%s' not allowed in status file"
+msgid "archive details field '%s' not allowed in status file"
 msgstr "វាល​លម្អិត​ឯកសារ `%s' មិន​បាន​អនុញ្ញាត​ក្នុង​ឯកសារ​ស្ថានភាព"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too many values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too many values in file details field '%s' (compared to others)"
+msgid "too many values in archive details field '%s' (compared to others)"
 msgstr "មាន​តម្លៃ​ច្រើន​ពេក​នៅក្នុង​វាល​លម្អិត​ឯកសារ `%s' (បាន​ប្រៀបធៀប​ទៅនឹងអា​ា​ផ្សេងទៀត)"
 
 #: lib/dpkg/fields.c
-#, c-format
-msgid "too few values in file details field '%s' (compared to others)"
+#, fuzzy, c-format
+#| msgid "too few values in file details field '%s' (compared to others)"
+msgid "too few values in archive details field '%s' (compared to others)"
 msgstr "មាន​តម្លៃ​មួយ​ចំនួន​នៅ​ក្នុង​វាល​លម្អិត​ឯកសារ `%s' (បាន​ប្រៀបធៀប​នឹងអា​ផ្សេង​ទៀត)"
 
 #: lib/dpkg/fields.c
@@ -805,6 +1004,29 @@ msgstr "មិនអាច​កំណទ់​របៀប​របស់ dist 
 
 #: lib/dpkg/file.c
 #, fuzzy, c-format
+#| msgid "cannot stat old name `%s': %s"
+msgid "cannot stat %s"
+msgstr "មិន​អាច​ចាប់​ផ្ដើម​ឈ្មោះ​ចាស់ `%s' ៖ %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+msgid "%s is not a regular file"
+msgstr "ការព្រមាន conffile `%s' គ្មានឯកសារអត្ថបទធម្មតា\n"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "unable to write %s: %s"
+msgid "cannot read %s"
+msgstr "មិន​អាច​សរសេរ %s ៖ %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot open %s"
+msgstr "មិន​អាច​បើក​ការ​បង្វែរ ៖ %s"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
 #| msgid "unable to unlock %s: %s"
 msgid "unable to unlock %s"
 msgstr "មិន​អាច​ដោះសោ %s ៖ %s"
@@ -827,8 +1049,20 @@ msgid "unable to lock %s"
 msgstr "មិន​អាច​ដោះសោ %s ៖ %s"
 
 #: lib/dpkg/file.c
-msgid "showing file on pager"
-msgstr ""
+#, fuzzy, c-format
+#| msgid "cannot open diversions: %s"
+msgid "cannot open file %s"
+msgstr "មិន​អាច​បើក​ការ​បង្វែរ ៖ %s"
+
+#: lib/dpkg/file.c
+#, fuzzy
+msgid "pager to show file"
+msgstr "មិន​អាច​បង្ហូរ​ចូល​ក្នុងឯកសារ​ vsnprintf"
+
+#: lib/dpkg/file.c
+#, fuzzy, c-format
+msgid "cannot write file %s into the pager"
+msgstr "មិន​អាច​បង្វែរ​ថត"
 
 #: lib/dpkg/log.c
 #, fuzzy, c-format
@@ -852,13 +1086,13 @@ msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បង្
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for std%s"
-msgstr "បានបរាជ័យ​ក្នុងការ​ចម្លង​សម្រាប់ std %s"
+msgid "failed to dup for fd %d"
+msgstr "បរាជ័យ​ dup សម្រាប់​ fd %d"
 
 #: lib/dpkg/mlib.c
 #, c-format
-msgid "failed to dup for fd %d"
-msgstr "បរាជ័យ​ dup សម្រាប់​ fd %d"
+msgid "failed to dup for std%s"
+msgstr "បានបរាជ័យ​ក្នុងការ​ចម្លង​សម្រាប់ std %s"
 
 #: lib/dpkg/mlib.c
 msgid "failed to create pipe"
@@ -1256,11 +1490,6 @@ msgstr "មិន​អាច​បង្កើត​ `%.255s'"
 msgid "rm command for cleanup"
 msgstr ""
 
-#: lib/dpkg/pkg-db.c lib/dpkg/pkg-spec.c
-#, c-format
-msgid "ambiguous package name '%s' with more than one installed instance"
-msgstr ""
-
 #: lib/dpkg/pkg-format.c
 #, fuzzy, c-format
 #| msgid "invalid character `%c' in field width\n"
@@ -1276,6 +1505,16 @@ msgstr ""
 #| msgid "missing altname"
 msgid "missing closing brace"
 msgstr "បាត់ altname"
+
+#: lib/dpkg/pkg-format.c
+#, c-format
+msgid "cannot get package %s filesystem last modification time"
+msgstr ""
+
+#: lib/dpkg/pkg-hash.c lib/dpkg/pkg-spec.c
+#, c-format
+msgid "ambiguous package name '%s' with more than one installed instance"
+msgstr ""
 
 #: lib/dpkg/pkg-show.c
 msgid "(no description available)"
@@ -1360,6 +1599,69 @@ msgstr "ដំណើរការរង %s បានបរាជ័យដោយ�
 #, fuzzy, c-format
 msgid "wait for %s subprocess failed"
 msgstr "រង់ចាំ​ %s បាន​បរាជ័យ​"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "invalid character `%c' in field width\n"
+msgid "invalid tar header size field"
+msgstr "តួអក្សរ​មិន​ត្រឹមត្រូវ `%c' នៅ​ក្នុង​ទទឹង​វាល\n"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "invalid character `%c' in field width\n"
+msgid "invalid tar header mtime field"
+msgstr "តួអក្សរ​មិន​ត្រឹមត្រូវ `%c' នៅ​ក្នុង​ទទឹង​វាល\n"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "statoverride file `%.250s'"
+msgid "invalid tar header uid field"
+msgstr "ឯកសារ statoverride `%.250s'"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "statoverride file `%.250s'"
+msgid "invalid tar header gid field"
+msgstr "ឯកសារ statoverride `%.250s'"
+
+#: lib/dpkg/tarfn.c
+#, fuzzy
+#| msgid "invalid character `%c' in field width\n"
+msgid "invalid tar header checksum field"
+msgstr "តួអក្សរ​មិន​ត្រឹមត្រូវ `%c' នៅ​ក្នុង​ទទឹង​វាល\n"
+
+#: lib/dpkg/tarfn.c
+msgid "invalid tar header checksum"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+msgid "partially read tar header"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+msgid "invalid tar header with empty name field"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+#, c-format
+msgid "unsupported GNU tar header type '%c'"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+#, c-format
+msgid "unsupported Solaris tar header type '%c'"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+#, c-format
+msgid "unsupported PAX tar header type '%c'"
+msgstr ""
+
+#: lib/dpkg/tarfn.c
+#, fuzzy, c-format
+#| msgid "unknown compression type '%s'!"
+msgid "unknown tar header type '%c'"
+msgstr "មិនស្គាល់​ប្រភេទ​បង្ហាប់ `%s' !"
 
 #: lib/dpkg/treewalk.c
 #, fuzzy, c-format
@@ -1595,11 +1897,6 @@ msgstr "កំហុស​ក្នុង​ការ​បង្កើត​ប
 #, c-format
 msgid "error creating device '%.255s'"
 msgstr "កំហុស​ក្នុង​ការ​បង្កើត​ឧបករណ៍ `%.255s'"
-
-#: src/archives.c src/infodb-upgrade.c
-#, c-format
-msgid "error creating hard link '%.255s'"
-msgstr "កំហុស​ក្នុង​ការ​បង្កើត​តំណរឹង `%.255s'"
 
 #: src/archives.c utils/update-alternatives.c
 #, c-format
@@ -2134,6 +2431,10 @@ msgid "conffile difference visualizer"
 msgstr ""
 
 #: src/configure.c
+msgid "Useful environment variables:\n"
+msgstr ""
+
+#: src/configure.c
 msgid "Type 'exit' when you're done.\n"
 msgstr "វាយ `exit' នៅ​ពេល​ដែល​អ្នក​បាន​ធ្វើ​រួចរាល់ ។\n"
 
@@ -2508,7 +2809,10 @@ msgid ""
 "  --local                  all packages' versions are diverted.\n"
 "  --divert <divert-to>     the name used by other packages' versions.\n"
 "  --rename                 actually move the file aside (or back).\n"
+"  --no-rename              do not move the file aside (or back) (default).\n"
 "  --admindir <directory>   set the directory with the diversions file.\n"
+"  --instdir <directory>    set the root directory, but not the admin dir.\n"
+"  --root <directory>       set the directory of the root filesystem.\n"
 "  --test                   don't do anything, just demonstrate.\n"
 "  --quiet                  quiet operation, minimal output.\n"
 "  --help                   show this help message.\n"
@@ -2546,6 +2850,12 @@ msgid ""
 "When removing, --package or --local and --divert must match if specified.\n"
 "Package preinst/postrm scripts should always specify --package and --"
 "divert.\n"
+msgstr ""
+
+#: src/divertcmd.c
+msgid ""
+"please specify --no-rename explicitly, the default will change to --rename "
+"in 1.20.x"
 msgstr ""
 
 #: src/divertcmd.c utils/update-alternatives.c
@@ -2678,6 +2988,13 @@ msgid "Ignoring request to rename file '%s' owned by diverting package '%s'\n"
 msgstr "dpkg - ព្រមាន ៖ មិ​នអើពើ​សំណើ​ដើម្បី​យក %.250s ចេញ ដែល​មិន​ត្រូវ​បាន​ដំឡើង ។\n"
 
 #: src/divertcmd.c
+#, c-format
+msgid ""
+"diverting file '%s' from an Essential package with rename is dangerous, use "
+"--no-rename"
+msgstr ""
+
+#: src/divertcmd.c
 #, fuzzy, c-format
 #| msgid "No diversion `%s', none removed"
 msgid "No diversion '%s', none removed.\n"
@@ -2723,19 +3040,6 @@ msgstr "កញ្ចប់​មិនអាច​មាន​បន្ទាត
 #: src/divertcmd.c
 msgid "divert-to may not contain newlines"
 msgstr "បង្វែរ​មិន​អាច​មាន​បន្ទាត់​ថ្មី"
-
-#: src/divertdb.c
-msgid "failed to open diversions file"
-msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ​បង្វែរ"
-
-#: src/divertdb.c
-msgid "failed to fstat diversions file"
-msgstr "បានបរាជ័យលើឯកសារបង្ខែរ fstat"
-
-#: src/divertdb.c
-#, c-format
-msgid "conflicting diversions involving '%.250s' or '%.250s'"
-msgstr "ប៉ះទង្គិចការបង្វែរដែលពាក់ព័ន្ធនឹង `%.250s' ឬ `%.250s'"
 
 #: src/enquiry.c
 msgid ""
@@ -3033,112 +3337,6 @@ msgstr ""
 "dpkg - ព្រមាន បដិសេធបញ្ហាពីព្រោះ --force បានអនុញ្ញាត ៖\n"
 " "
 
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing final newline"
-msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value"
-msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is missing value separator"
-msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "files list file for package `%.250s' contains empty filename"
-msgid "control file '%s' for package '%s' contains empty filename"
-msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "unable to open files list file for package `%.250s'"
-msgid "cannot open control file '%s' for package '%s'"
-msgstr "មិន​អាច​បើក​ឯកសារ ដែល​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "cannot stat control file '%s' for package '%s'"
-msgstr "មិន​អាច​បើក​ឯកសារ ដែល​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-msgid "control file '%s' for package '%s' is not a regular file"
-msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "cannot read config file dir `%.250s' (from `%.250s')"
-msgid "cannot read control file '%s' for package '%s'"
-msgstr "មិន​អាច​អាន​ថត​ឯកសារ​កំណត់​រចនាម្ព័ន្ធ `%.250s' (ពី `%.250s')"
-
-#: src/filesdb-hash.c
-#, fuzzy, c-format
-#| msgid "error closing files list file for package `%.250s'"
-msgid "cannot close control file '%s' for package '%s'"
-msgstr "កំហុស​ក្នុង​ការ​បិទ​ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
-
-#: src/filesdb.c
-#, c-format
-msgid "unable to open files list file for package '%.250s'"
-msgstr "មិន​អាច​បើក​ឯកសារ ដែល​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid ""
-"files list file for package '%.250s' missing; assuming package has no files "
-"currently installed"
-msgstr ""
-"dpkg ៖ ការ​ព្រមាន​ដ៏ធ្ងន់ធ្ងរ ៖ ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​បាត់ សន្មត់​ថា​កញ្ចប់​"
-"គ្មាន​ឯកសារ​ដែល​បាន​ដំឡើង​ថ្មីៗ ។\n"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "unable to stat files list file for package '%.250s'"
-msgstr "មិន​អាច​បើក​ឯកសារ ដែល​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "files list for package '%.250s' is not a regular file"
-msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "files list for package `%.250s'"
-msgid "reading files list for package '%.250s'"
-msgstr "រាយ​កញ្ចប់​​ឯកសារ​ `%.250s'"
-
-#: src/filesdb.c
-#, fuzzy, c-format
-msgid "files list file for package '%.250s' is missing final newline"
-msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
-
-#: src/filesdb.c
-#, c-format
-msgid "files list file for package '%.250s' contains empty filename"
-msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
-
-#: src/filesdb.c
-#, c-format
-msgid "error closing files list file for package '%.250s'"
-msgstr "កំហុស​ក្នុង​ការ​បិទ​ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
-
-#: src/filesdb.c
-msgid "(Reading database ... "
-msgstr "(កំពុង​អាន​មូលដ្ឋាន​ទិន្នន័យ​ ... "
-
-#: src/filesdb.c
-#, fuzzy, c-format
-#| msgid "%d files and directories currently installed.)\n"
-msgid "%d file or directory currently installed.)\n"
-msgid_plural "%d files and directories currently installed.)\n"
-msgstr[0] "%d ឯកសារ និង​ថត​បាន​ដំឡើង​ថ្មីៗ ។)\n"
-msgstr[1] "%d ឯកសារ និង​ថត​បាន​ដំឡើង​ថ្មីៗ ។)\n"
-
 #: src/help.c
 msgid "not installed"
 msgstr "មិនបានដំឡើង"
@@ -3201,42 +3399,6 @@ msgstr ""
 "រក​មិន​ឃើញ​កម្មវិធី​ដែល​បាន​រំពឹង​ទុក %d នៅ​លើ PATH ។\n"
 "NB ៖ PATH របស់ root តាម​ធម្មតា​គួរ​មាន /usr/local/sbin, /usr/sbin and /sbin ។"
 
-#: src/infodb-access.c
-#, c-format
-msgid "unable to check existence of '%.250s'"
-msgstr "មិន​អាច​ពិនិត្យ​មើល​ភាព​មាន​ស្រាប់​របស់`%.250s'"
-
-#: src/infodb-access.c src/infodb-upgrade.c
-msgid "cannot read info directory"
-msgstr "មិន​អាច​អាន​ថត​ព័ត៌មាន"
-
-#: src/infodb-format.c src/unpack.c
-#, c-format
-msgid "error trying to open %.250s"
-msgstr "កំហុស​ក្នុង​ការ​ព្យាយាម​បើក %.250s"
-
-#: src/infodb-format.c
-#, fuzzy, c-format
-msgid "corrupt info database format file '%s'"
-msgstr "មិន​អាច​បើក​ឯកសារ​ប្រភព `%.250s'"
-
-#: src/infodb-format.c
-#, c-format
-msgid "info database format (%d) is bogus or too new; try getting a newer dpkg"
-msgstr ""
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "conffile `%.250s' does not appear in package"
-msgid "info file %s/%s not associated to any package"
-msgstr "conffile `%.250s' មិន​បង្ហាញ​នៅ​ក្នុង​កញ្ចប់"
-
-#: src/infodb-upgrade.c
-#, fuzzy, c-format
-#| msgid "error writing `%s'"
-msgid "error while writing '%s'"
-msgstr "កំហុស​​ក្នុង​ការសរសេរ `%s'"
-
 #: src/main.c
 #, c-format
 msgid "Debian '%s' package management program version %s.\n"
@@ -3246,27 +3408,27 @@ msgstr "កម្មវិធី​គ្រប់គ្រង​កញ្ចប
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
-"  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  --unpack           <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  -A|--record-avail  <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  --configure        <package> ... | -a|--pending\n"
-"  --triggers-only    <package> ... | -a|--pending\n"
-"  -r|--remove        <package> ... | -a|--pending\n"
-"  -P|--purge         <package> ... | -a|--pending\n"
-"  -V|--verify <package> ...        Verify the integrity of package(s).\n"
-"  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+"  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
+"  --unpack           <.deb file name>... | -R|--recursive <directory>...\n"
+"  -A|--record-avail  <.deb file name>... | -R|--recursive <directory>...\n"
+"  --configure        <package>... | -a|--pending\n"
+"  --triggers-only    <package>... | -a|--pending\n"
+"  -r|--remove        <package>... | -a|--pending\n"
+"  -P|--purge         <package>... | -a|--pending\n"
+"  -V|--verify [<package>...]       Verify the integrity of package(s).\n"
+"  --get-selections [<pattern>...]  Get list of selections to stdout.\n"
 "  --set-selections                 Set package selections from stdin.\n"
 "  --clear-selections               Deselect every non-essential package.\n"
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
 "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"  -C|--audit [<package> ...]       Check for broken package(s).\n"
+"  -s|--status [<package>...]       Display package status details.\n"
+"  -p|--print-avail [<package>...]  Display available version details.\n"
+"  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
+"  -l|--list [<pattern>...]         List packages concisely.\n"
+"  -S|--search <pattern>...         Find package(s) owning file(s).\n"
+"  -C|--audit [<package>...]        Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for "
 "installation.\n"
 "  --predep-package                 Print pre-dependencies to unpack.\n"
@@ -3921,6 +4083,10 @@ msgid "Description"
 msgstr "សេចក្តី​ពិពណ៌នា"
 
 #: src/querycmd.c
+msgid "showing package list on pager"
+msgstr ""
+
+#: src/querycmd.c
 #, fuzzy, c-format
 msgid "diversion by %s from: %s\n"
 msgstr "បាន​បង្វែរ​ដោយ %s ទៅ ៖ %s\n"
@@ -3957,6 +4123,16 @@ msgid "package '%s' is not installed and no information is available"
 msgstr "កញ្ចប់ `%s' មិន​ត្រូវ​បាន​ដំឡើង និង​គ្មាន​ព័ត៌មាន​អាច​ប្រើបាន ។\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+msgid "Use dpkg --info (= dpkg-deb --info) to examine archive files.\n"
+msgstr ""
+"ប្រើ dpkg --info (= dpkg-deb --info) ដើម្បី​ពិនិត្យ​មើល​ឯកសារ​ប័ណ្ណសារ\n"
+"និង dpkg --contents (= dpkg-deb --contents) ដើម្បី​រាយ​មាតិកា​របស់​ពួកវា ។\n"
+
+#: src/querycmd.c
 #, fuzzy, c-format
 #| msgid "Package `%s' is not available.\n"
 msgid "package '%s' is not available"
@@ -3983,9 +4159,12 @@ msgid "diverted by %s to: %s\n"
 msgstr "បាន​បង្វែរ​ដោយ %s ទៅ ៖ %s\n"
 
 #: src/querycmd.c
+#, fuzzy
+#| msgid ""
+#| "Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
+#| "and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
 msgid ""
-"Use dpkg --info (= dpkg-deb --info) to examine archive files,\n"
-"and dpkg --contents (= dpkg-deb --contents) to list their contents.\n"
+"Use dpkg --contents (= dpkg-deb --contents) to list archive files contents.\n"
 msgstr ""
 "ប្រើ dpkg --info (= dpkg-deb --info) ដើម្បី​ពិនិត្យ​មើល​ឯកសារ​ប័ណ្ណសារ\n"
 "និង dpkg --contents (= dpkg-deb --contents) ដើម្បី​រាយ​មាតិកា​របស់​ពួកវា ។\n"
@@ -4033,16 +4212,16 @@ msgstr "កម្មវិធី​គ្រប់គ្រង​កញ្ចប
 #, fuzzy, c-format
 msgid ""
 "Commands:\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -W|--show [<pattern> ...]        Show information on package(s).\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"     --control-list <package>      Print the package control file list.\n"
-"     --control-show <package> <file>\n"
+"  -s, --status [<package>...]      Display package status details.\n"
+"  -p, --print-avail [<package>...] Display available version details.\n"
+"  -L, --listfiles <package>...     List files 'owned' by package(s).\n"
+"  -l, --list [<pattern>...]        List packages concisely.\n"
+"  -W, --show [<pattern>...]        Show information on package(s).\n"
+"  -S, --search <pattern>...        Find package(s) owning file(s).\n"
+"      --control-list <package>     Print the package control file list.\n"
+"      --control-show <package> <file>\n"
 "                                   Show the package control file.\n"
-"  -c|--control-path <package> [<file>]\n"
+"  -c, --control-path <package> [<file>]\n"
 "                                   Print path for package control file.\n"
 "\n"
 msgstr ""
@@ -4236,6 +4415,12 @@ msgid "admindir must be inside instdir for dpkg to work properly"
 msgstr ""
 
 #: src/script.c
+msgid ""
+"not enough privileges to change root directory with --force-not-root, "
+"consider using --force-script-chrootless?"
+msgstr ""
+
+#: src/script.c
 #, c-format
 msgid "failed to chroot to '%.250s'"
 msgstr "បាន​បរាជ័យ​ដើម្បី chroot ទៅ `%.250s'"
@@ -4386,6 +4571,8 @@ msgstr ""
 msgid ""
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
+"  --instdir <directory>    set the root directory, but not the admin dir.\n"
+"  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
 "  --force                  force an action even if a sanity check fails.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -4463,72 +4650,6 @@ msgstr "គ្មាន​ការ​បដិសេធ​លេច​ឡើង
 #, fuzzy
 msgid "--update is useless for --remove"
 msgstr "ព្រមាន ៖ --update គឺ​គ្មាន​ប្រយោជន៍​សម្រាប់ --remove"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride uid %s"
-msgstr "ឯកសារ statoverride `%.250s'"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride gid %s"
-msgstr "ឯកសារ statoverride `%.250s'"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "invalid statoverride mode %s"
-msgstr "ឯកសារ statoverride `%.250s'"
-
-#: src/statdb.c
-msgid "failed to open statoverride file"
-msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ statoverride"
-
-#: src/statdb.c
-msgid "failed to fstat statoverride file"
-msgstr "បានបរាជ័យលើឯកសារ fstat statoverride"
-
-#: src/statdb.c
-#, fuzzy, c-format
-#| msgid "statoverride file `%.250s'"
-msgid "reading statoverride file '%.250s'"
-msgstr "ឯកសារ statoverride `%.250s'"
-
-#: src/statdb.c
-#, fuzzy
-msgid "statoverride file is missing final newline"
-msgstr "ឯកសារ statoverride មាន​បន្ទាត់​ទទេ"
-
-#: src/statdb.c
-msgid "statoverride file contains empty line"
-msgstr "ឯកសារ statoverride មាន​បន្ទាត់​ទទេ"
-
-#: src/statdb.c
-#, fuzzy
-msgid "syntax error in statoverride file"
-msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ statoverride"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "unknown user '%s' in statoverride file"
-msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ statoverride"
-
-#: src/statdb.c
-#, fuzzy
-msgid "unexpected end of line in statoverride file"
-msgstr "ចុង​បន្ទាត់​ដែល​មិន​រំពឹង​​ទុកក្នុង​ឈ្មោះ​កញ្ចប់​នៅ​បន្ទាត់ %d"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "unknown group '%s' in statoverride file"
-msgstr "បាន​បរាជ័យ​ក្នុង​ការ​បើក​ឯកសារ statoverride"
-
-#: src/statdb.c
-#, fuzzy, c-format
-msgid "multiple statoverrides present for file '%.250s'"
-msgstr "ឯកសារ statoverride `%.250s'"
 
 #: src/trigcmd.c
 #, fuzzy
@@ -4763,6 +4884,12 @@ msgstr "មិន​កំពុង​កំណត់​រចនាសម្ព
 msgid "De-configuring %s (%s) ...\n"
 msgstr "កំពុងយក %s ចេញ...\n"
 
+#: src/unpack.c
+#, fuzzy
+#| msgid "statoverride file contains empty line"
+msgid "conffile file contains an empty line"
+msgstr "ឯកសារ statoverride មាន​បន្ទាត់​ទទេ"
+
 #: src/unpack.c dpkg-deb/build.c
 #, fuzzy, c-format
 msgid "conffile name '%s' is too long, or missing final newline"
@@ -4900,11 +5027,9 @@ msgid "package filesystem archive extraction"
 msgstr ""
 
 #: src/unpack.c
-msgid "error reading dpkg-deb tar output"
-msgstr "កំហុស​ក្នុង​ការ​អាន​លទ្ធផល dpkg-deb tar"
-
-#: src/unpack.c
-msgid "corrupted filesystem tarfile - corrupted package archive"
+#, fuzzy
+#| msgid "corrupted filesystem tarfile - corrupted package archive"
+msgid "corrupted filesystem tarfile in package archive"
 msgstr "ឯកសារ tar របស់​ប្រព័ន្ធ​ឯកសារ​ដែល​ខូច - ប័ណ្ណសារ​កញ្ចប់​ដែល​ខូច"
 
 #: src/unpack.c
@@ -6168,8 +6293,9 @@ msgid ""
 "  --skip-auto              skip prompt for alternatives correctly "
 "configured\n"
 "                           in automatic mode (relevant for --config only)\n"
-"  --verbose                verbose operation, more output.\n"
 "  --quiet                  quiet operation, minimal output.\n"
+"  --verbose                verbose operation, more output.\n"
+"  --debug                  debug output, way more output.\n"
 "  --help                   show this help message.\n"
 "  --version                show the version.\n"
 msgstr ""
@@ -6676,6 +6802,43 @@ msgstr ""
 msgid "Authentication is required to run update-alternatives"
 msgstr ""
 
+#~ msgid "error reading dpkg-deb tar output"
+#~ msgstr "កំហុស​ក្នុង​ការ​អាន​លទ្ធផល dpkg-deb tar"
+
+#, fuzzy
+#~| msgid "unable to open files list file for package `%.250s'"
+#~ msgid "cannot open control file '%s' for package '%s'"
+#~ msgstr "មិន​អាច​បើក​ឯកសារ ដែល​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
+
+#, fuzzy
+#~ msgid "cannot stat control file '%s' for package '%s'"
+#~ msgstr "មិន​អាច​បើក​ឯកសារ ដែល​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
+
+#, fuzzy
+#~ msgid "control file '%s' for package '%s' is not a regular file"
+#~ msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
+
+#, fuzzy
+#~| msgid "error closing files list file for package `%.250s'"
+#~ msgid "cannot close control file '%s' for package '%s'"
+#~ msgstr "កំហុស​ក្នុង​ការ​បិទ​ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
+
+#~ msgid "unable to open files list file for package '%.250s'"
+#~ msgstr "មិន​អាច​បើក​ឯកសារ ដែល​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
+
+#, fuzzy
+#~ msgid "unable to stat files list file for package '%.250s'"
+#~ msgstr "មិន​អាច​បើក​ឯកសារ ដែល​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s'"
+
+#, fuzzy
+#~ msgid "files list for package '%.250s' is not a regular file"
+#~ msgstr "ឯកសារ​រាយ​ឯកសារ​សម្រាប់​កញ្ចប់ `%.250s' ដែល​មាន​ឈ្មោះ​ឯកសារ​ទទេ"
+
+#, fuzzy
+#~| msgid "files list for package `%.250s'"
+#~ msgid "reading files list for package '%.250s'"
+#~ msgstr "រាយ​កញ្ចប់​​ឯកសារ​ `%.250s'"
+
 #~ msgid "failed to chdir to directory after creating it"
 #~ msgstr "បាន​បរាជ័យ chdir ទៅ​ថត បន្ទាប់​ពី​បង្កើត​វា"
 
@@ -7053,11 +7216,6 @@ msgstr ""
 #~ msgstr " កូនចៅ %s ៖ %s"
 
 #, fuzzy
-#~| msgid "cannot stat old name `%s': %s"
-#~ msgid "cannot stat %s: %s"
-#~ msgstr "មិន​អាច​ចាប់​ផ្ដើម​ឈ្មោះ​ចាស់ `%s' ៖ %s"
-
-#, fuzzy
 #~| msgid "%s: copying %s to %s failed, giving up: %s"
 #~ msgid "scan of %s failed: %s"
 #~ msgstr "%s ៖ ចម្លង %s ទៅ %s បាន​បរាជ័យ បោះបង់ ៖ %s"
@@ -7082,11 +7240,6 @@ msgstr ""
 
 #~ msgid "unable to close %s: %s"
 #~ msgstr "មិន​អាច​បិទ %s ៖ %s"
-
-#, fuzzy
-#~| msgid "unable to write %s: %s"
-#~ msgid "cannot write %s: %s"
-#~ msgstr "មិន​អាច​សរសេរ %s ៖ %s"
 
 #, fuzzy
 #~| msgid "unable to rename %s to %s: %s"

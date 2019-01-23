@@ -27,7 +27,6 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-#include <assert.h>
 #include <string.h>
 #include <fcntl.h>
 #include <dirent.h>
@@ -42,15 +41,16 @@
 #include <dpkg/pkg-queue.h>
 #include <dpkg/string.h>
 #include <dpkg/options.h>
+#include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 
-#include "filesdb.h"
-#include "infodb.h"
 #include "main.h"
 
 static struct pkginfo *progress_bytrigproc;
 static struct pkg_queue queue = PKG_QUEUE_INIT;
 
-int sincenothing = 0, dependtry = 1;
+enum dependtry dependtry = DEPEND_TRY_NORMAL;
+int sincenothing = 0;
 
 void
 enqueue_package(struct pkginfo *pkg)
@@ -72,11 +72,11 @@ enqueue_package_mark_seen(struct pkginfo *pkg)
 static void
 enqueue_pending(void)
 {
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
 
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter)) != NULL) {
+  iter = pkg_hash_iter_new();
+  while ((pkg = pkg_hash_iter_next_pkg(iter)) != NULL) {
     switch (cipaction->arg_int) {
     case act_configure:
       if (!(pkg->status == PKG_STAT_UNPACKED ||
@@ -108,7 +108,7 @@ enqueue_pending(void)
     }
     enqueue_package(pkg);
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 }
 
 static void
@@ -232,17 +232,22 @@ void process_queue(void) {
        * trigger processing, w/o jumping into the next dependtry. */
       dependtry++;
       sincenothing = 0;
-      assert(dependtry <= 4);
+      if (dependtry >= DEPEND_TRY_LAST)
+        internerr("exceeded dependtry %d (sincenothing=%d; queue.length=%d)",
+                  dependtry, sincenothing, queue.length);
     } else if (sincenothing > queue.length * 2 + 2) {
-      /* XXX: This probably needs moving into a new dependtry instead. */
-      if (progress_bytrigproc && progress_bytrigproc->trigpend_head) {
+      if (dependtry >= DEPEND_TRY_TRIGGERS &&
+          progress_bytrigproc && progress_bytrigproc->trigpend_head) {
         enqueue_package(pkg);
         pkg = progress_bytrigproc;
+        progress_bytrigproc = NULL;
         action_todo = act_configure;
       } else {
         dependtry++;
         sincenothing = 0;
-        assert(dependtry <= 4);
+        if (dependtry >= DEPEND_TRY_LAST)
+          internerr("exceeded dependtry %d (sincenothing=%d, queue.length=%d)",
+                    dependtry, sincenothing, queue.length);
       }
     }
 
@@ -250,7 +255,8 @@ void process_queue(void) {
           pkg_name(pkg, pnaw_always), queue.length, sincenothing, dependtry);
 
     if (pkg->status > PKG_STAT_INSTALLED)
-      internerr("package status (%d) > PKG_STAT_INSTALLED", pkg->status);
+      internerr("package %s status %d is out-of-bounds",
+                pkg_name(pkg, pnaw_always), pkg->status);
 
     if (setjmp(ejbuf)) {
       /* Give up on it from the point of view of other packages, i.e. reset
@@ -280,7 +286,7 @@ void process_queue(void) {
     case act_configure:
       /* Do whatever is most needed. */
       if (pkg->trigpend_head)
-        trigproc(pkg, TRIGPROC_REQUIRED);
+        trigproc(pkg, TRIGPROC_TRY_QUEUED);
       else
         deferred_configure(pkg);
       break;
@@ -295,7 +301,10 @@ void process_queue(void) {
 
     pop_error_context(ehflag_normaltidy);
   }
-  assert(!queue.length);
+
+  if (queue.length)
+    internerr("finished package processing with non-empty queue length %d",
+              queue.length);
 }
 
 /*** Dependency processing - common to --configure and --remove. ***/
@@ -341,6 +350,15 @@ enum found_status {
   FOUND_FORCED = 2,
   FOUND_OK = 3,
 };
+
+static enum found_status
+found_forced_on(enum dependtry dependtry_forced)
+{
+  if (dependtry >= dependtry_forced)
+    return FOUND_FORCED;
+  else
+    return FOUND_DEFER;
+}
 
 /*
  * Return values:
@@ -399,7 +417,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
                         pkg_name(possdependee, pnaw_always),
                         versiondescribe(&provider->version, vdew_nonambig));
           if (fc_dependsversion)
-            thisf = (dependtry >= 3) ? FOUND_FORCED : FOUND_DEFER;
+            thisf = found_forced_on(DEPEND_TRY_FORCE_DEPENDS_VERSION);
           debug(dbg_depcondetail, "      bad version");
           goto unsuitable;
         }
@@ -412,7 +430,7 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
                         versiondescribe(&possdependee->installed.version,
                                         vdew_nonambig));
           if (fc_dependsversion)
-            thisf = (dependtry >= 3) ? FOUND_FORCED : FOUND_DEFER;
+            thisf = found_forced_on(DEPEND_TRY_FORCE_DEPENDS_VERSION);
           debug(dbg_depcondetail, "      bad version");
           goto unsuitable;
         }
@@ -424,10 +442,15 @@ deppossi_ok_found(struct pkginfo *possdependee, struct pkginfo *requiredby,
       return FOUND_OK;
     }
     if (possdependee->status == PKG_STAT_TRIGGERSAWAITED) {
-      assert(possdependee->trigaw.head);
+      if (possdependee->trigaw.head == NULL)
+        internerr("package %s in state %s, has no awaited triggers",
+                  pkg_name(possdependee, pnaw_always),
+                  pkg_status_name(possdependee));
+
       if (removing ||
           !(f_triggers ||
-            possdependee->clientdata->istobe == PKG_ISTOBE_INSTALLNEW)) {
+            (possdependee->clientdata &&
+             possdependee->clientdata->istobe == PKG_ISTOBE_INSTALLNEW))) {
         if (provider) {
           varbuf_printf(oemsgs,
                         _("  Package %s which provides %s awaits trigger processing.\n"),
@@ -676,7 +699,7 @@ dependencies_ok(struct pkginfo *pkg, struct pkginfo *removing,
       if (thisf > found) found= thisf;
     }
     if (fc_depends) {
-      thisf = (dependtry >= 4) ? FOUND_FORCED : FOUND_DEFER;
+      thisf = found_forced_on(DEPEND_TRY_FORCE_DEPENDS);
       if (thisf > found) {
         found = thisf;
         debug(dbg_depcondetail, "  rescued by force-depends, found %d", found);

@@ -3,7 +3,7 @@
 .\" Copyright © 1995 Ian Jackson <ijackson@chiark.greenend.org.uk>
 .\" Copyright © 1999 Wichert Akkerman <wakkerma@debian.org>
 .\" Copyright © 2004 Scott James Remnant <keybuk@debian.org>
-.\" Copyright © 2007-2013, 2015 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2007-2013, 2015-2018 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -48,26 +48,38 @@ recentere versie van een pakket dat die bestanden bevat.
 .SH COMMANDO'S
 .TP 
 [\fB\-\-add\fP] \fIbestand\fP
-Voeg voor \fIbestand\fP een omlegging toe.
+Voeg een omlegging toe voor \fIbestand\fP. Het bestand wordt momenteel niet
+hernoemd, zie \fB\-\-rename\fP.
 .TP 
-\fB\-\-remove\fP \fIbestand\fP
-Verwijder een omlegging voor \fIbestand\fP.
+\fB\-\-remove\fP\fI bestand\fP
+Verwijder een omlegging voor \fIbestand\fP. Het bestand wordt momenteel niet
+hernoemd, zie \fB\-\-rename\fP.
 .TP 
-\fB\-\-list\fP \fIglob\-patroon\fP
+\fB\-\-list\fP\fI glob\-patroon\fP
 Som de omleggingen op die aan \fIglob\-patroon\fP beantwoorden.
 .TP 
-\fB\-\-listpackage\fP \fIbestand\fP
+\fB\-\-listpackage\fP\fI bestand\fP
 Geef de naam van het pakket weer dat \fIbestand\fP omleidt (sinds dpkg
 1.15.0). Vermeldt LOCAL als \fIbestand\fP lokaal omgeleid werd en niets als
 \fIbestand\fP niet omgeleid werd.
 .TP 
-\fB\-\-truename\fP \fIbestand\fP
+\fB\-\-truename\fP\fI bestand\fP
 Vermeld de echte naam van een omgeleid bestand.
 .
 .SH OPTIES
 .TP 
-\fB\-\-admindir\fP \fImap\fP
-Stel de datamap van \fBdpkg\fP in op \fImap\fP (standaard: \fI%ADMINDIR%\fP).
+\fB\-\-admindir\fP\fI map\fP
+Stel de  administratieve map in op \fImap\fP. Standaard is dit «\fI%ADMINDIR%\fP».
+.TP 
+\fB\-\-instdir\fP\fI map\fP
+Stel de installatiemap in, welke verwijst naar de map waar pakketten
+geïnstalleerd worden (sinds dpkg 1.19.2). Staat standaard ingesteld op
+«\fI/\fP».
+.TP 
+\fB\-\-root\fP\fI map\fP
+Stel de hoofdmap in op \fBmap\fP, hetgeen de installatiemap instelt op
+«\fImap\fP» en de administratieve map op «\fImap\fP\fB%ADMINDIR%\fP» (sinds dpkg
+1.19.2).
 .TP 
 \fB\-\-divert\fP \fIleid\-om\-naar\fP
 \fIleid\-om\-naar\fP is de locatie waarnaartoe de versies van \fIbestand\fP die door
@@ -89,7 +101,18 @@ Stille modus, m.a.w. geen breedsprakige uitvoer.
 .TP 
 \fB\-\-rename\fP
 Zet het bestand effectief uit de weg (of terug). \fBdpkg\-divert\fP zal de
-bewerking afbreken indien het doelbestand reeds bestaat.
+bewerking afbreken indien het doelbestand reeds bestaat. Dit is het gangbare
+gedrag dat gebruikt wordt voor het omleggen van bestanden uit het geheel van
+niet\-\fBEssential\fP pakketten (zie \fB\-\-no\-rename\fP voor meer details).
+.TP 
+\fB\-\-no\-rename\fP
+Geeft aan dat het bestand niet hernoemd mag worden als de omlegging
+toegevoegd wordt aan of verwijderd wordt uit de databank van omleggingen
+(sinds dpkg 1.19.1). Dit is bedoeld voor omleggingen van bestanden uit het
+geheel van \fBEssential\fP pakketten, waarvoor het tijdelijk verdwijnen van het
+originele bestand onaanvaardbaar is, aangezien dit het systeem onbruikbaar
+kan maken. Dit is het standaardgedrag, maar dat zal veranderen in de cyclus
+1.20.x van dpkg.
 .TP 
 \fB\-\-test\fP
 Testmodus. Voer m.a.w. geen enkele wijziging effectief uit. Geef enkel een
@@ -113,14 +136,23 @@ database, het toewijzen van geheugen, enz.
 .
 .SH OMGEVING
 .TP 
+\fBDPKG_ROOT\fP
+Indien dit ingesteld is en de opties \fB\-\-instdir\fP of \fB\-\-root\fP niet
+opgegeven werden, zal dit gebruikt worden als de hoofdmap voor het
+bestandssysteem (sinds dpkg 1.19.2).
+.TP 
 \fBDPKG_ADMINDIR\fP
-Indien dit ingesteld werd en de optie \fB\-\-admindir\fP niet gebruikt werd, zal
-dit gebruikt worden als de datamap voor \fBdpkg\fP.
+Indien dit ingesteld is en de opties \fB\-\-admindir\fP of \fB\-\-root\fP niet
+opgegeven werden, zal dit gebruikt worden als de datamap voor \fBdpkg\fP.
 .TP 
 \fBDPKG_MAINTSCRIPT_PACKAGE\fP
 Indien dit ingesteld werd en de opties \fB\-\-local\fP en \fB\-\-package\fP niet
 gebruikt werden, zal \fBdpkg\-divert\fP dit gebruiken als de naam van het
 pakket.
+.TP 
+\fBDPKG_COLORS\fP
+Stelt de kleurmodus in (sinds dpkg 1.18.5). Waarden die momenteel gebruikt
+mogen worden zijn: \fBauto\fP (standaard), \fBalways\fP en \fBnever\fP.
 .
 .SH BESTANDEN
 .TP 

@@ -31,9 +31,11 @@ dist_pkgdata_DATA = \
 	$(nil)
 
 EXTRA_DIST = \
+	.gitlab-ci.yml \
 	.mailmap \
 	ChangeLog.old \
 	README.l10n \
+	autogen \
 	get-version \
 	run-script \
 	doc/README.api \
@@ -78,6 +80,9 @@ EXTRA_DIST = \
 	debian/rules \
 	debian/shlibs.default \
 	debian/shlibs.override \
+	debian/tests/control \
+	debian/tests/test-not-root \
+	debian/tests/test-root \
 	po/its/polkit.its \
 	po/its/polkit.loc \
 	$(test_scripts) \
@@ -148,6 +153,7 @@ coverage-clean:
 endif
 
 test_scripts = \
+	t/po.t \
 	t/pod.t \
 	t/pod-spell.t \
 	t/pod-coverage.t \
@@ -157,10 +163,15 @@ test_scripts = \
 	t/syntax.t \
 	t/strict.t \
 	t/critic.t \
+	t/codespell.t \
+	t/shellcheck.t \
+	t/cppcheck.t \
 	$(nil)
 
 test_data = \
 	t/critic/perlcriticrc \
+	t/codespell/stopwords \
+	t/cppcheck/cppcheck.supp \
 	$(nil)
 
 # We need to use absolute paths here due to strict.t invoking a sub-perl,
@@ -179,9 +190,11 @@ update-po:
 	$(MAKE) -C dselect/po update-po
 	$(MAKE) -C man update-po
 
+include $(top_srcdir)/cpan.am
+
 # If we create the dist tarball from the git repository, make sure
 # that we're not forgetting some files...
-dist-hook:
+dist-hook: dist-cpan
 	echo $(VERSION) >$(distdir)/.dist-version
 	if [ -e .git ]; then \
 	  for file in `git ls-files | grep -v .gitignore`; do \

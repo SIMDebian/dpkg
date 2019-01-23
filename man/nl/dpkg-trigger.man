@@ -82,7 +82,9 @@ niet verwerkt.
 .TP 
 \fB\-\-await\fP
 Deze optie doet het tegenovergestelde van \fB\-\-no\-await\fP (sinds dpkg
-1.17.21). Dit is momenteel het standaardgedrag.
+1.17.21). Indien het belanghebbende pakket een “noawait”\-opdracht
+gedeclareerd heeft, zal deze optie geen effect hebben. Dit is momenteel het
+standaardgedrag.
 .TP 
 \fB\-\-no\-act\fP
 Test de zaak enkel uit, maar voer geen enkele effectieve wijziging door.
@@ -107,6 +109,10 @@ database, het toewijzen van geheugen, enz.
 \fBDPKG_ADMINDIR\fP
 Indien dit ingesteld werd en de optie \fB\-\-admindir\fP niet gebruikt werd, zal
 dit gebruikt worden als de datamap voor \fBdpkg\fP.
+.TP 
+\fBDPKG_COLORS\fP
+Stelt de kleurmodus in (sinds dpkg 1.18.5). Waarden die momenteel gebruikt
+mogen worden zijn: \fBauto\fP (standaard), \fBalways\fP en \fBnever\fP.
 .
 .SH "ZIE OOK"
 .\" FIXME: Unhardcode the pathname, and use dpkg instead of dpkg-dev.

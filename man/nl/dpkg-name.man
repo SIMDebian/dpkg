@@ -76,6 +76,18 @@ Toon info over het gebruik en sluit af.
 \fB\-v\fP, \fB\-\-version\fP
 Toon de versie en sluit af.
 .
+.SH OMGEVING
+.TP 
+\fBDPKG_COLORS\fP
+Stelt de kleurmodus in (sinds dpkg 1.18.5). Waarden die momenteel gebruikt
+mogen worden zijn: \fBauto\fP (standaard), \fBalways\fP en \fBnever\fP.
+.TP 
+\fBDPKG_NLS\fP
+Indien dit ingesteld is, zal het gebruikt worden om te beslissen over het
+activeren van moedertaalondersteuning, ook gekend als
+internationaliseringsondersteuning (of i18n) (sinds dpkg 1.19.0). Geldige
+waarden zijn: \fB0\fP and \fB1\fP (standaard).
+.
 .SH BUGS
 Bepaalde pakketten volgen de naamstructuur
 \fIpakket\fP\fB_\fP\fIversie\fP\fB_\fP\fIarchitectuur\fP\fB.deb\fP niet. Pakketten die door

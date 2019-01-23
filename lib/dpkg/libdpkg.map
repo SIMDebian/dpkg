@@ -46,6 +46,7 @@ LIBDPKG_PRIVATE {
 	catch_fatal_error;
 	push_checkpoint;
 	push_cleanup;
+	push_cleanup_fallback;
 	pop_cleanup;
 	onerr_abort;		# XXX variable, do not export
 	ohshitv;
@@ -54,6 +55,8 @@ LIBDPKG_PRIVATE {
 	do_internerr;
 	dpkg_set_report_piped_mode;
 	dpkg_set_report_buffer;
+	dpkg_warning_printer;
+	dpkg_set_warning_printer;
 	warning_get_count;
 	warningv;
 	warning;
@@ -79,6 +82,7 @@ LIBDPKG_PRIVATE {
 	m_strdup;
 	m_vasprintf;
 	m_asprintf;
+	m_dup;
 	m_dup2;
 	m_pipe;
 	m_output;
@@ -90,6 +94,7 @@ LIBDPKG_PRIVATE {
 
 	str_match_end;
 	str_fnv_hash;
+	str_concat;
 	str_fmt;
 	str_escape_fmt;
 	str_strip_quotes;
@@ -98,6 +103,7 @@ LIBDPKG_PRIVATE {
 	str_gen_crop;
 
 	# Variable buffer support
+	varbuf_new;
 	varbuf_init;
 	varbuf_reset;
 	varbuf_grow;
@@ -114,6 +120,7 @@ LIBDPKG_PRIVATE {
 	varbuf_snapshot;
 	varbuf_rollback;
 	varbuf_destroy;
+	varbuf_free;
 
 	# Path, directory and file functions
 	secure_unlink_statted;
@@ -176,9 +183,12 @@ LIBDPKG_PRIVATE {
 	command_add_argv;
 	command_add_args;
 	command_exec;
-	command_get_pager;
 	command_shell;
 	command_destroy;
+
+	pager_get_exec;
+	pager_spawn;
+	pager_reap;
 
 	setcloexec;
 
@@ -278,8 +288,10 @@ LIBDPKG_PRIVATE {
 	varbuf_add_source_version;
 	pkgbin_name;
 	pkg_name;
+	pkgbin_name_const;
+	pkg_name_const;
 	pkg_source_version;
-	pkgbin_summary;
+	pkgbin_synopsis;
 	pkg_abbrev_want;
 	pkg_abbrev_status;
 	pkg_abbrev_eflag;
@@ -294,7 +306,7 @@ LIBDPKG_PRIVATE {
 	pkg_list_prepend;
 
 	# Package array handling
-	pkg_array_init_from_db;
+	pkg_array_init_from_hash;
 	pkg_array_init_from_names;
 	pkg_array_foreach;
 	pkg_array_sort;
@@ -306,6 +318,18 @@ LIBDPKG_PRIVATE {
 	pkg_queue_is_empty;
 	pkg_queue_push;
 	pkg_queue_pop;
+
+	# Package in-core database functions
+	pkg_hash_find_set;
+	pkg_hash_find_singleton;
+	pkg_hash_find_pkg;
+	pkg_hash_count_set;
+	pkg_hash_count_pkg;
+	pkg_hash_reset;
+	pkg_hash_iter_new;
+	pkg_hash_iter_next_set;
+	pkg_hash_iter_next_pkg;
+	pkg_hash_iter_free;
 
 	# Package field handling
 	fieldinfos;		# XXX variable, do not export
@@ -330,18 +354,6 @@ LIBDPKG_PRIVATE {
 	pkg_spec_iter_next_pkg;
 	pkg_spec_iter_destroy;
 
-	# Package in-core database functions
-	pkg_db_find_set;
-	pkg_db_find_singleton;
-	pkg_db_find_pkg;
-	pkg_db_count_set;
-	pkg_db_count_pkg;
-	pkg_db_reset;
-	pkg_db_iter_new;
-	pkg_db_iter_next_set;
-	pkg_db_iter_next_pkg;
-	pkg_db_iter_free;
-
 	# Dependency and Conflict functions
 	pkg_virtual_deppossi_satisfied;
 	deparchsatisfied;
@@ -360,6 +372,7 @@ LIBDPKG_PRIVATE {
 	parsedb_parse;
 	parsedb_close;
 	parsedb;
+	writedb_records;
 	writedb;
 
 	dpkg_db_set_dir;
@@ -379,6 +392,52 @@ LIBDPKG_PRIVATE {
 	modstatdb_checkpoint;
 	modstatdb_shutdown;
 	modstatdb_done;
+
+	# Package on-disk control database support
+	pkg_infodb_foreach;
+	pkg_infodb_get_dir;
+	pkg_infodb_get_file;
+	pkg_infodb_has_file;
+	pkg_infodb_upgrade;
+
+	# Package on-disk diversion database support
+	ensure_diversions;
+
+	# Filesystem node hash support
+	fsys_hash_init;
+	fsys_hash_reset;
+	fsys_hash_entries;
+	fsys_hash_find_node;
+
+	fsys_hash_iter_new;
+	fsys_hash_iter_next;
+	fsys_hash_iter_free;
+
+	fsys_hash_rev_iter_init;
+	fsys_hash_rev_iter_next;
+	fsys_hash_rev_iter_abort;
+
+	fsys_node_pkgs_iter_new;
+	fsys_node_pkgs_iter_next;
+	fsys_node_pkgs_iter_free;
+
+	dpkg_fsys_set_dir;
+	dpkg_fsys_get_dir;
+	dpkg_fsys_get_path;
+
+	# Package on-disk filesystem database support
+	parse_filehash;
+	write_filelist_except;
+	write_filehash_except;
+	ensure_packagefiles_available;
+	ensure_allinstfiles_available;
+	ensure_allinstfiles_available_quiet;
+
+	# Package on-disk stat override database support
+	statdb_parse_uid;
+	statdb_parse_gid;
+	statdb_parse_mode;
+	ensure_statoverrides;
 
 	# Triggers support
 	trig_name_is_illegal;

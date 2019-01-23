@@ -22,16 +22,22 @@
 #include <config.h>
 #include <compat.h>
 
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #include <errno.h>
 #include <limits.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
 
 #include <dpkg/i18n.h>
 #include <dpkg/error.h>
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
+#include <dpkg/db-ctrl.h>
+#include <dpkg/db-fsys.h>
 #include <dpkg/parsedump.h>
 #include <dpkg/pkg-show.h>
 #include <dpkg/pkg-format.h>
@@ -194,11 +200,8 @@ pkg_format_parse(const char *fmt, struct dpkg_error *err)
 			fmtend = fmt;
 			do {
 				fmtend += 1;
-				fmtend = strchr(fmtend, '$');
-			} while (fmtend && fmtend[1] != '{');
-
-			if (!fmtend)
-				fmtend = fmt + strlen(fmt);
+				fmtend = strchrnul(fmtend, '$');
+			} while (fmtend[0] && fmtend[1] != '{');
 
 			if (!parsestring(node, fmt, fmtend - 1, err)) {
 				pkg_format_free(head);
@@ -269,16 +272,66 @@ virt_status_eflag(struct varbuf *vb,
 }
 
 static void
-virt_summary(struct varbuf *vb,
-             const struct pkginfo *pkg, const struct pkgbin *pkgbin,
-             enum fwriteflags flags, const struct fieldinfo *fip)
+virt_synopsis(struct varbuf *vb,
+              const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+              enum fwriteflags flags, const struct fieldinfo *fip)
 {
 	const char *desc;
 	int len;
 
-	desc = pkgbin_summary(pkg, pkgbin, &len);
+	desc = pkgbin_synopsis(pkg, pkgbin, &len);
 
 	varbuf_add_buf(vb, desc, len);
+}
+
+static void
+virt_fsys_last_modified(struct varbuf *vb,
+                        const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                        enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	const char *listfile;
+	struct stat st;
+
+	if (pkg->status == PKG_STAT_NOTINSTALLED)
+		return;
+
+	listfile = pkg_infodb_get_file(pkg, pkgbin, LISTFILE);
+
+	if (stat(listfile, &st) < 0) {
+		if (errno == ENOENT)
+			return;
+
+		ohshite(_("cannot get package %s filesystem last modification time"),
+		        pkgbin_name_const(pkg, pkgbin, pnaw_nonambig));
+	}
+
+	varbuf_printf(vb, "%ld", st.st_mtime);
+}
+
+static void
+virt_fsys_files(struct varbuf *vb,
+                const struct pkginfo *pkg, const struct pkgbin *pkgbin,
+                enum fwriteflags flags, const struct fieldinfo *fip)
+{
+	struct fsys_namenode_list *node;
+
+	/* XXX: This cast is so wrong on so many levels, but the alternatives
+	 * are apparently worse. We might need to end up removing the const
+	 * from the arguments.
+	 *
+	 * Ideally loading the entire fsys db would be cheaper, and stored
+	 * in a single file, so we could do it unconditionally, before any
+	 * formatting. */
+	ensure_packagefiles_available((struct pkginfo *)pkg);
+
+	if (!pkg->files_list_valid)
+		return;
+
+	for (node = pkg->files; node; node = node->next) {
+		varbuf_add_char(vb, ' ');
+		varbuf_add_str(vb, node->namenode->name);
+		varbuf_add_char(vb, '\n');
+	}
 }
 
 static void
@@ -321,11 +374,14 @@ virt_source_upstream_version(struct varbuf *vb,
 
 static const struct fieldinfo virtinfos[] = {
 	{ FIELD("binary:Package"), NULL, virt_package },
-	{ FIELD("binary:Summary"), NULL, virt_summary },
+	{ FIELD("binary:Synopsis"), NULL, virt_synopsis },
+	{ FIELD("binary:Summary"), NULL, virt_synopsis },
 	{ FIELD("db:Status-Abbrev"), NULL, virt_status_abbrev },
 	{ FIELD("db:Status-Want"), NULL, virt_status_want },
 	{ FIELD("db:Status-Status"), NULL, virt_status_status },
 	{ FIELD("db:Status-Eflag"), NULL, virt_status_eflag },
+	{ FIELD("db-fsys:Files"), NULL, virt_fsys_files },
+	{ FIELD("db-fsys:Last-Modified"), NULL, virt_fsys_last_modified },
 	{ FIELD("source:Package"), NULL, virt_source_package },
 	{ FIELD("source:Version"), NULL, virt_source_version },
 	{ FIELD("source:Upstream-Version"), NULL, virt_source_upstream_version },

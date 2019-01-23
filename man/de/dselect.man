@@ -153,10 +153,10 @@ angezeigt wird:
 .SS Zugriff
 Wähle und konfiguriere eine Zugriffsmethode für Paketdepots.
 .sp
-By default, \fBdselect\fP provides several methods such as \fIcdrom\fP,
-\fImulti_cd\fP, \fInfs\fP, \fImulti_nfs\fP, \fIharddisk\fP, \fImounted\fP, \fImulti_mount\fP
-or \fIftp\fP, but other packages may provide additional methods, eg. the \fIapt\fP
-access method provided by the \fBapt\fP package.
+Standardmäßig stellt \fBdselect\fP mehrere Methoden wie \fIcdrom\fP, \fImulti_cd\fP,
+\fInfs\fP, \fImulti_nfs\fP, \fIharddisk\fP, \fImounted\fP, \fImulti_mount\fP oder \fIftp\fP
+zur Verfügung, aber andere Pakete können zusätzliche Methoden bereitstellen,
+z.B. stellt das \fBapt\fP\-Paket die \fIapt\fP\-Zugriffsmethode bereit.
 .sp
 Die Verwendung der \fIapt\fP\-Zugriffsmethode wird nachdrücklich empfohlen.
 .sp
@@ -495,7 +495,7 @@ die eingebauten Zugriffsmethoden.
 .SH "SIEHE AUCH"
 \fBdpkg\fP(1), \fBapt\-get\fP(8), \fBsources.list\fP(5), \fBdeb\fP(5).
 .SH ÜBERSETZUNG
-Die deutsche Übersetzung wurde 2004, 2006-2017 von Helge Kreutzmann
+Die deutsche Übersetzung wurde 2004, 2006-2018 von Helge Kreutzmann
 <debian@helgefjell.de>, 2007 von Florian Rehnisch <eixman@gmx.de> und
 2008 von Sven Joachim <svenjoac@gmx.de>
 angefertigt. Diese Übersetzung ist Freie Dokumentation; lesen Sie die

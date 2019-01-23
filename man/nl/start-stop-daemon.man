@@ -5,7 +5,7 @@
 .\" Copyright © 2000-2001 Wichert Akkerman <wakkerma@debian.org>
 .\" Copyright © 2002-2003 Adam Heath <doogie@debian.org>
 .\" Copyright © 2004 Scott James Remnant <keybuk@debian.org>
-.\" Copyright © 2008-2015 Guillem Jover <guillem@debian.org>
+.\" Copyright © 2008-2016, 2018 Guillem Jover <guillem@debian.org>
 .\"
 .\" This is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -93,10 +93,19 @@ Ga na of een proces bestaat met het opgegeven moeder\-pid \fImoeder\-pid\fP
 (sinds versie 1.17.7). Het \fImoeder\-pid\fP moet een getal zijn groter dan 0.
 .TP 
 \fB\-p\fP, \fB\-\-pidfile\fP \fIpid\-bestand\fP
-Ga na of een proces het bestand \fIpid\-bestand\fP aangemaakt heeft. Opmerking:
-enkel deze vergelijkingsoptie gebruiken, kan ertoe leiden dat geageerd wordt
-op niet\-bedoelde processen in het geval het oude proces eindigde zonder dat
-het in staat was het \fIpid\-bestand\fP te verwijderen.
+Ga na of een proces het bestand \fIpid\-bestand\fP aangemaakt heeft.
+.IP
+Opmerking: deze vergelijkingsoptie alleen gebruiken, kan ertoe leiden dat
+geageerd wordt op niet\-bedoelde processen in het geval het oude proces
+eindigde zonder dat het in staat was het \fIpid\-bestand\fP te verwijderen.
+.IP
+\fBWaarschuwing:\fP Deze vergelijkingsoptie alleen gebruiken met een
+achtergronddienst die het pid\-bestand wegschrijft als gebruiker zonder
+bijzondere rechten, houdt een veiligheidsrisico in. Namelijk, als de
+achtergronddienst aangetast raakt, kan de inhoud van het pid\-bestand niet
+vertrouwd worden met als resultaat dat een programmauitvoerder met
+bijzondere rechten (zoals een init\-script dat als systeembeheerder
+uitgevoerd wordt) op gelijk welk systeemproces kan inwerken.
 .TP 
 \fB\-x\fP, \fB\-\-exec\fP \fIprogramma\fP
 Ga na of er processen bestaan die exemplaren zijn van dit \fIprogramma\fP. Het
@@ -203,6 +212,32 @@ mislukken. Dit is een laatste toevlucht en is enkel bedoeld voor programma's
 waarvoor het ofwel geen zin heeft om uit zichzelf een nieuw proces (fork) te
 beginnen, of waarvoor het ondoenbaar is om code toe te voegen waardoor ze
 dat uit zichzelf zouden doen.
+.TP 
+\fB\-\-notify\-await\fP
+Wait for the background process to send a readiness notification before
+considering the service started (since version 1.19.3).  This implements
+parts of the systemd readiness procotol, as specified in the \fBsd_notify\fP(3)
+man page.  The following variables are supported:
+.RS
+.TP 
+\fBREADY=1\fP
+The program is ready to give service, so we can exit safely.
+.TP 
+\fBEXTEND_TIMEOUT_USEC=\fP\fInumber\fP
+The program requests to extend the timeout by \fInumber\fP microseconds.  This
+will reset the current timeout to the specified value.
+.TP 
+\fBERRNO=\fP\fInumber\fP
+The program is exiting with an error.  Do the same and print the
+user\-friendly string for the \fBerrno\fP value.
+.RE
+.
+.TP 
+\fB\-\-notify\-timeout\fP\fItimeout\fP
+Set a timeout for the \fB\-\-notify\-await\fP option (since version 1.19.3).  When
+the timeout is reached, \fBstart\-stop\-daemon\fP will exit with an error code,
+and no readiness notification will be awaited.  The default is \fB60\fP
+seconds.
 .TP 
 \fB\-C\fP, \fB\-\-no\-close\fP
 Sluit een eventuele bestandsindicator niet bij het naar de achtergrond

@@ -93,3 +93,13 @@ Indien dit ingesteld is, zal dit gebruikt worden als het/de actieve
 bouwprofiel(en) voor het pakket dat gebouwd wordt. Het is een lijst van
 profielnamen die onderling door spaties gescheiden worden. De optie \fB\-P\fP
 heeft voorrang hierop.
+.TP 
+\fBDPKG_COLORS\fP
+Stelt de kleurmodus in (sinds dpkg 1.18.5). Waarden die momenteel gebruikt
+mogen worden zijn: \fBauto\fP (standaard), \fBalways\fP en \fBnever\fP.
+.TP 
+\fBDPKG_NLS\fP
+Indien dit ingesteld is, zal het gebruikt worden om te beslissen over het
+activeren van moedertaalondersteuning, ook gekend als
+internationaliseringsondersteuning (of i18n) (sinds dpkg 1.19.0). Geldige
+waarden zijn: \fB0\fP and \fB1\fP (standaard).

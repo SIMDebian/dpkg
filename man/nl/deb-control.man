@@ -57,10 +57,11 @@ wordt als het veld ontbreekt. In de toekomst kunnen nog andere types
 toegevoegd worden.
 .TP 
 \fBVersion:\fP \fIversie\-tekenreeks\fP (verplicht)
-Typically, this is the original package's version number in whatever form
-the program's author uses. It may also include a Debian revision number (for
-non\-native packages). The exact format and sorting algorithm are described
-in \fBdeb\-version\fP(7).
+Gewoonlijk is dit het originele versienummer van het pakket, welke vorm de
+auteur van het programma er ook aan geeft. Het kan ook een
+Debian\-revisienummer bevatten (voor niet uit Debian stammende pakketten). De
+exacte indeling en het sorteringsalgoritme worden beschreven in
+\fBdeb\-version\fP(7).
 .TP 
 \fBMaintainer:\fP \fIvolledige\-naam\-en\-e\-mail\fP (aanbevolen)
 Moet opgemaakt worden volgens de indeling “Joe Bloggs
@@ -271,8 +272,8 @@ hierboven werd beschreven.
 .
 .TP 
 \fBEnhances:\fP\fI pakketlijst\fP
-This is a list of packages that this one enhances.  It is similar to
-\fBSuggests\fP but in the opposite direction.
+Dit is een lijst met pakketten waarvoor dit pakket uitbreidingen biedt. Het
+is vergelijkbaar met \fBSuggests\fP, maar in de omgekeerde richting.
 .TP 
 \fBProvides:\fP\fI pakketlijst\fP
 Dit is een lijst van virtuele pakketten waarin door dit pakket voorzien
@@ -323,10 +324,18 @@ dit veld gemarkeerd werden, zullen niet te vinden zijn in het
 hoofdcontrolebestand \fIdebian/control\fP van de broncode. De enige reden die
 momenteel gebruikt wordt, is \fBdebug\-symbols\fP.
 .
+.TP 
+\fBBuild\-Ids:\fP\fI lijst met elf\-bouw\-id's\fP
+Dit veld geeft een lijst op van door witruimte van elkaar gescheiden
+ELF\-bouw\-id's. Dit zijn unieke identificatiesymbolen voor semantisch
+identieke ELF\-objecten, voor elk ervan in het pakket.
+.
+De indeling of de berekeningswijze voor elke bouw\-id ligt niet vast bij
+ontwerp.
+.
 .SH VOORBEELD
 .\" .RS
 .nf
-# Commentaar
 Package: grep
 Essential: yes
 Priority: required
@@ -337,17 +346,23 @@ Version: 2.4\-1
 Pre\-Depends: libc6 (>= 2.0.105)
 Provides: rgrep
 Conflicts: rgrep
-Description: GNU grep, egrep en fgrep.
- De GNU familie van grep\-hulpprogramma's is misschien wel de "fastest grep in
- the west". GNU grep is gebaseerd op een snel `lazy\-state deterministic
- matcher' (ongeveer twee keer zo snel als een gewone Unix grep), gekruist met
- een Boyer\-Moore\-Gosper zoekalgoritme voor een vaste tekenreeks, hetgeen
- voorkomt dat niet\-voorkomende tekst wordt meegenomen in de volledige regexp
- zoekopdracht, zonder naar ieder teken te hoeven kijken. Het resultaat is
- gewoonlijk vele malen sneller dan Unix grep of egrep. (Maar reguliere
- expressies met terugverwijzingen zullen trager zijn.
+Description: GNU grep, egrep and fgrep.
+ The GNU family of grep utilities may be the "fastest grep in the west".
+ GNU grep is based on a fast lazy\-state deterministic matcher (about
+ twice as fast as stock Unix egrep) hybridized with a Boyer\-Moore\-Gosper
+ search for a fixed string that eliminates impossible text from being
+ considered by the full regexp matcher without necessarily having to
+ look at every character. The result is typically many times faster
+ than Unix grep or egrep. (Regular expressions containing backreferencing
+ will run more slowly, however).
 .fi
 .\" .RE
 .
+.SH BUGS
+Voor het veld \fBBuild\-Ids\fP wordt een eerder generieke naam gebruikt vanuit
+zijn originele context binnen een ELF\-object, welke een zeer specifieke
+functie en uitvoerbaar formaat heeft.
+.
 .SH "ZIE OOK"
-\fBdeb\fP(5), \fBdeb\-version\fP(7), \fBdebtags\fP(1), \fBdpkg\fP(1), \fBdpkg\-deb\fP(1).
+\fBdeb\-src\-control\fP(5), \fBdeb\fP(5), \fBdeb\-version\fP(7), \fBdebtags\fP(1),
+\fBdpkg\fP(1), \fBdpkg\-deb\fP(1).

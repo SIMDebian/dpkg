@@ -43,10 +43,10 @@
 #include <dpkg/path.h>
 #include <dpkg/dir.h>
 #include <dpkg/glob.h>
+#include <dpkg/db-fsys.h>
 #include <dpkg/options.h>
 
 #include "main.h"
-#include "filesdb.h"
 
 static const char printforhelp[] = N_(
 "Use --help for help about overriding file stat information.");
@@ -84,6 +84,8 @@ usage(const struct cmdinfo *cip, const char *value)
 	printf(_(
 "Options:\n"
 "  --admindir <directory>   set the directory with the statoverride file.\n"
+"  --instdir <directory>    set the root directory, but not the admin dir.\n"
+"  --root <directory>       set the directory of the root filesystem.\n"
 "  --update                 immediately update <path> permissions.\n"
 "  --force                  force an action even if a sanity check fails.\n"
 "  --quiet                  quiet operation, minimal output.\n"
@@ -97,10 +99,24 @@ usage(const struct cmdinfo *cip, const char *value)
 }
 
 static const char *admindir;
+const char *instdir;
 
 static int opt_verbose = 1;
 static int opt_force = 0;
 static int opt_update = 0;
+
+static void
+set_instdir(const struct cmdinfo *cip, const char *value)
+{
+	instdir = dpkg_fsys_set_dir(value);
+}
+
+static void
+set_root(const struct cmdinfo *cip, const char *value)
+{
+	instdir = dpkg_fsys_set_dir(value);
+	admindir = dpkg_fsys_get_path(ADMINDIR);
+}
 
 static char *
 path_cleanup(const char *path)
@@ -137,9 +153,9 @@ statdb_node_new(const char *user, const char *group, const char *mode)
 static struct file_stat **
 statdb_node_find(const char *filename)
 {
-	struct filenamenode *file;
+	struct fsys_namenode *file;
 
-	file = findnamenode(filename, 0);
+	file = fsys_hash_find_node(filename, 0);
 
 	return &file->statoverride;
 }
@@ -147,10 +163,10 @@ statdb_node_find(const char *filename)
 static int
 statdb_node_remove(const char *filename)
 {
-	struct filenamenode *file;
+	struct fsys_namenode *file;
 
-	file = findnamenode(filename, fnn_nonew);
-	if (!file || (file && !file->statoverride))
+	file = fsys_hash_find_node(filename, FHFF_NONE);
+	if (!file || !file->statoverride)
 		return 0;
 
 	file->statoverride = NULL;
@@ -172,7 +188,7 @@ statdb_node_apply(const char *filename, struct file_stat *filestat)
 }
 
 static void
-statdb_node_print(FILE *out, struct filenamenode *file)
+statdb_node_print(FILE *out, struct fsys_namenode *file)
 {
 	struct file_stat *filestat = file->statoverride;
 	struct passwd *pw;
@@ -205,17 +221,17 @@ statdb_write(void)
 {
 	char *dbname;
 	struct atomic_file *dbfile;
-	struct fileiterator *iter;
-	struct filenamenode *file;
+	struct fsys_hash_iter *iter;
+	struct fsys_namenode *file;
 
 	dbname = dpkg_db_get_path(STATOVERRIDEFILE);
 	dbfile = atomic_file_new(dbname, ATOMIC_FILE_BACKUP);
 	atomic_file_open(dbfile);
 
-	iter = files_db_iter_new();
-	while ((file = files_db_iter_next(iter)))
+	iter = fsys_hash_iter_new();
+	while ((file = fsys_hash_iter_next(iter)))
 		statdb_node_print(dbfile->fp, file);
-	files_db_iter_free(iter);
+	fsys_hash_iter_free(iter);
 
 	atomic_file_sync(dbfile);
 	atomic_file_close(dbfile);
@@ -260,14 +276,21 @@ statoverride_add(const char *const *argv)
 
 	if (opt_update) {
 		struct stat st;
+		struct varbuf realfilename = VARBUF_INIT;
 
-		if (stat(filename, &st) == 0) {
+		varbuf_add_str(&realfilename, instdir);
+		varbuf_add_str(&realfilename, filename);
+		varbuf_end_str(&realfilename);
+
+		if (stat(realfilename.buf, &st) == 0) {
 			(*filestat)->mode |= st.st_mode & S_IFMT;
-			statdb_node_apply(filename, *filestat);
+			statdb_node_apply(realfilename.buf, *filestat);
 		} else if (opt_verbose) {
 			warning(_("--update given but %s does not exist"),
-			        filename);
+			        realfilename.buf);
 		}
+
+		varbuf_destroy(&realfilename);
 	}
 
 	statdb_write();
@@ -310,8 +333,8 @@ statoverride_remove(const char *const *argv)
 static int
 statoverride_list(const char *const *argv)
 {
-	struct fileiterator *iter;
-	struct filenamenode *file;
+	struct fsys_hash_iter *iter;
+	struct fsys_namenode *file;
 	const char *thisarg;
 	struct glob_node *glob_list = NULL;
 	int ret = 1;
@@ -324,8 +347,8 @@ statoverride_list(const char *const *argv)
 	if (glob_list == NULL)
 		glob_list_prepend(&glob_list, m_strdup("*"));
 
-	iter = files_db_iter_new();
-	while ((file = files_db_iter_next(iter))) {
+	iter = fsys_hash_iter_new();
+	while ((file = fsys_hash_iter_next(iter))) {
 		struct glob_node *g;
 
 		for (g = glob_list; g; g = g->next) {
@@ -336,7 +359,7 @@ statoverride_list(const char *const *argv)
 			}
 		}
 	}
-	files_db_iter_free(iter);
+	fsys_hash_iter_free(iter);
 
 	glob_list_free(glob_list);
 
@@ -349,6 +372,8 @@ static const struct cmdinfo cmdinfos[] = {
 	ACTION("list",   0, act_listfiles, statoverride_list),
 
 	{ "admindir",   0,   1,  NULL,         &admindir, NULL          },
+	{ "instdir",    0,   1,  NULL,         NULL,      set_instdir,  0 },
+	{ "root",       0,   1,  NULL,         NULL,      set_root,     0 },
 	{ "quiet",      0,   0,  &opt_verbose, NULL,      NULL, 0       },
 	{ "force",      0,   0,  &opt_force,   NULL,      NULL, 1       },
 	{ "update",     0,   0,  &opt_update,  NULL,      NULL, 1       },
@@ -367,11 +392,12 @@ main(int argc, const char *const *argv)
 	dpkg_options_parse(&argv, cmdinfos, printforhelp);
 
 	admindir = dpkg_db_set_dir(admindir);
+	instdir = dpkg_fsys_set_dir(instdir);
 
 	if (!cipaction)
 		badusage(_("need an action option"));
 
-	filesdbinit();
+	fsys_hash_init();
 	ensure_statoverrides(STATDB_PARSE_LAX);
 
 	ret = cipaction->action(argv);

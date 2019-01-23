@@ -284,11 +284,15 @@ Passe l'invite de configuration pour les alternatives qui sont correctement
 configurées en mode automatique. Cette option n'est pertinente qu'avec
 \fB\-\-config\fP ou \fB\-\-all\fP.
 .TP 
+\fB\-\-quiet\fP
+Do not generate any comments unless errors occur.
+.TP 
 \fB\-\-verbose\fP
 Generate more comments about what is being done.
 .TP 
-\fB\-\-quiet\fP
-Ne crée pas de commentaire à moins qu'une erreur ne survienne.
+\fB\-\-debug\fP
+Generate even more comments, helpful for debugging, about what is being done
+(since version 1.19.3).
 .
 .SH "CODE DE SORTIE"
 .TP 

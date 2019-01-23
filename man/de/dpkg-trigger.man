@@ -80,7 +80,9 @@ noch nicht verarbeitet haben könnte.
 .TP 
 \fB\-\-await\fP
 Dies Option führt das inverse von \fB\-\-no\-await\fP aus (seit Dpkg
-1.17.21). Derzeit ist sie die Voreinstellung.
+1.17.21). Falls das interessierte Paket eine Direktive „noawait“ erklärt
+hat, dann wird diese Option nicht wirksam sein. Derzeit ist sie die
+Voreinstellung.
 .TP 
 \fB\-\-no\-act\fP
 Nur testen, nichts tatsächlich ändern.
@@ -104,12 +106,16 @@ die Datenbank, Speicherzuweisungen usw.
 \fBDPKG_ADMINDIR\fP
 Falls gesetzt und die Option \fB\-\-admindir\fP nicht verwandt wurde, wird dies
 als Datenverzeichnis von \fBdpkg\fP verwandt.
+.TP 
+\fBDPKG_COLORS\fP
+Setzt den Farbmodus (seit Dpkg 1.18.5). Die derzeit unterstützten Werte
+sind: \fBauto\fP (Vorgabe), \fBalways\fP und \fBnever\fP.
 .
 .SH "SIEHE AUCH"
 .\" FIXME: Unhardcode the pathname, and use dpkg instead of dpkg-dev.
 \fBdpkg\fP(1), \fBdeb\-triggers\fP(5), \fB/usr/share/doc/dpkg\-dev/triggers.txt.gz\fP.
 .SH ÜBERSETZUNG
-Die deutsche Übersetzung wurde 2004, 2006-2017 von Helge Kreutzmann
+Die deutsche Übersetzung wurde 2004, 2006-2018 von Helge Kreutzmann
 <debian@helgefjell.de>, 2007 von Florian Rehnisch <eixman@gmx.de> und
 2008 von Sven Joachim <svenjoac@gmx.de>
 angefertigt. Diese Übersetzung ist Freie Dokumentation; lesen Sie die

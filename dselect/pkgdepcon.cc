@@ -22,7 +22,6 @@
 #include <config.h>
 #include <compat.h>
 
-#include <assert.h>
 #include <string.h>
 #include <stdio.h>
 
@@ -51,12 +50,13 @@ packagelist::useavailable(pkginfo *pkg)
 pkgbin *
 packagelist::find_pkgbin(pkginfo *pkg)
 {
-  pkgbin *r;
-  r= useavailable(pkg) ? &pkg->available : &pkg->installed;
-  debug(dbg_general, "packagelist[%p]::find_pkgbin(%s) useavailable=%d",
-        this, pkgbin_name(pkg, r, pnaw_always), useavailable(pkg));
+  pkgbin *pkgbin;
 
-  return r;
+  pkgbin = useavailable(pkg) ? &pkg->available : &pkg->installed;
+  debug(dbg_general, "packagelist[%p]::find_pkgbin(%s) useavailable=%d",
+        this, pkgbin_name(pkg, pkgbin, pnaw_always), useavailable(pkg));
+
+  return pkgbin;
 }
 
 int packagelist::checkdependers(pkginfo *pkg, int changemade) {
@@ -401,7 +401,8 @@ packagelist::deppossatisfied(deppossi *possi, perpackagestate **fixbyupgrade)
     // been specified, in which case we don't need to look at the rest
     // anyway.
     if (useavailable(&possi->ed->pkg)) {
-      assert(want == PKG_WANT_INSTALL);
+      if (want != PKG_WANT_INSTALL)
+        internerr("depossi package is not want-install, is %d", want);
       return versionsatisfied(&possi->ed->pkg.available, possi);
     } else {
       if (versionsatisfied(&possi->ed->pkg.installed, possi))

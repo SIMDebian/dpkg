@@ -46,13 +46,13 @@
 #include <dpkg/dpkg.h>
 #include <dpkg/dpkg-db.h>
 #include <dpkg/arch.h>
-#include <dpkg/path.h>
 #include <dpkg/subproc.h>
 #include <dpkg/command.h>
+#include <dpkg/pager.h>
 #include <dpkg/options.h>
+#include <dpkg/db-fsys.h>
 
 #include "main.h"
-#include "filesdb.h"
 #include "filters.h"
 
 static void DPKG_ATTR_NORET
@@ -83,27 +83,27 @@ usage(const struct cmdinfo *ci, const char *value)
 
   printf(_(
 "Commands:\n"
-"  -i|--install       <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  --unpack           <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  -A|--record-avail  <.deb file name> ... | -R|--recursive <directory> ...\n"
-"  --configure        <package> ... | -a|--pending\n"
-"  --triggers-only    <package> ... | -a|--pending\n"
-"  -r|--remove        <package> ... | -a|--pending\n"
-"  -P|--purge         <package> ... | -a|--pending\n"
-"  -V|--verify <package> ...        Verify the integrity of package(s).\n"
-"  --get-selections [<pattern> ...] Get list of selections to stdout.\n"
+"  -i|--install       <.deb file name>... | -R|--recursive <directory>...\n"
+"  --unpack           <.deb file name>... | -R|--recursive <directory>...\n"
+"  -A|--record-avail  <.deb file name>... | -R|--recursive <directory>...\n"
+"  --configure        <package>... | -a|--pending\n"
+"  --triggers-only    <package>... | -a|--pending\n"
+"  -r|--remove        <package>... | -a|--pending\n"
+"  -P|--purge         <package>... | -a|--pending\n"
+"  -V|--verify [<package>...]       Verify the integrity of package(s).\n"
+"  --get-selections [<pattern>...]  Get list of selections to stdout.\n"
 "  --set-selections                 Set package selections from stdin.\n"
 "  --clear-selections               Deselect every non-essential package.\n"
 "  --update-avail [<Packages-file>] Replace available packages info.\n"
 "  --merge-avail [<Packages-file>]  Merge with info from file.\n"
 "  --clear-avail                    Erase existing available info.\n"
 "  --forget-old-unavail             Forget uninstalled unavailable pkgs.\n"
-"  -s|--status <package> ...        Display package status details.\n"
-"  -p|--print-avail <package> ...   Display available version details.\n"
-"  -L|--listfiles <package> ...     List files 'owned' by package(s).\n"
-"  -l|--list [<pattern> ...]        List packages concisely.\n"
-"  -S|--search <pattern> ...        Find package(s) owning file(s).\n"
-"  -C|--audit [<package> ...]       Check for broken package(s).\n"
+"  -s|--status [<package>...]       Display package status details.\n"
+"  -p|--print-avail [<package>...]  Display available version details.\n"
+"  -L|--listfiles <package>...      List files 'owned' by package(s).\n"
+"  -l|--list [<pattern>...]         List packages concisely.\n"
+"  -S|--search <pattern>...         Find package(s) owning file(s).\n"
+"  -C|--audit [<package>...]        Check for broken package(s).\n"
 "  --yet-to-unpack                  Print packages selected for installation.\n"
 "  --predep-package                 Print pre-dependencies to unpack.\n"
 "  --add-architecture <arch>        Add <arch> to the list of architectures.\n"
@@ -342,6 +342,15 @@ set_debug(const struct cmdinfo *cpi, const char *value)
 }
 
 static void
+set_no_pager(const struct cmdinfo *ci, const char *value)
+{
+  pager_enable(false);
+
+  /* Let's communicate this to our backends. */
+  setenv("DPKG_PAGER", "cat", 1);
+}
+
+static void
 set_filter(const struct cmdinfo *cip, const char *value)
 {
   filter_add(value, cip->arg_int);
@@ -357,19 +366,14 @@ set_verify_format(const struct cmdinfo *cip, const char *value)
 static void
 set_instdir(const struct cmdinfo *cip, const char *value)
 {
-  char *new_instdir;
-
-  new_instdir = m_strdup(value);
-  path_trim_slash_slashdot(new_instdir);
-
-  instdir = new_instdir;
+  instdir = dpkg_fsys_set_dir(value);
 }
 
 static void
 set_root(const struct cmdinfo *cip, const char *value)
 {
-  set_instdir(cip, value);
-  admindir = str_fmt("%s%s", instdir, ADMINDIR);
+  instdir = dpkg_fsys_set_dir(value);
+  admindir = dpkg_fsys_get_path(ADMINDIR);
 }
 
 static void
@@ -444,7 +448,7 @@ set_invoke_hook(const struct cmdinfo *cip, const char *value)
   struct invoke_list *hook_list = cip->arg_ptr;
   struct invoke_hook *hook_new;
 
-  hook_new = m_malloc(sizeof(struct invoke_hook));
+  hook_new = m_malloc(sizeof(*hook_new));
   hook_new->command = m_strdup(value);
   hook_new->next = NULL;
 
@@ -556,7 +560,7 @@ arch_remove(const char *const *argv)
 {
   const char *archname = *argv++;
   struct dpkg_arch *arch;
-  struct pkgiterator *iter;
+  struct pkg_hash_iter *iter;
   struct pkginfo *pkg;
 
   if (archname == NULL || *argv)
@@ -571,8 +575,8 @@ arch_remove(const char *const *argv)
   }
 
   /* Check if it's safe to remove the architecture from the db. */
-  iter = pkg_db_iter_new();
-  while ((pkg = pkg_db_iter_next_pkg(iter))) {
+  iter = pkg_hash_iter_new();
+  while ((pkg = pkg_hash_iter_next_pkg(iter))) {
     if (pkg->status < PKG_STAT_HALFINSTALLED)
       continue;
     if (pkg->installed.arch == arch) {
@@ -585,7 +589,7 @@ arch_remove(const char *const *argv)
       break;
     }
   }
-  pkg_db_iter_free(iter);
+  pkg_hash_iter_free(iter);
 
   dpkg_arch_unmark(arch);
   dpkg_arch_save_list();
@@ -642,8 +646,8 @@ set_force(const struct cmdinfo *cip, const char *value)
   }
 
   for (;;) {
-    comma= strchr(value,',');
-    l = comma ? (size_t)(comma - value) : strlen(value);
+    comma = strchrnul(value, ',');
+    l = (size_t)(comma - value);
     for (fip=forceinfos; fip->name; fip++)
       if (strncmp(fip->name, value, l) == 0 && strlen(fip->name) == l)
         break;
@@ -661,7 +665,8 @@ set_force(const struct cmdinfo *cip, const char *value)
       warning(_("obsolete force/refuse option '%s'"), fip->name);
     }
 
-    if (!comma) break;
+    if (*comma == '\0')
+      break;
     value= ++comma;
   }
 }
@@ -731,6 +736,7 @@ static const struct cmdinfo cmdinfos[]= {
   { "no-act",            0,   0, &f_noact,      NULL,      NULL,    1 },
   { "dry-run",           0,   0, &f_noact,      NULL,      NULL,    1 },
   { "simulate",          0,   0, &f_noact,      NULL,      NULL,    1 },
+  { "no-pager",          0,   0, NULL,          NULL,      set_no_pager,  0 },
   { "no-debsig",         0,   0, &f_nodebsig,   NULL,      NULL,    1 },
   /* Alias ('G') for --refuse. */
   {  NULL,               'G', 0, &fc_downgrade, NULL,      NULL,    0 },
@@ -877,14 +883,16 @@ commandfd(const char *const *argv)
     dpkg_options_parse((const char *const **)&endargs, cmdinfos, printforhelp);
     if (!cipaction) badusage(_("need an action option"));
 
-    filesdbinit();
+    fsys_hash_init();
 
     ret |= cipaction->action(endargs);
 
-    files_db_reset();
+    fsys_hash_reset();
 
     pop_error_context(ehflag_normaltidy);
   }
+
+  fclose(in);
 
   return ret;
 }
@@ -921,7 +929,7 @@ int main(int argc, const char *const *argv) {
     run_status_loggers(&status_loggers);
   }
 
-  filesdbinit();
+  fsys_hash_init();
 
   ret = cipaction->action(argv);
 

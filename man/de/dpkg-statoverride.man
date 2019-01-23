@@ -72,8 +72,18 @@ Gebe die Version aus und beende sich.
 .SH OPTIONEN
 .TP 
 \fB\-\-admindir\fP\fI Verzeichnis\fP
-Wechsle das \fIVerzeichnis\fP der \fBdpkg\fP\-Datenbank, wo auch die
-statoverride\-Datei gelagert ist. Der Standard ist \fI%ADMINDIR%\fP.
+Setzt das administrative Verzeichnis auf \fIVerzeichnis\fP. Hier wird auch die
+Datei \fIstatoverride\fP gelagert. Standardmäßig \fI%ADMINDIR%\fP.
+.TP 
+\fB\-\-instdir\fP\fI Verzeichnis\fP
+Setzt das Installationsverzeichnis, das sich auf das Verzeichnis bezieht, in
+dem Pakete installiert werden (seit Dpkg 1.19.2). Standardmäßig »\fI/\fP«.
+.TP 
+\fB\-\-root\fP\fI Verzeichnis\fP
+Setzt das Wurzelverzeichnis auf \fIVerzeichnis\fP, wodurch das
+Installationsverzeichnis auf »\fIVerzeichnis\fP« und das administrative
+Verzeichnis auf »\fIVerzeichnis\fP\fB%ADMINDIR%\fP« gesetzt wird (seit Dpkg
+1.19.2).
 .TP 
 \fB\-\-force\fP
 Erzwinge eine Aktion, selbst wenn eine Sinn\-Überprüfung diese normalerweise
@@ -103,9 +113,17 @@ die Datenbank, Speicherzuweisungen usw.
 .
 .SH UMGEBUNG
 .TP 
+\fBDPKG_ROOT\fP
+Falls gesetzt und die Option \fB\-\-instdir\fP oder \fB\-\-root\fP nicht angegeben
+wurde, wird dies als Dateisystemwurzelverzeichnis verwandt.
+.TP 
 \fBDPKG_ADMINDIR\fP
-Falls gesetzt und die Option \fB\-\-admindir\fP nicht verwandt wurde, wird dies
-als Datenverzeichnis von \fBdpkg\fP verwandt.
+Falls gesetzt und die Option \fB\-\-admindir\fP oder \fB\-\-root\fP nicht verwandt
+wurde, wird dies als Datenverzeichnis von \fBdpkg\fP verwandt.
+.TP 
+\fBDPKG_COLORS\fP
+Setzt den Farbmodus (seit Dpkg 1.18.5). Die derzeit unterstützten Werte
+sind: \fBauto\fP (Vorgabe), \fBalways\fP und \fBnever\fP.
 .
 .SH DATEIEN
 .TP 
@@ -120,7 +138,7 @@ Endung „\-old“ bevor es sie mit einer neuen ersetzt.
 .SH "SIEHE AUCH"
 \fBdpkg\fP(1).
 .SH ÜBERSETZUNG
-Die deutsche Übersetzung wurde 2004, 2006-2017 von Helge Kreutzmann
+Die deutsche Übersetzung wurde 2004, 2006-2018 von Helge Kreutzmann
 <debian@helgefjell.de>, 2007 von Florian Rehnisch <eixman@gmx.de> und
 2008 von Sven Joachim <svenjoac@gmx.de>
 angefertigt. Diese Übersetzung ist Freie Dokumentation; lesen Sie die
