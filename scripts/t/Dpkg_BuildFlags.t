@@ -16,7 +16,7 @@
 use strict;
 use warnings;
 
-use Test::More tests => 26;
+use Test::More tests => 28;
 
 BEGIN {
     use_ok('Dpkg::BuildFlags');
@@ -75,6 +75,9 @@ my %known_features = (
         thread
         undefined
     ) ],
+	simd => [ qw(
+		haswell
+	) ],
 );
 
 is_deeply([ sort $bf->get_feature_areas() ], [ sort keys %known_features ],
