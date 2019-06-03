@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: dpkg-man 1.17.0\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-01-22 14:25+0100\n"
-"PO-Revision-Date: 2016-12-17 16:42+0100\n"
+"POT-Creation-Date: 2019-03-25 15:07+0100\n"
+"PO-Revision-Date: 2019-02-24 18:25+0100\n"
 "Last-Translator: Andre Luis Lopes  <andrelop@debian.org>\n"
 "Language-Team: Portuguese <debian-l10n-portuguese@lists.debian.org>\n"
 "Language: pt_BR\n"
@@ -790,6 +790,95 @@ msgstr ""
 #. type: TP
 #: deb-buildinfo.man
 #, fuzzy, no-wrap
+msgid "B<Build-Tainted-By:>"
+msgstr "B<dpkg> [I<opções>] I<ação>"
+
+#. type: TQ
+#: deb-buildinfo.man
+#, no-wrap
+msgid "I<taint-reason-list>"
+msgstr ""
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid ""
+"This folded field contains a space-separated list of non-exhaustive reason "
+"tags (formed by alphanumeric and dash characters) which identify why the "
+"current build has been tainted (since dpkg 1.19.5)."
+msgstr ""
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid "On Debian and derivatives the following reason tags can be emitted:"
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, no-wrap
+msgid "B<merged-usr-via-symlinks>"
+msgstr ""
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid ""
+"The system has a merged I</usr> via symlinks.  This will confuse B<dpkg-"
+"query>, B<dpkg-statoverride>, B<dpkg-trigger>, B<update-alternatives> and "
+"any other tool using pathnames as keys into their databases, as it creates "
+"filesystem aliasing problems, and messes with the understanding of the "
+"filesystem that B<dpkg> has recorded in its database.  For build systems "
+"that hardcode pathnames to specific binaries or libraries on the resulting "
+"artifacts, it can also produce packages that will be incompatible with non-/"
+"usr-merged filesystems."
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, fuzzy, no-wrap
+msgid "B<usr-local-has-configs>"
+msgstr "I<control>"
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid "The system has configuration files under I</usr/local/etc>."
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, fuzzy, no-wrap
+msgid "B<usr-local-has-includes>"
+msgstr "B<dpkg-deb-actions>"
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid "The system has header files under I</usr/local/include>."
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, no-wrap
+msgid "B<usr-local-has-programs>"
+msgstr ""
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid "The system has programs under I</usr/local/bin> or I</usr/local/sbin>."
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, fuzzy, no-wrap
+msgid "B<usr-local-has-libraries>"
+msgstr "I<control>"
+
+#. type: Plain text
+#: deb-buildinfo.man
+msgid ""
+"The system has libraries, either static or shared under I</usr/local/lib>."
+msgstr ""
+
+#. type: TP
+#: deb-buildinfo.man
+#, fuzzy, no-wrap
 #| msgid "B<reinst-required>"
 msgid "B<Installed-Build-Depends:> (required)"
 msgstr "B<reinst-required>"
@@ -1395,7 +1484,7 @@ msgstr "B<--version>"
 msgid ""
 "This field denotes that the upload is a binary-only non-maintainer build.  "
 "It originates from the B<binary-only=yes> key/value from the changelog "
-"matadata entry."
+"metadata entry."
 msgstr ""
 
 #. type: TP
@@ -3057,7 +3146,7 @@ msgstr "B<dpkg> [I<opções>] I<ação>"
 #: deb-src-rules.man
 msgid ""
 "Build architecture independent files required to build any architecture "
-"independent binary package.  If there are no architecture indepdenent binary "
+"independent binary package.  If there are no architecture independent binary "
 "packages to generate, the target must still exist but do nothing.  This "
 "target must not require root privileges."
 msgstr ""
@@ -5507,6 +5596,20 @@ msgstr ""
 "O pacote está selecionado para ser eliminado (i.e. queremos excluir tudo, "
 "até os arquivos de configuração)."
 
+#. type: TP
+#: dpkg.man
+#, no-wrap
+msgid "B<unknown>"
+msgstr ""
+
+#. type: Plain text
+#: dpkg.man
+msgid ""
+"The package selection is unknown.  A package that is also in a B<not-"
+"installed> state, and with an B<ok> flag will be forgotten in the next "
+"database store."
+msgstr ""
+
 #. type: SS
 #: dpkg.man
 #, no-wrap
@@ -6307,7 +6410,7 @@ msgid "Display a brief help message."
 msgstr "Exibe uma breve mensagem de ajuda."
 
 #. type: TP
-#: dpkg.man
+#: dpkg.man dpkg-statoverride.man
 #, fuzzy, no-wrap
 msgid "B<--force-help>"
 msgstr "B<dpkg --force-help>"
@@ -6548,13 +6651,13 @@ msgstr ""
 " 2000   Quantidades insanas de saída.\n"
 
 #. type: TP
-#: dpkg.man
+#: dpkg.man dpkg-statoverride.man
 #, fuzzy, no-wrap
 msgid "B<--force->I<things>"
 msgstr "B<--nocheck>"
 
 #. type: TQ
-#: dpkg.man
+#: dpkg.man dpkg-statoverride.man
 #, fuzzy, no-wrap
 msgid "B<--no-force->I<things>, B<--refuse->I<things>"
 msgstr "B<--force->I<coisas> | B<--no-force->I<coisas> | B<--refuse->I<coisas>"
@@ -6586,7 +6689,7 @@ msgstr ""
 "sistema.>"
 
 #. type: Plain text
-#: dpkg.man
+#: dpkg.man dpkg-statoverride.man
 #, fuzzy
 msgid "B<all>: Turns on (or off) all force options."
 msgstr "B<all>: Liga (ou desliga) todas as opções de força."
@@ -6785,6 +6888,28 @@ msgid ""
 msgstr ""
 "B<overwrite-diverted>: Sobrescreve um arquivo desviado com uma versão não "
 "desviada."
+
+#. type: Plain text
+#: dpkg.man dpkg-statoverride.man
+msgid ""
+"B<statoverride-add>: Overwrite an existing stat override when adding it "
+"(since dpkg 1.19.5)."
+msgstr ""
+
+#. type: Plain text
+#: dpkg.man dpkg-statoverride.man
+msgid ""
+"B<statoverride-remove>: Ignore a missing stat override when removing it "
+"(since dpkg 1.19.5)."
+msgstr ""
+
+#. type: Plain text
+#: dpkg.man dpkg-statoverride.man
+msgid ""
+"B<security-mac>(*): Use platform-specific Mandatory Access Controls (MAC) "
+"based security when installing files into the filesystem (since dpkg "
+"1.19.5).  On Linux systems the implementation uses SELinux."
+msgstr ""
 
 #. type: Plain text
 #: dpkg.man
@@ -7544,6 +7669,21 @@ msgid ""
 msgstr ""
 
 #. type: TP
+#: dpkg.man dpkg-statoverride.man
+#, fuzzy, no-wrap
+#| msgid "B<DPKG_OLD_CONFFILE>"
+msgid "B<DPKG_FORCE>"
+msgstr "B<DPKG_OLD_CONFFILE>"
+
+#. type: Plain text
+#: dpkg.man
+msgid ""
+"Sets the force flags (since dpkg 1.19.5).  When this variable is present, no "
+"built-in force defaults will be applied.  If the variable is present but "
+"empty, all force flags will be disabled."
+msgstr ""
+
+#. type: TP
 #: dpkg.man
 #, fuzzy, no-wrap
 #| msgid "B<DPKG_OLD_CONFFILE>"
@@ -7613,6 +7753,13 @@ msgid ""
 "Defined by B<dpkg> on the maintainer script environment to indicate the "
 "B<dpkg> administrative directory to use (since dpkg 1.16.0).  This variable "
 "is always set to the current B<--admindir> value."
+msgstr ""
+
+#. type: Plain text
+#: dpkg.man
+msgid ""
+"Defined by B<dpkg> on the subprocesses environment to all the currently "
+"enabled force option names separated by commas (since dpkg 1.19.5)."
 msgstr ""
 
 #. type: TP
@@ -9411,7 +9558,7 @@ msgstr ""
 #: dpkg-buildflags.man
 msgid ""
 "Make directives to set and export all the compilation flags in the "
-"environment. Output can be written to a makefile fragment and evaluated "
+"environment. Output can be written to a Makefile fragment and evaluated "
 "using an B<include> directive."
 msgstr ""
 
@@ -10419,7 +10566,7 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-buildflags.man
-msgid "To pass build flags to a build command in a makefile:"
+msgid "To pass build flags to a build command in a Makefile:"
 msgstr ""
 
 #. type: Plain text
@@ -15937,7 +16084,7 @@ msgstr "B<dpkg --get-selections> [I<padrão>...]"
 msgid ""
 "Search for packages that own files corresponding to the given pattern.  "
 "Standard shell wildcard characters can be used in the pattern, where "
-"asterisk (B<*>) and question mark (B<?>) will match a slash, and blackslash "
+"asterisk (B<*>) and question mark (B<?>) will match a slash, and backslash "
 "(B<\\e>) will be used as an escape character."
 msgstr ""
 
@@ -17809,7 +17956,7 @@ msgid ""
 "straightforward source archive (this is equivalent to B<-sn>).  If both are "
 "found then B<dpkg-source> will ignore the directory, overwriting it, if B<-"
 "sA> was specified (this is equivalent to B<-sP>)  or raise an error if B<-"
-"sa> was specified.  B<-sA> is the default."
+"sa> was specified.  B<-sa> is the default."
 msgstr ""
 
 #. type: TP
@@ -17977,6 +18124,15 @@ msgid ""
 "options and always expect patches that can be applied with the B<-p1> option "
 "of B<patch>. It will thus emit a warning when it encounters such options, "
 "and the build is likely to fail."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-source.man
+msgid ""
+"Note that B<lintian>(1) will emit unconditional warnings when using vendor "
+"series due to a controversial Debian specific ruling, which should not "
+"affect any external usage; to silence these, the dpkg lintian profile can be "
+"used by passing «B<--profile dpkg>» to B<lintian>(1)."
 msgstr ""
 
 #. type: Plain text
@@ -19182,6 +19338,13 @@ msgstr ""
 
 #. type: Plain text
 #: dpkg-statoverride.man
+#, fuzzy
+#| msgid "Give help about the B<--force->I<thing> options."
+msgid "Give help about the B<--force->I<thing> options (since dpkg 1.19.5)."
+msgstr "Ajuda com as opções B<--force->I<coisa>."
+
+#. type: Plain text
+#: dpkg-statoverride.man
 msgid ""
 "Set the administrative directory to I<directory>.  This is where the "
 "I<statoverride> file is stored.  Defaults to «I<%ADMINDIR%>»."
@@ -19194,6 +19357,32 @@ msgid ""
 "get installed (since dpkg 1.19.2).  Defaults to «I</>»."
 msgstr ""
 
+#. type: Plain text
+#: dpkg-statoverride.man
+#, fuzzy
+msgid ""
+"Force or refuse (B<no-force> and B<refuse> mean the same thing)  to do some "
+"things (since dpkg 1.19.5).  I<things> is a comma separated list of things "
+"specified below.  B<--force-help> displays a message describing them.  "
+"Things marked with (*) are forced by default."
+msgstr ""
+"Força ou rejeita (B<no-force> e B<refuse> são a mesma coisa)  a fazer "
+"algumas coisas.  I<coisas> é uma lista separada por vírgulas de coisas "
+"especificadas abaixo.  B<--force-help> exibe uma mensagem descrevendo-as.  "
+"Coisas marcadas com (*) são forçadas por padrão."
+
+#. type: Plain text
+#: dpkg-statoverride.man
+#, fuzzy
+msgid ""
+"I<Warning: These options are mostly intended to be used by experts only.  "
+"Using them without fully understanding their effects may break your whole "
+"system.>"
+msgstr ""
+"I<Atenção: A maior parte dessas opções devem ser usadas apenas por experts. "
+"Usá-las sem o completo conhecimento de seus efeitos pode quebrar todo seu "
+"sistema.>"
+
 #. type: TP
 #: dpkg-statoverride.man update-alternatives.man
 #, fuzzy, no-wrap
@@ -19204,7 +19393,8 @@ msgstr "B<--nocheck>"
 #: dpkg-statoverride.man
 msgid ""
 "Force an action, even if a sanity check would otherwise prohibit it.  This "
-"is necessary to override an existing override."
+"is necessary to override an existing override.  This option is deprecated "
+"(since dpkg 1.19.5), it is replaced by B<--force-all>."
 msgstr ""
 
 #. type: TP
@@ -19228,6 +19418,13 @@ msgstr ""
 #: dpkg-statoverride.man
 msgid ""
 "For B<--list>, if there are no overrides or none match the supplied glob."
+msgstr ""
+
+#. type: Plain text
+#: dpkg-statoverride.man
+msgid ""
+"If set and none of the B<--force->I<...> options have been specified, it "
+"will be used as the force options to use (since dpkg 1.19.5)."
 msgstr ""
 
 #. type: TP
@@ -20544,11 +20741,14 @@ msgstr ""
 #. type: Plain text
 #: start-stop-daemon.man
 msgid ""
-"B<Warning:> Using this match option alone with a daemon that writes the "
-"pidfile as an unprivileged user is a security risk, because if the daemon "
-"gets compromised the contents of the pidfile cannot be trusted, and then a "
+"B<Warning:> using this match option with a world-writable pidfile or using "
+"it alone with a daemon that writes the pidfile as an unprivileged (non-"
+"root)  user will be refused with an error (since version 1.19.3) as this is "
+"a security risk, because either any user can write to it, or if the daemon "
+"gets compromised, the contents of the pidfile cannot be trusted, and then a "
 "privileged runner (such as an init script executed as root) would end up "
-"acting on any system process."
+"acting on any system process.  Using I</dev/null> is exempt from these "
+"checks."
 msgstr ""
 
 #. type: TP
@@ -20791,7 +20991,7 @@ msgstr "B<--nocheck>"
 msgid ""
 "Wait for the background process to send a readiness notification before "
 "considering the service started (since version 1.19.3).  This implements "
-"parts of the systemd readiness procotol, as specified in the B<sd_notify>(3) "
+"parts of the systemd readiness protocol, as specified in the B<sd_notify>(3) "
 "man page.  The following variables are supported:"
 msgstr ""
 

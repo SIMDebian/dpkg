@@ -385,7 +385,7 @@ heeft, maar enkel een eenvoudig broncodearchief (dit is het equivalent voor
 \fB\-sn\fP). Indien beide aangetroffen worden, dan zal \fBdpkg\-source\fP de map
 negeren, en ze overschrijven als \fB\-sA\fP opgegeven werd (dit is het
 equivalent voor \fB\-sP\fP) of een foutmelding geven als \fB\-sa\fP opgegeven
-werd. \fB\-sA\fP is de standaard.
+werd. \fB\-sa\fP is de standaard.
 .TP 
 \fB\-\-abort\-on\-upstream\-changes\fP
 Het proces mislukt als het gegenereerde diff\-bestand wijzigingen aan
@@ -446,16 +446,16 @@ met het versiebeheersysteem) evenals vele tijdelijke bestanden (zie de
 uitvoer van de optie \fB\-\-help\fP voor de standaardwaarde van de optie \fB\-I\fP).
 .
 .SS "Indeling: 3.0 (quilt)"
-Supported since dpkg 1.14.17.  A source package in this format contains at
-least an original tarball (\fB.orig.tar.\fP\fIext\fP where \fIext\fP can be \fBgz\fP,
-\fBbz2\fP, \fBlzma\fP and \fBxz\fP) and a debian tarball (\fB.debian.tar.\fP\fIext\fP). It
-can also contain additional original tarballs
-(\fB.orig\-\fP\fIcomponent\fP\fB.tar.\fP\fIext\fP).  \fIcomponent\fP can only contain
-alphanumeric (‘a\-zA\-Z0\-9’) characters and hyphens (‘\-’).  Optionally each
-original tarball can be accompanied by a detached upstream signature
-(\fB.orig.tar.\fP\fIext\fP\fB.asc\fP and \fB.orig\-\fP\fIcomponent\fP\fB.tar.\fP\fIext\fP\fB.asc\fP),
-extraction supported since dpkg 1.17.20, building supported since dpkg
-1.18.5.
+Wordt ondersteund sinds dpkg 1.14.17. Een broncodepakket volgens deze
+indeling bevat minstens een origineel tar\-archief (\fB.orig.tar.\fP\fIext\fP
+waarbij \fIext\fP \fBgz\fP, \fBbz2\fP, \fBlzma\fP en \fBxz\fP kan zijn) en een debian
+tar\-archief (\fB.debian.tar.\fP\fIext\fP). Het kan ook bijkomende originele
+tar\-archieven bevatten (\fB.orig\-\fP\fIcomponent\fP\fB.tar.\fP\fIext\fP). \fIcomponent\fP
+mag enkel alfanumerieke tekens (‘a\-zA\-Z0\-9’) en koppeltekens (‘\-’)
+bevatten. Optioneel mag bij elk origineel tar\-archief een afzonderlijke
+handtekening van de toeleveraar (\fB.orig.tar.\fP\fIext\fP\fB.asc\fP en
+\&\fB.orig\-\fP\fIcomponent\fP\fB.tar.\fP\fIext\fP\fB.asc\fP), gevoegd worden. De extractie
+ervan wordt ondersteund sinds dpkg 1.17.20 en het bouwen sinds dpkg 1.18.5.
 
 .PP
 \fBExtraheren\fP
@@ -491,6 +491,13 @@ bestandsnaam van de patch en één of meer spaties), het deze opties negeert
 en steeds patches verwacht die kunnen toegepast worden met de optie \fB\-p1\fP
 van \fBpatch\fP. Het zal dus een waarschuwing geven als het dergelijke opties
 tegenkomt en het bouwen zal waarschijnlijk mislukken.
+.PP
+Opmerking: indien leveranciers\-series\-bestanden gebruikt worden, geeft
+\fBlintian\fP(1) onvoorwaardelijke waarschuwingen als gevolg van een
+controversieel Debian\-specifiek besluit. Extern gebruik zou hierdoor niet
+getroffen mogen worden. Om dergelijke waarschuwingen het zwijgen op te
+leggen kunt u het dpkg\-profiel van lintian gebruiken door aan \fBlintian\fP(1)
+de optie «\fB\-\-profile dpkg\fP» mee te geven.
 .PP
 Voor alle bestanden waarop een patch toegepast werd, wordt de
 tijdsaanduiding teruggezet op het tijdstip van extraheren van het

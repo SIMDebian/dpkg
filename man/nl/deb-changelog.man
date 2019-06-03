@@ -155,13 +155,14 @@ linkermarge. De “volgende” regel met de gegevens over de onderhouder en de
 datum moet door exact één spatie voorafgegaan worden. Tussen de informatie
 over de onderhouder en de datum moeten exact twee spaties staan.
 .PP
-Any line that consists entirely (i.e., no leading whitespace) of \fB#\fP or
-\fB/* */\fP style comments or RCS keywords.
+Elke regel die volledig (d.w.z. zonder voorafgaande witruimte) bestaat uit
+commentaar in de vorm van \fB#\fP\- of \fB/* */\fP of RCS\-trefwoorden.
 .PP
-Vim modelines or Emacs local variables, and ancient changelog entries with
-other formats at the end of the file should be accepted and preserved on
-output, but their contents might be otherwise ignored and parsing stopped at
-that point.
+Modusregels van Vim of lokale variabelen van Emacs en oudere
+changelog\-elementen met een andere indeling aan het einde van het bestand,
+moeten aanvaard worden en in de uitvoer behouden blijven, maar de inhoud
+ervan kan verder genegeerd worden en het ontleden kan op dat punt gestopt
+worden.
 .PP
 Het volledige changelog\-bestand moet in UTF\-8 opgemaakt zijn.
 .SH BESTANDEN

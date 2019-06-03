@@ -56,6 +56,7 @@ use Dpkg::Exit qw(run_exit_handlers);
 use Dpkg::Path qw(check_files_are_the_same find_command);
 use Dpkg::IPC;
 use Dpkg::Vendor qw(run_vendor_hook);
+use Dpkg::Source::Format;
 
 my $diff_ignore_default_regex = '
 # Ignore general backup files
@@ -536,7 +537,8 @@ sub extract {
     }
 
     # Store format if non-standard so that next build keeps the same format
-    if ($self->{fields}{'Format'} ne '1.0' and
+    if ($self->{fields}{'Format'} and
+        $self->{fields}{'Format'} ne '1.0' and
         not $self->{options}{skip_debianization})
     {
         my $srcdir = File::Spec->catdir($newdirectory, 'debian', 'source');

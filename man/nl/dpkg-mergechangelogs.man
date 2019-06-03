@@ -81,9 +81,9 @@ waarden zijn: \fB0\fP and \fB1\fP (standaard).
 .
 .SH BEPERKINGEN
 .P
-Anything that is not parsed by Dpkg::Changelog is lost during the merge.
-This might include stuff like comments which were not supposed to be there,
-etc.
+Alles wat niet door Dpkg::Changelog ontleed wordt, geraakt tijdens het
+samenvoegen verloren. Dit kan gaan om zaken zoals commentaar die daar niet
+hoort te staan, enz.
 .
 .SH "INTEGRATIE MET GIT"
 .P

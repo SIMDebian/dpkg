@@ -98,12 +98,15 @@ Hinweis: Wird diese Abgleichoption alleine verwandt, könnte auf nicht
 geplante Prozesse eingewirkt werden, falls der alte Prozess beendet wurde,
 ohne dass er \fIpid\-Datei\fP entfernen konnte.
 .IP
-\fBWarnung\fP: Es ist ein Sicherheitsrisiko, diese Abgleichoption alleine mit
-einem Daemon, der die PID\-Datei als ein nicht privilegierte Benutzer
-schreibt, zu verwenden, da bei einer Kompromittierung des Daemons, dem
-Inhalt der PID\-Datei nicht vertraut werden kann und dann ein privilegiertes
-laufendes Programm (wie ein Init\-Skript, das als root ausgeführt wird)
-schlussendlich auf einem Systemprozess agieren würde.
+\fBWarnung\fP: Wird diese Abgleichoption mit einer weltschreibbaren PID\-Datei
+oder alleine mit einem Daemon, der als nicht privilegierter Benutzer
+(d.h. nicht als root) in eine PID\-Datei schreibt, verwandt, dann wird dies
+mit einem Fehler abgelehnt (seit Version 1.19.3), da dies ein
+Sicherheitsrisiko darstellt, da entweder jeder Benutzer hineinschreiben kann
+oder, falls der Daemon kompromitiert wird, dem Inhalt der PID\-Datei nicht
+vertraut werden kann und dann ein privilegierter Ausführer (wie ein als Root
+ausgeführtes Init\-Skript) am Ende auf jeden Systemprozess agieren würde. Die
+Verwendung von \fI/dev/null\fP ist von diesen Prüfungen ausgenommen.
 .TP 
 \fB\-x\fP, \fB\-\-exec\fP \fIProgramm\fP
 Überprüfe auf Prozesse, die Instanzen von diesem Programm sind. Das Argument
@@ -209,30 +212,33 @@ selbstständige Forken keinen Sinn ergibt oder wo es nicht sinnvoll ist, den
 Code hierfür hinzuzufügen.
 .TP 
 \fB\-\-notify\-await\fP
-Wait for the background process to send a readiness notification before
-considering the service started (since version 1.19.3).  This implements
-parts of the systemd readiness procotol, as specified in the \fBsd_notify\fP(3)
-man page.  The following variables are supported:
+Wartet, dass der Hintergrundprozess eine Bereitschaftsbenachrichtigung
+sendet, bevor der Dienst als gestartet betrachtet wird (seit Version
+1.19.3). Dies implementiert Teil des Bereitschaftsprotokolls von Systemd,
+wie es in der Handbuchseite \fBsd_notify\fP(3) festgelegt ist. Die folgenden
+Variablen werden unterstützt:
 .RS
 .TP 
 \fBREADY=1\fP
-The program is ready to give service, so we can exit safely.
+Das Programm ist bereit, den Dienst zu leisten, daher kann sicher beendet
+werden.
 .TP 
-\fBEXTEND_TIMEOUT_USEC=\fP\fInumber\fP
-The program requests to extend the timeout by \fInumber\fP microseconds.  This
-will reset the current timeout to the specified value.
+\fBEXTEND_TIMEOUT_USEC=\fP\fIAnzahl\fP
+Das Programm erbittet die Verlängerung der Zeitüberschreitung um \fIAnzahl\fP
+Mikrosekunden. Dies wird die aktuelle Zeitüberschreitung auf den
+festgelegten Wert zurücksetzen.
 .TP 
-\fBERRNO=\fP\fInumber\fP
-The program is exiting with an error.  Do the same and print the
-user\-friendly string for the \fBerrno\fP value.
+\fBERRNO=\fP\fINummer\fP
+Das Programm beendete sich mit einem Fehler. Macht das gleiche und gibt die
+benutzerfreundliche Zeichenkette für den Wert von \fBerrno\fP aus.
 .RE
 .
 .TP 
-\fB\-\-notify\-timeout\fP\fItimeout\fP
-Set a timeout for the \fB\-\-notify\-await\fP option (since version 1.19.3).  When
-the timeout is reached, \fBstart\-stop\-daemon\fP will exit with an error code,
-and no readiness notification will be awaited.  The default is \fB60\fP
-seconds.
+\fB\-\-notify\-timeout\fP\fIZeitüberschreitung\fP
+Setzt eine Zeitüberschreitung für die Option \fB\-\-notify\-await\fP (seit Version
+1.19.3). Wenn die Zeitüberschreitung erreicht wird, wird sich
+\fBstart\-stop\-daemon\fP mit einem Fehler\-Code beenden und es wird auf keine
+Bereitschaftsbenachrichtigung gewartet. Die Vorgabe ist \fB60\fP Sekunden.
 .TP 
 \fB\-C\fP, \fB\-\-no\-close\fP
 Keinen Dateideskriptor schließen, wenn ein Daemon in den Hintergrund
@@ -341,7 +347,7 @@ start\-stop\-daemon \-\-stop \-\-oknodo \-\-user food \-\-name food \e
 	\-\-pidfile /run/food.pid \-\-retry=TERM/30/KILL/5
 .fi
 .SH ÜBERSETZUNG
-Die deutsche Übersetzung wurde 2004, 2006-2018 von Helge Kreutzmann
+Die deutsche Übersetzung wurde 2004, 2006-2019 von Helge Kreutzmann
 <debian@helgefjell.de>, 2007 von Florian Rehnisch <eixman@gmx.de> und
 2008 von Sven Joachim <svenjoac@gmx.de>
 angefertigt. Diese Übersetzung ist Freie Dokumentation; lesen Sie die

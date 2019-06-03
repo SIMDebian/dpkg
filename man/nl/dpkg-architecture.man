@@ -181,8 +181,8 @@ i386\-linux\-gnu, x86_64\-linux\-gnu. Voorbeelden van paden:
 /lib/powerpc64le\-linux\-gnu/, /usr/lib/i386\-kfreebsd\-gnu/.
 .
 .SH VARIABELEN
-The following variables are set by \fBdpkg\-architecture\fP (see the \fBTERMS\fP
-section for a description of the naming scheme):
+De volgende variabelen worden door \fBdpkg\-architecture\fP ingesteld (zie de
+sectie \fBTERMS\fP voor een beschrijving van het naamgevingsschema):
 .IP \fBDEB_BUILD_ARCH\fP 4
 De Debian architectuur van de bouwmachine.
 .IP \fBDEB_BUILD_ARCH_ABI\fP 4

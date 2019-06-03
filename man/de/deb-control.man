@@ -161,7 +161,7 @@ Der Name des Quellpakets, aus dem dieses Binärpaket stammt, falls es sich
 vom Namen des Pakets selbst unterscheidet. Falls die Quellversion sich von
 der Binärversion unterscheidet, folgt dem \fIQuellnamen\fP in Klammern eine
 \fIQuellversion\fP. Dies kann zum Beispiel bei einem rein\-binären, nicht
-Betreuer\-Upload passieren, oder wenn mittels »\fBdpkg\-gencontrol \-v\fP« eine
+Betreuer\-Upload passieren, oder wenn mittels „\fBdpkg\-gencontrol \-v\fP“ eine
 andere Binärversion gesetzt wird.
 .TP 
 \fBSubarchitecture:\fP \fI Wert\fP
@@ -330,15 +330,16 @@ Version: 2.4\-1
 Pre\-Depends: libc6 (>= 2.0.105)
 Provides: rgrep
 Conflicts: rgrep
-Description: GNU grep, egrep and fgrep.
- The GNU family of grep utilities may be the "fastest grep in the west".
- GNU grep is based on a fast lazy\-state deterministic matcher (about
- twice as fast as stock Unix egrep) hybridized with a Boyer\-Moore\-Gosper
- search for a fixed string that eliminates impossible text from being
- considered by the full regexp matcher without necessarily having to
- look at every character. The result is typically many times faster
- than Unix grep or egrep. (Regular expressions containing backreferencing
- will run more slowly, however).
+Description: GNU grep, egrep und fgrep.
+ Die GNU\-Familie der Grep\-Werkzeuge könnte die »schnellste im Westen« sein.
+ GNU Grep basiert auf einem schellen »lazy\-state deterministic matcher«
+ (rund zweimal so schnell wie der standardmäßige Unix\-Egrep) hybridisiert
+ mit einer Boyer\-Moore\-Gosper\-Suche für eine feste Zeichenkette, die
+ unmöglichen Text von der Betrachtung durch den vollen »Matcher« verhindert
+ ohne notwendigerweise jedes Zeichen anzuschauen. Das Ergebnis ist
+ typischerweise um ein mehrfaches Schneller als Unix Grep oder Egrep.
+ (Reguläre Ausdrücke, die Rückreferenzierungen enthalten, werden allerdings
+ langsamer laufen.)
 .fi
 .\" .RE
 .
@@ -351,7 +352,7 @@ speziellen Zweck und ausführbaren Format dient.
 \fBdeb\-src\-control\fP(5), \fBdeb\fP(5), \fBdeb\-version\fP(7), \fBdebtags\fP(1),
 \fBdpkg\fP(1), \fBdpkg\-deb\fP(1).
 .SH ÜBERSETZUNG
-Die deutsche Übersetzung wurde 2004, 2006-2018 von Helge Kreutzmann
+Die deutsche Übersetzung wurde 2004, 2006-2019 von Helge Kreutzmann
 <debian@helgefjell.de>, 2007 von Florian Rehnisch <eixman@gmx.de> und
 2008 von Sven Joachim <svenjoac@gmx.de>
 angefertigt. Diese Übersetzung ist Freie Dokumentation; lesen Sie die

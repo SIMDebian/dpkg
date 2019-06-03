@@ -1,13 +1,13 @@
 # German translation of the scripts in the dpkg package
 # This file is distributed under the same license as the dpkg package.
-# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2018.
+# (C) Helge Kreutzmann <debian@helgefjell.de>, 2007-2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg-dev 1.19.1\n"
+"Project-Id-Version: dpkg-dev 1.19.5\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-01-23 13:09+0100\n"
-"PO-Revision-Date: 2018-10-09 08:14+0200\n"
+"POT-Creation-Date: 2019-06-03 23:21+0200\n"
+"PO-Revision-Date: 2019-02-24 17:42+0100\n"
 "Last-Translator: Helge Kreutzmann <debian@helgefjell.de>\n"
 "Language-Team: German <debian-l10n-german@lists.debian.org>\n"
 "Language: de\n"
@@ -591,18 +591,22 @@ msgid "unknown %% substitution in hook: %%%s"
 msgstr "unbekannte %% Substitution in Hook: %%%s"
 
 #: scripts/dpkg-buildpackage.pl
-msgid "short OpenPGP key IDs are broken; please use key fingerprints instead"
-msgstr ""
-"kurze OpenGPG-Schlüsselkennungen sind defekt; bitte verwenden Sie "
-"stattdessen Fingerabdrücke"
-
-#: scripts/dpkg-buildpackage.pl
+#, perl-format
 msgid ""
-"long OpenPGP key IDs are strongly discouraged; please use key fingerprints "
+"short OpenPGP key IDs are broken; please use key fingerprints in %s or %s "
 "instead"
 msgstr ""
+"kurze OpenGPG-Schlüsselkennungen sind defekt; bitte verwenden Sie "
+"stattdessen Fingerabdrücke in %s oder %s"
+
+#: scripts/dpkg-buildpackage.pl
+#, perl-format
+msgid ""
+"long OpenPGP key IDs are strongly discouraged; please use key fingerprints "
+"in %s or %s instead"
+msgstr ""
 "von langen OpenPGP-Schlüsselkennungen wird klar abgeraten; bitte verwenden "
-"Sie stattdessen Fingerabdrücke"
+"Sie stattdessen Fingerabdrücke in %s oder %s"
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
 #: scripts/dpkg-genbuildinfo.pl scripts/dpkg-name.pl scripts/Dpkg/Arch.pm
@@ -1539,7 +1543,7 @@ msgstr "Stdout konnte nicht geschlossen werden"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "Packages with multiple instances but no --multiversion specified:"
-msgstr ""
+msgstr "Pakete mit mehreren Instanzen aber kein --multiversion angegeben:"
 
 #: scripts/dpkg-scanpackages.pl
 msgid "Packages in override file with incorrect old maintainer value:"
@@ -2434,7 +2438,7 @@ msgstr "ungültig abgekürzter Monatsname »%s«"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 #, perl-format
-msgid "cannot parse non-comformant date '%s'"
+msgid "cannot parse non-conformant date '%s'"
 msgstr "nicht konformes Datum kann nicht ausgewertet werden: »%s«"
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
@@ -3486,10 +3490,8 @@ msgstr ""
 "noch nicht übergebene, nicht ignorierte Änderungen im Arbeitsverzeichnis: %s"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
-#, fuzzy
-#| msgid "format v3.0 uses only one source file"
 msgid "format v3.0 (bzr) uses only one source file"
-msgstr "Format v3.0 verwendet nur eine Quelldatei"
+msgstr "Format v3.0 (bzr) verwendet nur eine Quelldatei"
 
 #: scripts/Dpkg/Source/Package/V3/Bzr.pm
 #, perl-format
@@ -3662,10 +3664,9 @@ msgid "unknown file type"
 msgstr "unbekannter Dateityp"
 
 #: scripts/Dpkg/Source/Patch.pm
-#, fuzzy, perl-format
-#| msgid "ignoring deletion of directory %s"
+#, perl-format
 msgid "ignoring deletion of file %s"
-msgstr "Löschen des Verzeichnisses %s wird ignoriert"
+msgstr "Löschen der Datei %s wird ignoriert"
 
 #: scripts/Dpkg/Source/Patch.pm
 #, perl-format

@@ -50,12 +50,12 @@ die met een ‘\fB#\fP’ beginnen worden als commentaar behandeld.
 .SH "VELDEN BRONCODEPAKKET"
 .TP 
 \fBSource:\fP \fIbroncodepakket\-naam\fP (verplicht)
-The value of this field is the name of the source package, and should match
-the name of the source package in the debian/changelog file. A package name
-must consist only of lowercase letters (a\-z), digits (0\-9), plus (+) and
-minus (\-) signs, and periods (.). Package names must be at least two
-characters long and must start with a lowercase alphanumeric character
-(a\-z0\-9).
+De waarde van dit veld is de naam van het broncodepakket en moet
+overeenkomen met de naam van het broncodepakket in het bestand
+debian/changelog. Een pakketnaam mag enkel bestaan uit kleine letters (a\-z),
+cijfers (0\-9), plussen (+) en minnen (\-) en punten (.). Pakketnamen moeten
+minstens twee tekens lang zijn en moeten met een alfanumeriek teken (a\-z0\-9)
+in kleine letter beginnen.
 
 .TP 
 \fBMaintainer:\fP \fIvolledige\-naam\-en\-e\-mail\fP (aanbevolen)

@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: dpkg 1.19.4\n"
+"Project-Id-Version: dpkg 1.19.7\n"
 "Report-Msgid-Bugs-To: debian-dpkg@lists.debian.org\n"
-"POT-Creation-Date: 2019-01-23 13:09+0100\n"
+"POT-Creation-Date: 2019-06-03 23:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -428,13 +428,17 @@ msgid "unknown %% substitution in hook: %%%s"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
-msgid "short OpenPGP key IDs are broken; please use key fingerprints instead"
+#, perl-format
+msgid ""
+"short OpenPGP key IDs are broken; please use key fingerprints in %s or %s "
+"instead"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl
+#, perl-format
 msgid ""
 "long OpenPGP key IDs are strongly discouraged; please use key fingerprints "
-"instead"
+"in %s or %s instead"
 msgstr ""
 
 #: scripts/dpkg-buildpackage.pl scripts/dpkg-checkbuilddeps.pl
@@ -1893,7 +1897,7 @@ msgstr ""
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm
 #, perl-format
-msgid "cannot parse non-comformant date '%s'"
+msgid "cannot parse non-conformant date '%s'"
 msgstr ""
 
 #: scripts/Dpkg/Changelog/Entry/Debian.pm

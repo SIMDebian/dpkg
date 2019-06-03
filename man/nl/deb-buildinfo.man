@@ -149,6 +149,44 @@ van gevoelige informatie te voorkomen.
 Op Debian en zijn derivaten zullen enkel bouwpaden die beginnen met
 \fI/build/\fP aanleiding geven tot het aanmaken van dit veld.
 .TP 
+\fBBuild\-Tainted\-By:\fP
+.TQ
+\fIlijst\-met\-bezoedelingsredenen\fP
+Dit gevouwen veld bevat een niet\-exhaustieve lijst, met spatie als
+scheidingsteken, van labels (samengesteld uit alfanumerieke tekens en
+gedachtestreepjes) met redenen die aanduiden waarom de huidige bouw
+bezoedeld werd (sinds dpkg 1.19.5).
+.IP
+Op Debian en zijn derivaten kunnen de volgende reden\-labels gegeven worden:
+.RS
+.TP 
+\fBmerged\-usr\-via\-symlinks\fP
+Het systeem heeft een via symbolische koppelingen samengevoegde map
+\fI/usr\fP. Dit sticht verwarring bij \fBdpkg\-query\fP, \fBdpkg\-statoverride\fP,
+\fBdpkg\-trigger\fP, \fBupdate\-alternatives\fP en elk ander hulpmiddel dat in zijn
+databank gebruik maakt van padnamen als sleutel, omdat het zorgt voor
+problemen met aliassen in het bestandssysteem en knoeit met het overzicht
+van het bestandssysteem dat \fBdpkg\fP in zijn databank opgeslagen heeft. Met
+bouwsystemen die in de door hen gemaakte objecten gebruik maken van vaste
+padnamen naar specifieke uitvoerbare bestanden of bibliotheken, kan dit ook
+leiden tot pakketten die niet compatibel zijn met bestandssystemen zonder
+samengevoegde /usr\-map.
+.TP 
+\fBusr\-local\-has\-configs\fP
+Het systeem bevat configuratiebestanden onder \fI/usr/local/etc\fP.
+.TP 
+\fBusr\-local\-has\-includes\fP
+Het systeem bevat kopbestanden onder \fI/usr/local/include\fP.
+.TP 
+\fBusr\-local\-has\-programs\fP
+Op het systeem staan programma's onder \fI/usr/local/bin\fP of
+\fI/usr/local/sbin\fP.
+.TP 
+\fBusr\-local\-has\-libraries\fP
+Het systeem bevat statische of gedeelde bibliotheken onder
+\fI/usr/local/lib\fP.
+.RE
+.TP 
 \fBInstalled\-Build\-Depends:\fP (verplicht)
 .TQ
 \fIpakketlijst\fP

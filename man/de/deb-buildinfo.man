@@ -146,6 +146,43 @@ versehentlich veröffentlicht werden.
 Unter Debian und abgeleiteten Distributionen werden nur Baupfade, die mit
 \fI/build/\fP beginnen, dieses Feld ausgeben.
 .TP 
+\fBBuild\-Tainted\-By:\fP
+.TQ
+\fItaint\-reason\-list\fP
+Dieses gefaltete Feld enthält eine durch Leerzeichen getrennte, nicht
+abschließende Liste von Markierungen (die durch alphanumerische und
+Bindestrichzeichen aufgebaut werden), die identifizieren, warum der aktuelle
+Bau unsauber (tainted) wurde (seit Dpkg 1.19.5).
+.IP
+Unter Debian und abgeleiteten Distributionen können die folgenden
+Begründungsmarkierungen ausgeben werden.
+.RS
+.TP 
+\fBmerged\-usr\-via\-symlinks\fP
+Das System hat ein mittels Symlinks zusammengeführtes \fI/usr\fP. Dies wird
+\fBdpkg\-query\fP, \fBdpkg\-statoverride\fP, \fBdpkg\-trigger\fP, \fBupdate\-alternatives\fP
+und weitere Werkzeuge, die Pfadnamen als Schlüssel in ihren Datenbanken
+verwenden, durcheinanderbringen, da es Dateisystem\-Alias\-Probleme erzeugt
+und bringt das Verständnis, das \fBdpkg\fP in seiner Datenbank aufnotiert hat,
+durcheinander. Für Bausysteme, die Pfadnamen auf bestimmte Programme oder
+Bibliotheken auf den enstandenen Artefakten hartkodieren, kann dies auch zu
+Paketen führen, die mit nichtzusammengeführten usr\-Dateisystemen
+inkompatibel sind.
+.TP 
+\fBusr\-local\-has\-configs\fP
+Das System hat Konfigurationsdateien unter \fI/usr/local/etc\fP.
+.TP 
+\fBusr\-local\-has\-includes\fP
+Das System hat Header\-Dateien unter \fI/usr/local/include\fP.
+.TP 
+\fBusr\-local\-has\-programs\fP
+Das System hat Programme unter \fI/usr/local/bin\fP oder \fI/usr/local/sbin\fP.
+.TP 
+\fBusr\-local\-has\-libraries\fP
+Das System hat Bibliotheken, entweder statische oder Laufzeit\-, unter
+\fI/usr/local/lib\fP.
+.RE
+.TP 
 \fBInstalled\-Build\-Depends:\fP (verpflichtend)
 .TQ
 \fIPaketliste\fP
@@ -184,7 +221,7 @@ doppelten Anführungszeichen (,=’) gefolgt wird.
 .SH "SIEHE AUCH"
 \fBdeb\-changes\fP(5), \fBdeb\-version\fP(7), \fBdpkg\-genbuildinfo\fP(1).
 .SH ÜBERSETZUNG
-Die deutsche Übersetzung wurde 2004, 2006-2018 von Helge Kreutzmann
+Die deutsche Übersetzung wurde 2004, 2006-2019 von Helge Kreutzmann
 <debian@helgefjell.de>, 2007 von Florian Rehnisch <eixman@gmx.de> und
 2008 von Sven Joachim <svenjoac@gmx.de>
 angefertigt. Diese Übersetzung ist Freie Dokumentation; lesen Sie die

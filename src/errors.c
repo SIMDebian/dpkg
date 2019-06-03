@@ -71,7 +71,8 @@ enqueue_error_report(const char *arg)
   *lastreport= nr;
   lastreport= &nr->next;
 
-  if (nerrs++ < errabort) return;
+  if (++nerrs < errabort)
+    return;
   notice(_("too many errors, stopping"));
   abort_processing = true;
 }
@@ -124,7 +125,7 @@ skip_due_to_hold(struct pkginfo *pkg)
 {
   if (pkg->want != PKG_WANT_HOLD)
     return false;
-  if (fc_hold) {
+  if (in_force(FORCE_HOLD)) {
     notice(_("package %s was on hold, processing it anyway as you requested"),
            pkg_name(pkg, pnaw_nonambig));
     return false;
@@ -134,23 +135,3 @@ skip_due_to_hold(struct pkginfo *pkg)
   return true;
 }
 
-void forcibleerr(int forceflag, const char *fmt, ...) {
-  va_list args;
-
-  va_start(args, fmt);
-  if (forceflag) {
-    warning(_("overriding problem because --force enabled:"));
-    warningv(fmt, args);
-  } else {
-    ohshitv(fmt, args);
-  }
-  va_end(args);
-}
-
-int
-forcible_nonroot_error(int rc)
-{
-  if (fc_nonroot && errno == EPERM)
-    return 0;
-  return rc;
-}

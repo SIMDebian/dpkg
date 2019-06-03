@@ -1,3 +1,180 @@
+dpkg (1.19.7) unstable; urgency=medium
+
+  [ Guillem Jover ]
+  * dpkg: Fix off-by-one error in dpkg --abort-error. Closes: #924886
+    Thanks to Tom Goulet <tomg@sentex.ca>.
+  * dpkg: Set the force defaults before loading the config file, otherwise we
+    incorrectly override them. Regression introduced in dpkg 1.19.5.
+    Closes: #928671
+  * dpkg: Split the trigger dependtry into two, the second of which will be
+    the one checking trigger cycles when deferring trigger processing due to
+    unsatisfiable dependencies. Closes: #928429
+  * dpkg-deb: Validate ar member magic before normalizing any of its fields.
+  * dpkg-deb: Honor --nocheck when building packages with newlines in
+    filenames. Regression introduced in dpkg 1.18.1. Closes: #929727
+  * Documentation:
+    - rootless-builds.txt: Expand what the builder means. Mention the
+      dpkg-deb option to use to set the owner and group to root. And reword
+      the prototyping section to be less confusing with what is currently
+      implemented. Closes: #929019
+    - README: Clarify when autopoint is needed. Closes: #929601
+    - Fix typos in docs and output strings. Warned by codespell.
+
+  [ Updated programs translations ]
+  * Catalan (Guillem Jover).
+
+  [ Updated dselect translations ]
+  * Catalan (Guillem Jover).
+
+  [ Updated scripts translations ]
+  * Catalan (Guillem Jover).
+
+  [ Updated man pages translations ]
+  * Dutch (Frans Spiesschaert). Closes: #926665
+  * French (Jean-Pierre Giraud). Closes: #929664
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 03 Jun 2019 23:22:35 +0200
+
+dpkg (1.19.6) unstable; urgency=medium
+
+  [ Guillem Jover ]
+  * libdpkg: Add a new TAR_FORMAT_UNKNOWN enum value.
+  * libdpkg: Set tar_entry to zero on tar_entry_destroy(), to avoid double
+    free()s and the subsequent crashes.
+  * libdpkg: Handle non end-of-tape errors from tar_header_decode().
+  * libdpkg: Use ERANGE instead of EINVAL for tar_atol8() out-of-range error.
+  * dpkg-gencontrol: Check presence of package build dir before traversing it.
+  * Perl modules:
+    - Dpkg::Source::Package::V1: Change default build option style to -sa.
+      Using -sA by default means the user might lose data on overwrite if
+      there is already a directory with the same name laying around.
+      Closes: #910737
+    - Dpkg::Source::Package: Handle Format field being undefined. On source
+      format 1.0, the default is for the debian/source/format file not being
+      present, which means we'll start with an empty Format field name.
+      Regression introduced in dpkg 1.19.3.
+  * Packaging:
+    - Update usertags.
+    - Install a lintian profile for dpkg based on the debian profile, so that
+      we can suppress Debian-specific tags, such as the controversial one on
+      vendor-specific patch series files.
+    - Add Breaks on lsb-base due to start-stop-daemon exposing breakage in
+      the killproc function from /lib/lsb/init-functions. Closes: #923861
+  * Test suite:
+    - Stop requiring (pseudo-)root in the functional test suite.
+    - Export and move TESTDATA definition close to the PATH definition.
+    - Quote the 'yes' command to make a comment clearer.
+
+  [ Updated programs translations ]
+  * Dutch (Frans Spiesschaert). Closes: #924776
+
+  [ Updated scripts translations ]
+  * German (Helge Kreutzmann).
+
+  [ Updated man pages translations ]
+  * Dutch (Frans Spiesschaert). Closes: #924777
+  * German (Helge Kreutzmann).
+
+ -- Guillem Jover <guillem@debian.org>  Mon, 25 Mar 2019 15:08:26 +0100
+
+dpkg (1.19.5) unstable; urgency=medium
+
+  [ Guillem Jover ]
+  * start-stop-daemon: Make sure that we get a meaningful errno on
+    parse_unsigned(), so that the error messages always make sense.
+  * start-stop-daemon: Add new fatalv() and fatale() functions and use the
+    latter for system errors, so that we are explicit on whether we want to
+    use errno for error reporting or not.
+  * start-stop-daemon: Always refuse to parse a world-writable pidfile,
+    except when that is /dev/null.
+  * dpkg: Print the current set of enabled force options on --force-help.
+  * dpkg: Parse and set new DPKG_FORCE environment variable for subprocesses.
+    Closes: #666147
+  * dpkg-statoverride: Add support for --force-* options.
+  * dpkg-statoverride: Switch from --force option to new --force-<thing>
+    options. Deprecate --force option which will be considered an alias for
+    --force-all for now.
+  * dpkg, dpkg-statoverride: Add new option --refuse-security-mac to control
+    SELinux. See #811037.
+  * dpkg: Clarify error on unknown system user/group in statoverride database.
+    Closes: #920880
+  * dpkg-buildpackage: Clarify the warning/error on short OpenPGP key IDs.
+    Closes: #922039
+  * dpkg-maintscript-helper: Restrict find for dir-to-symlink move to
+    -maxdepth 1. Thanks to Ralf Treinen <treinen@free.fr>. Closes: #922799
+  * dpkg-genbuildinfo: Add support for a new Build-Tainted-By field in
+    .buildinfo files. Suggested by Alexander E. Patrakov <patrakov@gmail.com>.
+  * libdpkg: Clarify field names in error and warning messages.
+  * libdpkg: Optimize error handling. Move the error reporting outside the
+    involved functions so that we do not need to call gettext if there is no
+    error, which has a significant performance cost.
+  * libdpkg: Merge nicknames table into fieldinfos, to stop penalizing the
+    lookup of non-obsolete fieldnames.
+  * libdpkg: Print a more accurate warning for Revision nicknames.
+  * libdpkg: Increase the pkg-hash bins size to 65521, to improve hash table
+    performance at the cost of a bit more memory usage.
+  * libdpkg: Blank packages that are not-installed with unknown selection.
+    Closes: #922410
+  * libdpkg, dpkg: Print the dpkg database directory on access errors.
+    Closes: #883700
+  * Perl modules:
+    - Dpkg::Vendor::Debian: Add support for merged-usr-via-symlinks tainted
+      tag. Suggested by Alexander E. Patrakov <patrakov@gmail.com>.
+    - Dpkg::Vendor::Debian: Add support for usr-local-has-* tainted tags.
+    - Dpkg::Source::Package: Add a missing use Dpkg::Source::Format.
+      Diagnosed by Ian Jackson <ijackson@chiark.greenend.org.uk>.
+      Closes: #921031
+  * Documentation:
+    - start-stop-daemon(1): Document behavior of --pidfile security checks.
+      Closes: #921557
+    - dpkg(1): Document the unknown selection state. Closes: #922407
+  * Code internals:
+    - dpkg: Move SELinux fallback label to the SELinux specific code path.
+    - dpkg: Simplify maintscript_set_exec_context().
+    - dpkg: Move force options support into its own file.
+    - dpkg: Do not hardcode the program name in the --force-help output.
+    - dpkg: Switch force options from individual variables to bit fields.
+    - dpkg: Switch from a char to an enum to track the force options types.
+    - dpkg: Switch to set the default force option from the forceinfos array.
+    - libdpkg: New benchmark programs and infrastructure.
+    - libdpkg: Add new dpkg_error_move() function.
+    - libdpkg: Add new dpkg_has_error() function.
+    - libdpkg: Move status names from parse errors to arguments.
+    - libdpkg: Use va_arg copy instead of the original on a vasprintf() call.
+    - libdpkg: Include <string.h> in pager.c.
+      Reported by Y <sevener@cock.li>. Closes: #922212
+    - libdpkg: Use pkg_set_want() instead of a direct assignment.
+  * Build system:
+    - Check whether this dist is a release, based only on the version format.
+      This will avoid having to do a two staged release to get a proper perl
+      distribution tarball.
+  * Packaging:
+    - autopkgtest: Add file to Depends fields.
+    - autopkgtest: Clarify behavior on root/non-root requirement.
+    - Bump Standards-Version to 4.3.0 (no changes required).
+    - Remove now unused assert usertag description.
+    - Remove trailing whitespace from changelog.
+    - Remove Origin and Bugs fields from control file.
+    - Include a bug-script to report on tainted merged-usr-via-symlinks.
+  * Test suite:
+    - libdpkg: Fix unit test for file_slurp(). Closes: #920974
+      Diagnosed by Frank Schaefer <kelledin@gmail.com>.
+
+  [ Updated programs translations ]
+  * Dutch (Frans Spiesschaert). Closes: #921942
+  * German (Sven Joachim).
+  * Simplified Chinese (Zhou Mo). Closes: #920972
+
+  [ Updated scripts translations ]
+  * German (Helge Kreutzmann).
+
+  [ Updated man pages translations ]
+  * Dutch (Frans Spiesschaert). Closes: #921943
+  * French (Jean-Pierre Giraud). Closes: #920905
+  * German (Helge Kreutzmann).
+
+ -- Guillem Jover <guillem@debian.org>  Sat, 23 Feb 2019 18:00:54 +0100
+
 dpkg (1.19.4) unstable; urgency=medium
 
   * start-stop-daemon: Do not sanity check the pidfile when it is specified as
@@ -155,13 +332,14 @@ dpkg (1.19.3) unstable; urgency=medium
   * Test suite:
     - Add new shellcheck author test.
     - Add descriptions for the shellcheck exclude codes.
-    - Update cppcheck supressions.
+    - Update cppcheck suppressions.
 
   [ Updated programs translations ]
   * Dutch (Frans Spiesschaert). Closes: #912023
   * German (Sven Joachim).
   * Italian (Milo Casagrande). Closes: #915610
   * Portuguese (Miguel Figueiredo). Closes: #917813
+  * Simplified Chinese (Zhou Mo). Closes: #919040
 
   [ Updated scripts translations ]
   * German (Helge Kreutzmann).
@@ -179,6 +357,7 @@ dpkg (1.19.2) unstable; urgency=medium
     give a more meaningful error message on chroot(). Closes: #614126
   * dpkg-divert, dpkg-statoverride: Add new --instdir and --root options,
     and make the commands honor the DPKG_ROOT environment variable.
+    Closes: #487108
   * libdpkg: Call the pager with «$SHELL -c» to respect POSIX. Closes: #910009
   * libdpkg: Do not spawn a pager if we are going to call «cat».
   * libdpkg: Honor DPKG_PAGER when spawning a pager.
@@ -299,6 +478,7 @@ dpkg (1.19.1) unstable; urgency=medium
     using this new protocol, to safely lock the dpkg database w/o risk of
     race conditions with other dpkg instances or frontends supporting the
     same protocol. Thanks to Julian Andres Klode <jak@debian.org>.
+    Closes: #850417, #851984
   * Do not emit perl warnings in dpkg-source --help on source formats w/o
     options.
   * Make dpkg-buildpackage validate OpenPGP signing key IDs length. Error out
@@ -550,8 +730,7 @@ dpkg (1.19.1) unstable; urgency=medium
   * German (Sven Joachim).
   * Italian (Milo Casagrande). Closes: #883085
   * Polish (Łukasz Dulny).
-  * Simplified Chinese (Zhou Mo, Boyuan Yang).
-    Closes: #900547, #890806, #919040
+  * Simplified Chinese (Zhou Mo, Boyuan Yang). Closes: #900547, #890806
   * Spanish (Javier Fernández-Sanguino).
   * Traditional Chinese (Buo-ren Lin). Closes: #905887
   * Turkish (Mert Dirik). Closes: #886252
@@ -3125,6 +3304,7 @@ dpkg (1.17.11) unstable; urgency=low
   * Do not write to the available file when unpacking binary packages. This
     information is not useful as dpkg has never recorded the archive path,
     so it has never been truly available for re-installation anyway.
+    Closes: #241768
   * Add versioned Provides support:
     - Add a new dpkg --assert-versioned-provides command.
     - Packages can provide a specific version, “virtual (= 1.0)” which will
@@ -13283,4 +13463,3 @@ Thu Aug 25 11:46:27 1994  Ian Murdock  (imurdock@debra.debian.org)
         link never being removed at all.
 
 ChangeLog begins Thu Aug 25 11:46:27 1994 for dpkg 0.93.5.
-

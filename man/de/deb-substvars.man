@@ -38,12 +38,14 @@ und zu der Standardausgabe für \fBdpkg\-gencontrol\fP und \fBdpkg\-genchanges\f
 schreiben, führen sie einige Variablensubstitutionen in der Ausgabedatei
 durch.
 
-A variable substitution has the form \fB${\fP\fIvariable\-name\fP\fB}\fP.  Variable
-names consist of alphanumerics (a\-zA\-Z0\-9), hyphens (\-) and colons (:) and
-start with an alphanumeric, and are case\-sensitive, even though they might
-refer to other entities which are case\-preserving.  Variable substitutions
-are performed repeatedly until none are left; the full text of the field
-after the substitution is rescanned to look for more substitutions.
+Eine Variablensubstitution hat die Form
+\fB${\fP\fIVariablenname\fP\fB}\fP. Variablennamen bestehen aus alphanumerischen
+Zeichen (a\-zA\-Z0\-9, womit sie auch beginnen), Gedankenstrichen (\-) und
+Doppelpunkten (:). Bei Variablennamen ist die Klein\-/Großschreibung
+relevant, auch wenn sie sich auf Gebilde beziehen, die die
+Klein\-/Großschreibung erhalten. Variablensubstitutionen werden wiederholt
+durchgeführt, bis keine übrig geblieben sind; der komplette Text des Feldes
+nach der Substitution wird erneut auf weitere Substitutionen geprüft.
 
 Nachdem alle Substitutionen erfolgt sind, wird jedes Auftreten der
 Zeichenkette \fB${}\fP (die keine erlaubte Substitution ist) durch das
@@ -176,7 +178,7 @@ Liste von Substitutionsvariablen und \-werten.
 \fBdpkg\fP(1), \fBdpkg\-genchanges\fP(1), \fBdpkg\-gencontrol\fP(1),
 \fBdpkg\-shlibdeps\fP(1), \fBdpkg\-source\fP(1).
 .SH ÜBERSETZUNG
-Die deutsche Übersetzung wurde 2004, 2006-2018 von Helge Kreutzmann
+Die deutsche Übersetzung wurde 2004, 2006-2019 von Helge Kreutzmann
 <debian@helgefjell.de>, 2007 von Florian Rehnisch <eixman@gmx.de> und
 2008 von Sven Joachim <svenjoac@gmx.de>
 angefertigt. Diese Übersetzung ist Freie Dokumentation; lesen Sie die

@@ -31,7 +31,7 @@ deb\-src\-control \- Dateiformat der Hauptsteuerdatei von Debian\-Quellpaketen
 debian/control
 .
 .SH BESCHREIBUNG
-Jedes Debian\-Quellpaket enhält die Hauptsteuerdatei »control«, die
+Jedes Debian\-Quellpaket enhält die Hauptsteuerdatei „control“, die
 mindestens zwei Absätze enthält, die durch eine Leerzeile getrennt
 werden. Der erste Absatz führt alle allgemeinen Informationen über das
 Quellpaket auf, während jeder folgende Absatz genau ein Binärpaket
@@ -49,16 +49,16 @@ werden als Kommentare betrachtet.
 .SH QUELLPAKET\-FELDER
 .TP 
 \fBSource:\fP \fIQuellpaketname\fP (verpflichtend)
-The value of this field is the name of the source package, and should match
-the name of the source package in the debian/changelog file. A package name
-must consist only of lowercase letters (a\-z), digits (0\-9), plus (+) and
-minus (\-) signs, and periods (.). Package names must be at least two
-characters long and must start with a lowercase alphanumeric character
-(a\-z0\-9).
+Der Wert dieses Feldes ist der Name des Quellpakets und sollte mit dem Namen
+des Quellpakets in der Datei debian/changelog übereinstimmen. Ein Paketname
+darf nur aus Kleinbuchstaben (a\-z), Ziffern (0\-9), Plus\- (+) und
+Minuszeichen (\-) und Satzpunkten (.) bestehen. Paketnamen müssen mindestens
+zwei Zeichen lang sein und mit einem klein geschriebenen alphanumerischen
+Zeichen (a\-z0\-9) beginnen.
 
 .TP 
 \fBMaintainer:\fP \fIVollständiger\-Name\-und\-E\-Mail\fP (empfohlen)
-Sollte in dem Format »Joe Bloggs <jbloggs@foo.com>« sein und
+Sollte in dem Format „Joe Bloggs <jbloggs@foo.com>“ sein und
 verweist auf die Person, die derzeit das Paket betreut, im Gegensatz zum
 Autor der Software, die paketiert wurde, oder dem ursprünglichen Paketierer.
 
@@ -457,7 +457,7 @@ Description: Debian package development tools
 .SH "SIEHE AUCH"
 \fBdeb\-control\fP(5), \fBdeb\-version\fP(7), \fBdpkg\-source\fP(1)
 .SH ÜBERSETZUNG
-Die deutsche Übersetzung wurde 2004, 2006-2018 von Helge Kreutzmann
+Die deutsche Übersetzung wurde 2004, 2006-2019 von Helge Kreutzmann
 <debian@helgefjell.de>, 2007 von Florian Rehnisch <eixman@gmx.de> und
 2008 von Sven Joachim <svenjoac@gmx.de>
 angefertigt. Diese Übersetzung ist Freie Dokumentation; lesen Sie die

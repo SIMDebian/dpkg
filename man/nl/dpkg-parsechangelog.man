@@ -172,8 +172,8 @@ naam van de indeling zijn. Bijvoorbeeld:
 
        @@@ changelog\-format: \fIandere\-indeling\fP @@@
 
-Changelog format names are non\-empty strings of lowercase alphanumerics
-(“a\-z0\-9”).
+Een naam voor een changelog\-indelingen moet een niet\-lege alfanumerieke
+tekenreeks (“a\-z0\-9”) zijn.
 
 Indien een dergelijke regel bestaat, zal \fBdpkg\-parsechangelog\fP naar het
 ontleedprogramma zoeken als een \fBDpkg::Changelog::\fP\fIandere\-indeling\fP perl
